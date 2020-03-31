@@ -110,12 +110,40 @@ supported_mods = {
     'to_weapon_range':      re.compile(r'(\d+) to weapon range.*')
     }
 
-# from https://pathofexile.gamepedia.com/Public_stash_tab_API
+# from https://pathofexile.gamepedia.com/Public_stash_tab_API and https://pathofexile.gamepedia.com/Equipment
 item_types = {
-    'accessory': ['amulet', 'belt', 'ring'],
-    'armour': ['boots', 'chest', 'gloves', 'helmet', 'shield'],
-    'weapon': ['dagger', 'claw', 'onesword', 'wand', 'oneaxe', 'sceptre', 'onemace',
-               'twosword', 'bow', 'staff', 'twoaxe', 'twomace']
+    'accessory': {
+        'amulet': ['Coral', 'Paula', 'Amber', 'Jade', 'Lapis', 'Gold', 'Agate', 'Citrine', 'Turquoise', 'Onyx',
+                   'Marble', 'Blue Pearl',
+                   'Ashscale', 'Avian Twins', 'Black Maw', 'Bonespire', 'Breakrib',
+                   'Chrysalis', 'Clutching', 'Deadhand', 'Deep One', 'Fangjaw', 'Greatwolf', 'Hexclaw', 'Horned',
+                   'Lone Antler', 'Longtooth', 'Mandible', 'Monkey Paw', 'Monkey Twins', 'Primal Skull', 'Rot Head',
+                   'Rotfeather', 'Spinefuse', 'Splitnewt', 'Three Hands', 'Three Rat', 'Undying Flesh', 'Wereclaw',
+                   'Writhing'],
+        'belt': [],
+        'ring': []
+    },
+    'armour': {
+        'boots',
+        'chest',
+        'gloves',
+        'helmet',
+        'shield'
+    },
+    'weapon': {
+        'dagger',
+        'claw',
+        'onesword',
+        'wand',
+        'oneaxe',
+        'sceptre',
+        'onemace',
+        'twosword',
+        'bow',
+        'staff',
+        'twoaxe',
+        'twomace'
+    }
 }
 
 
