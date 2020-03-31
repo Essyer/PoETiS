@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 from src.MainMenu import MainMenu
 from src.RectSelect import RectSelect
-#from src.ModValueMain import ModValueMain
+from src.FiltersWidget import FiltersWidget
 from PyQt5.QtWidgets import QApplication, QWidget
 import xml.etree.ElementTree as ET
 from src.RectProcess import RectProcess
@@ -9,7 +9,8 @@ from PyQt5.QtWidgets import QPushButton, QHBoxLayout, QSizePolicy,QGridLayout
 from PyQt5.QtGui import QPainter, QPen, QIcon, QPixmap
 from PyQt5.QtCore import Qt, QRect
 from win32api import GetSystemMetrics
-from src.utils import initialize_logging, log_method_name, CONFIG_PATH
+from src.utils import initialize_logging, log_method_name
+from src.Constants import CONFIG_PATH
 
 window_width = GetSystemMetrics(0)
 window_height = GetSystemMetrics(1)
@@ -27,7 +28,7 @@ class MainWidget(QWidget):
         super(MainWidget, self).__init__(parent)
         self.rect_processor = RectProcess(width_width_scale, window_height_scale)
         self.rect_select = RectSelect()
-        #self.mod_list = ModValueMain()
+        self.filter_list = FiltersWidget()
         self.main_menu = MainMenu(self.rect_processor)
         self.image_path = "src/img/"
         self.setup_ui(self)
@@ -127,7 +128,7 @@ class MainWidget(QWidget):
 
     def show_mods(self):
         log_method_name()
-        self.mod_list.show()
+        self.filter_list.show()
 
     def show_net(self):
         log_method_name()
