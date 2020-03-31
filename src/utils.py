@@ -7,7 +7,7 @@ LOGGING_APP_NAME = 'log'
 logger = logging.getLogger(LOGGING_APP_NAME)
 last_logged_method_name = ''
 last_logged_error = ''
-CONFIG_PATH = "config.xml"
+
 
 def prepare_cfg(path):
 

@@ -2,7 +2,8 @@ from PyQt5.QtWidgets import QApplication, QWidget
 import xml.etree.ElementTree as ET
 from PyQt5.QtWidgets import QPushButton, QLabel, QLineEdit, QRadioButton, QVBoxLayout, QHBoxLayout, QCheckBox, QComboBox
 from PyQt5.QtCore import Qt, pyqtSignal, QPoint
-from src.utils import log_method_name, prepare_cfg, CONFIG_PATH
+from src.utils import log_method_name, prepare_cfg
+from src.Constants import CONFIG_PATH
 import os
 
 CURRENT_LEAGUE = 'Delve'

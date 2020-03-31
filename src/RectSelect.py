@@ -4,7 +4,8 @@ from PyQt5.QtWidgets import QPushButton, QVBoxLayout, QHBoxLayout,QCheckBox
 from PyQt5.QtCore import QRect, Qt, pyqtSignal, QPoint
 from PyQt5.QtGui import QPainter, QColor
 from src.RectProcess import RECT_COLOR
-from src.utils import log_method_name, CONFIG_PATH, prepare_cfg
+from src.utils import log_method_name, prepare_cfg
+from src.Constants import CONFIG_PATH
 import os
 
 FIXED_SIZE = [250, 100]

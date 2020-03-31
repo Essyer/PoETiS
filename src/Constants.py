@@ -1,5 +1,7 @@
 import re
 
+CONFIG_PATH = "config.xml"
+FILTERS_PATH = "filters.xml"
 # more complex expressions before simple, for example:
 # mods with cold dmg to spells have to be before simple cold dmg and so on
 supported_mods = {

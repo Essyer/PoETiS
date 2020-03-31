@@ -1,1 +1,5 @@
 /output.log
+.idea*
+src/__pycache__/*
+__pycache__/*
+__pycache__
