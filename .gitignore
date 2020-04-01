@@ -1,4 +1,5 @@
 /output.log
+config.xml
 .idea*
 src/__pycache__/*
 __pycache__/*

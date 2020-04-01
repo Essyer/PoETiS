@@ -1,0 +1,53 @@
+.QWidget, QWidget {
+    background-color: #565352;
+}
+QHeaderView::section{
+    Background-color:#908C8A;
+    border-radius:1;
+}
+
+QScrollBar:vertical {
+    Background-color:#908C8A;
+}
+QTreeView{
+    background-color:#908C8A;
+}
+QTreeView::item:open {
+    background-color: #565352;
+}
+
+QLineEdit{
+    border-style: solid;
+    border-width: 2px;
+    border-color: #3E3E3E;
+    border-radius: 5px;
+    background-color: #908C8A;
+}
+QPushButton{
+    border-style: solid;
+    border-width: 2px;
+    border-color: #3E3E3E;
+    border-radius: 5px;
+    background-color: #908C8A;
+    height: 15%
+}
+QComboBox{
+    border-style: solid;
+    border-width: 2px;
+    border-color: #3E3E3E;
+    border-radius: 5px;
+    background-color: #908C8A;
+}
+
+QRadioButton:indicator:checked, QCheckBox:indicator:unchecked {
+    image: url(./src/img/checkbox_checked.png);
+}
+
+QRadioButton:indicator:unchecked, QCheckBox:indicator:checked {
+    image: url(./src/img/checkbox_unchecked.png);
+}
+
+QComboBox::drop-down
+{
+    border: 1px;
+}

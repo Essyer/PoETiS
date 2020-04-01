@@ -7,7 +7,12 @@ LOGGING_APP_NAME = 'log'
 logger = logging.getLogger(LOGGING_APP_NAME)
 last_logged_method_name = ''
 last_logged_error = ''
+styles_file = "src/styles.css"
 
+
+def load_styles(object):
+    with open(styles_file, "r") as fh:
+        object.setStyleSheet(fh.read())
 
 def prepare_cfg(path):
 

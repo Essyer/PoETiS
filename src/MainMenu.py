@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QApplication, QWidget
 import xml.etree.ElementTree as ET
 from PyQt5.QtWidgets import QPushButton, QLabel, QLineEdit, QRadioButton, QVBoxLayout, QHBoxLayout, QCheckBox, QComboBox
 from PyQt5.QtCore import Qt, pyqtSignal, QPoint
-from src.utils import log_method_name, prepare_cfg
+from src.utils import log_method_name, prepare_cfg, load_styles
 from src.Constants import CONFIG_PATH
 import os
 
@@ -16,46 +16,9 @@ class MenuUI(object):
     def setupUi(self, Widget):
         log_method_name()
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
-        self.setStyleSheet("""
-        .QWidget, QWidget {
-            background-color: #565352;
-        }
-        QLineEdit{
-            border-style: solid;
-            border-width: 2px;
-            border-color: #3E3E3E;
-            border-radius: 5px;
-            background-color: #908C8A;
-        }       
-        QPushButton{
-            border-style: solid;
-            border-width: 2px;
-            border-color: #3E3E3E;
-            border-radius: 5px;
-            background-color: #908C8A;
-            height: 15%
-        }            
-        QComboBox{
-            border-style: solid;
-            border-width: 2px;
-            border-color: #3E3E3E;
-            border-radius: 5px;
-            background-color: #908C8A;
-        }
-        
-        QRadioButton:indicator:checked, QCheckBox:indicator:unchecked {
-            image: url(./src/img/checkbox_checked.png);
-        }
-        
-        QRadioButton:indicator:unchecked, QCheckBox:indicator:checked {
-            image: url(./src/img/checkbox_unchecked.png);
-        }
-        
-        QComboBox::drop-down 
-        {
-            border: 1px;
-        }
-        """)
+
+        load_styles(self)
+
         layoutV = QVBoxLayout()
         layoutM = QVBoxLayout()
         layoutH = QVBoxLayout()

@@ -1,16 +1,17 @@
 from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QTreeView, QPushButton
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
-from PyQt5.QtCore import QPoint, Qt
+from PyQt5.QtCore import QPoint, Qt, QFile
 import xml.etree.ElementTree as ElementTree
-from src.utils import log_method_name
+from src.FilterAdd import FilterAdd
+from src.utils import log_method_name, load_styles
 from src.Constants import FILTERS_PATH
 import os
 
 NUM_OF_COLUMNS = 2
 
 
-class ModValueUI(object):
+class FiltersWidgetUI(object):
 
     def __init__(self):
         self.tree = None
@@ -21,36 +22,9 @@ class ModValueUI(object):
     def setup_ui(self, Widget):
         log_method_name()
         QWidget.__init__(self)
-        self.setWindowFlags( Qt.WindowStaysOnTopHint)
-        self.setStyleSheet("""
-        .QWidget, QWidget {
-            background-color: #565352;
-        }
-        QHeaderView::section{
-            Background-color:#908C8A;
-            border-radius:1;
-        }
-
-        QScrollBar:vertical {
-            Background-color:#908C8A;
-        }
-        QTreeView{
-            background-color:#908C8A;
-        }
-        QTreeView::item:open {
-            background-color: #565352;
-        }
-
-        QPushButton{
-            border-style: solid;
-            border-width: 2px;
-            border-color: #3E3E3E;
-            border-radius: 5px;
-            background-color: #908C8A;
-            height: 15%;
-        }            
-
-        """)
+        self.filter_add = FilterAdd()
+        self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        load_styles(self)
 
         self.tree = ElementTree.parse(FILTERS_PATH)
         self.root = self.tree.getroot()
@@ -100,8 +74,11 @@ class ModValueUI(object):
         log_method_name()
         self.show_hide()
 
+    def add_filter(self):
+        log_method_name()
+        self.filter_add.show()
 
-class FiltersWidget(QWidget, ModValueUI):
+class FiltersWidget(QWidget, FiltersWidgetUI):
     """ Mod values main class """
 
     def __init__(self, parent=None):
@@ -109,6 +86,7 @@ class FiltersWidget(QWidget, ModValueUI):
         super(FiltersWidget, self).__init__(parent)
         self.setup_ui(self)
         self.clicked = False
+        self.btn_add.clicked.connect(self.add_filter)
         self.btn_close.clicked.connect(self.close_btn)
         self.setWindowTitle('PoETis - mod values')
         self.setGeometry(200, 200, 390, 300)
