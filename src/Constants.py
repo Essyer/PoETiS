@@ -21,7 +21,8 @@ supported_mods = {
     'cast_speed':           re.compile(r'(\d+)% increased cast speed.*'),
     'chance_avoid_elem':    re.compile(r'(\d+)% chance to avoid elemental ailments'),
     'chance_avoid_stun':    re.compile(r'(\d+)% chance to avoid being stunned'),
-    'chance_bleed':         re.compile(r'(\d+)% chance to cause bleeding on hit.*'),
+    'chance_bleed_hit':     re.compile(r'(\d+)% chance to cause bleeding on hit.*'),
+    'chance_bleed':         re.compile(r'(\d+)% chance to cause bleeding.*'),
     'chance_block_spell':   re.compile(r'(\d+)% chance to block spells.*'),
     'chance_dodge_attack':  re.compile(r'(\d+)% chance to dodge attacks.*'),
     'chance_dodge_spell':   re.compile(r'(\d+)% chance to dodge spell damage.*'),
@@ -56,7 +57,7 @@ supported_mods = {
     'incr_cold_dmg':        re.compile(r'(\d+)% increased cold damage.*'),
     'incr_def_arm_ev':      re.compile(r'(\d+)% increased armour and evasion.*'),
     'incr_def_arm_es':      re.compile(r'(\d+)% increased armour and energy shield.*'),
-    'incr_el_dmg_attskill': re.compile(r'(\d+)% increased elemental damage with attack skills.*'),
+    'incr_el_dmg_att':      re.compile(r'(\d+)% increased elemental damage with attack skills.*'),
     'incr_el_dmg':          re.compile(r'(\d+)% increased elemental damage.*'),
     'incr_energy_shield':   re.compile(r'(\d+)% increased energy shield.*'),
     'incr_evasion':         re.compile(r'(\d+)% increased evasion.*'),
@@ -113,7 +114,7 @@ supported_mods = {
     }
 
 # from https://pathofexile.gamepedia.com/Public_stash_tab_API and https://pathofexile.gamepedia.com/Equipment
-item_types = {
+item_bases = {
     'accessory': {
         'amulet': ['Coral Amulet', 'Paula Amulet', 'Amber Amulet', 'Jade Amulet', 'Lapis Amulet', 'Gold Amulet',
                    'Agate Amulet', 'Citrine Amulet', 'Turquoise Amulet', 'Onyx Amulet', 'Marble Amulet',
@@ -230,25 +231,20 @@ item_types = {
                  'Fright Claw', 'Double Claw', 'Thresher Claw', 'Gouger', 'Tiger\'s Paw', 'Gut Ripper',
                  'Prehistoric Claw', 'Noble Claw', 'Eagle Claw', 'Twin Claw', 'Great White Claw', 'Throat Stabber',
                  'Hellion\'s Paw', 'Eye Gouger', 'Vaal Claw', 'Imperial Claw', 'Terror Claw', 'Gemini Claw'],
-        'dagger': {
-            'generic': ['Glass Shank', 'Skinning Knife', 'Stiletto', 'Flaying Knife', 'Prong Dagger', 'Poignard',
-                        'Trisula', 'Gutting Knife', 'Ambusher', 'Sai'],
-            'rune': ['Carving Knife', 'Boot Knife', 'Copper Kris', 'Skean', 'Imp Dagger', 'Butcher Knife', 'Boot Blade',
-                     'Royal Skean', 'Fiend Dagger', 'Slaughter Knife', 'Ezomyte Dagger', 'Platinum Kris',
-                     'Imperial Skean', 'Demon Dagger']
-                   },
+        'dagger': ['Glass Shank', 'Skinning Knife', 'Stiletto', 'Flaying Knife', 'Prong Dagger', 'Poignard', 'Trisula',
+                   'Gutting Knife', 'Ambusher', 'Sai', 'Carving Knife', 'Boot Knife', 'Copper Kris', 'Skean',
+                   'Imp Dagger', 'Butcher Knife', 'Boot Blade', 'Royal Skean', 'Fiend Dagger', 'Slaughter Knife',
+                   'Ezomyte Dagger', 'Platinum Kris', 'Imperial Skean', 'Demon Dagger'],
+
         'sceptre': ['Driftwood Sceptre', 'Darkwood Sceptre', 'Bronze Sceptre', 'Quartz Sceptre', 'Iron Sceptre',
                     'Ochre Sceptre', 'Ritual Sceptre', 'Shadow Sceptre', 'Grinning Sceptre', 'Horned Sceptre',
                     'Sekhem', 'Crystal Sceptre', 'Lead Sceptre', 'Blood Sceptre', 'Royal Sceptre', 'Abyssal Sceptre',
                     'Stag Sceptre', 'Karui Sceptre', 'Tyrant\'s Sceptre', 'Opal Sceptre', 'Platinum Sceptre',
                     'Vaal Sceptre', 'Carnal Sceptre', 'Void Sceptre', 'Sambar Sceptre'],
-        'staff': {
-            'generic': ['Gnarled Branch', 'Primitive Staff', 'Long Staff', 'Royal Staff', 'Crescent Staff',
-                        'Woodful Staff', 'Quarterstaff', 'Highborn Staff', 'Moon Staff', 'Primordial Staff', 'Lathi',
-                        'Imperial Staff', 'Eclipse Staff'],
-            'warstaves': ['Iron Staff', 'Coiled Staff', 'Vile Staff', 'Military Staff', 'Serpentine Staff',
-                          'Foul Staff', 'Ezomyte Staff', 'Maelström Staff', 'Judgement Staff']
-        },
+        'staff': ['Gnarled Branch', 'Primitive Staff', 'Long Staff', 'Royal Staff', 'Crescent Staff', 'Woodful Staff',
+                  'Quarterstaff', 'Highborn Staff', 'Moon Staff', 'Primordial Staff', 'Lathi', 'Imperial Staff',
+                  'Eclipse Staff', 'Iron Staff', 'Coiled Staff', 'Vile Staff', 'Military Staff', 'Serpentine Staff',
+                  'Foul Staff', 'Ezomyte Staff', 'Maelström Staff', 'Judgement Staff'],
         'wand': ['Driftwood Wand', 'Goat\'s Horn', 'Carved Wand', 'Quartz Wand', 'Spiraled Wand', 'Sage Wand',
                  'Pagan Wand', 'Faun\'s Horn', 'Engraved Wand', 'Crystal Wand', 'Serpent Wand', 'Omen Wand',
                  'Heathen Wand', 'Demon\'s Horn', 'Imbued Wand', 'Opal Wand', 'Tornado Wand', 'Prophecy Wand',
@@ -271,18 +267,16 @@ item_types = {
                     'Fright Maul', 'Morning Star', 'Totemic Maul', 'Great Mallet', 'Steelhead', 'Spiny Maul',
                     'Plated Maul', 'Dread Maul', 'Solar Maul', 'Karui Maul', 'Colossus Mallet', 'Piledriver',
                     'Meatgrinder', 'Imperial Maul', 'Terror Maul', 'Coronal Maul'],
-        'onesword': {
-            'generic': ['Rusted Sword', 'Copper Sword', 'Sabre', 'Broad Sword', 'War Sword', 'Ancient Sword',
-                        'Elegant Sword', 'Dusk Blade', 'Hook Sword', 'Variscite Blade', 'Cutlass', 'Baselard',
-                        'Battle Sword', 'Elder Sword', 'Graceful Sword', 'Twilight Blade', 'Grappler', 'Gemstone Sword',
-                        'Corsair Sword', 'Gladius', 'Legion Sword', 'Vaal Blade', 'Eternal Sword', 'Midnight Blade',
-                        'Tiger Hook'],
-            'thrusting': ['Rusted Spike', 'Whalebone Rapier', 'Battered Foil', 'Basket Rapier', 'Jagged Foil',
-                          'Antique Rapier', 'Elegant Foil', 'Thorn Rapier', 'Smallsword', 'Wyrmbone Rapier',
-                          'Burnished Foil', 'Estoc', 'Serrated Foil', 'Primeval Rapier', 'Fancy Foil', 'Apex Rapier',
-                          'Courtesan Sword', 'Dragonbone Rapier', 'Tempered Foil', 'Pecoraro', 'Spiraled Foil',
-                          'Vaal Rapier', 'Jewelled Foil', 'Harpy Rapier', 'Dragoon Sword']
-        },
+        'onesword': ['Rusted Sword', 'Copper Sword', 'Sabre', 'Broad Sword', 'War Sword', 'Ancient Sword',
+                     'Elegant Sword', 'Dusk Blade', 'Hook Sword', 'Variscite Blade', 'Cutlass', 'Baselard',
+                     'Battle Sword', 'Elder Sword', 'Graceful Sword', 'Twilight Blade', 'Grappler', 'Gemstone Sword',
+                     'Corsair Sword', 'Gladius', 'Legion Sword', 'Vaal Blade', 'Eternal Sword', 'Midnight Blade',
+                     'Tiger Hook', 'Rusted Spike', 'Whalebone Rapier', 'Battered Foil', 'Basket Rapier', 'Jagged Foil',
+                     'Antique Rapier', 'Elegant Foil', 'Thorn Rapier', 'Smallsword', 'Wyrmbone Rapier',
+                     'Burnished Foil', 'Estoc', 'Serrated Foil', 'Primeval Rapier', 'Fancy Foil', 'Apex Rapier',
+                     'Courtesan Sword', 'Dragonbone Rapier', 'Tempered Foil', 'Pecoraro', 'Spiraled Foil',
+                     'Vaal Rapier', 'Jewelled Foil', 'Harpy Rapier', 'Dragoon Sword'],
+
         'twosword': ['Corroded Blade', 'Longsword', 'Bastard Sword', 'Two-Handed Sword', 'Etched Greatsword',
                      'Ornate Sword', 'Spectral Sword', 'Curved Blade', 'Butcher Sword', 'Footman Sword',
                      'Highland Blade', 'Engraved Greatsword', 'Tiger Sword', 'Wraith Sword', 'Lithe Blade',

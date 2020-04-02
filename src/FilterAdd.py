@@ -5,7 +5,7 @@ from PyQt5.QtCore import Qt, QSortFilterProxyModel
 from PyQt5.QtWidgets import QCompleter, QComboBox
 import xml.etree.ElementTree as ElementTree
 from src.utils import log_method_name, load_styles
-from src.Constants import FILTERS_PATH, item_types
+from src.Constants import FILTERS_PATH, item_bases
 
 NUM_OF_COLUMNS = 3
 
@@ -23,7 +23,7 @@ class FilterAddUI(object):
         QWidget.__init__(self)
         self.setWindowFlags( Qt.WindowStaysOnTopHint)
         load_styles(self)
-        string_list = item_types
+        string_list = item_bases
 
         self.comboItem = ExtendedComboBox()
         self.comboBase = ExtendedComboBox()
