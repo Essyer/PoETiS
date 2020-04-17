@@ -2,119 +2,81 @@ import re
 
 CONFIG_PATH = "config.xml"
 FILTERS_PATH = "filters.xml"
-# more complex expressions before simple, for example:
-# mods with cold dmg to spells have to be before simple cold dmg and so on
-supported_mods = {
-    'to accuracy rating':                           re.compile(r'(\d+) to accuracy rating.*'),
-    'cold damage to spells':                        re.compile(r'(\d+) to (\d+) cold damage to spells.*'),
-    'cold damage':                                  re.compile(r'(\d+) to (\d+) cold damage.*'),
-    'fire damage to spells':                        re.compile(r'(\d+) to (\d+) fire damage to spells.*'),
-    'fire damage':                                  re.compile(r'(\d+) to (\d+) fire damage.*'),
-    'chaos damage':                                 re.compile(r'(\d+) to (\d+) chaos damage.*'),
-    'lightning damage to spells':                   re.compile(r'(\d+) to (\d+) lightning damage to spells.*'),
-    'lightning damage':                             re.compile(r'(\d+) to (\d+) lightning damage.*'),
-    'physical damage to spells':                    re.compile(r'(\d+) to (\d+) physical damage to spells.*'),
-    'physical damage':                              re.compile(r'(\d+) to (\d+) physical damage.*'),
-    'increased attack speed':                       re.compile(r'(\d+)% increased attack speed.*'),
-    'increased bleeding duration':                  re.compile(r'(\d+)% increased bleeding duration.*'),
-    'chance to block':                              re.compile(r'(\d+)% chance to block.*'),
-    'block chance against projectiles':             re.compile(r'(\d+)% additional block chance against projectiles.*'),
-    'increased cast speed':                         re.compile(r'(\d+)% increased cast speed.*'),
-    'chance to avoid elemental ailments':           re.compile(r'(\d+)% chance to avoid elemental ailments'),
-    'chance to avoid being stunned':                re.compile(r'(\d+)% chance to avoid being stunned'),
-    'chance to cause bleeding on hit':              re.compile(r'(\d+)% chance to cause bleeding on hit.*'),
-    'chance to cause bleeding':                     re.compile(r'(\d+)% chance to cause bleeding.*'),
-    'chance to block spells':                       re.compile(r'(\d+)% chance to block spells.*'),
-    'chance to dodge attacks':                      re.compile(r'(\d+)% chance to dodge attacks.*'),
-    'chance to dodge spell damage':                 re.compile(r'(\d+)% chance to dodge spell damage.*'),
-    'chance to freeze':                             re.compile(r'(\d+)% chance to freeze.*'),
-    'chance to ignite':                             re.compile(r'(\d+)% chance to ignite.*'),
-    'chance to poison on hit':                      re.compile(r'(\d+)% chance to poison on hit.*'),
-    'chance to shock':                              re.compile(r'(\d+)% chance to shock.*'),
-    'increased critical strike chance for spells':  re.compile(r'(\d+)% increased critical strike chance for spells.*'),
-    'increased critical strike chance':             re.compile(r'(\d+)% increased critical strike chance.*'),
-    'increased global critical strike chance':      re.compile(r'(\d+)% increased global critical strike chance.*'),
-    'to global critical strike multiplier':         re.compile(r'(\d+)% to global critical strike multiplier.*'),
-    'increased flask charges gained':               re.compile(r'(\d+)% increased flask charges gained.*'),
-    'reduced flask charges used':                   re.compile(r'(\d+)% reduced flask charges used.*'),
-    'increased flask effect duration':              re.compile(r'(\d+)% increased flask effect duration.*'),
-    'increased flask life recovery':                re.compile(r'(\d+)% increased flask life recovery.*'),
-    'increased flask mana recovery':                re.compile(r'(\d+)% increased flask mana recovery.*'),
-    'to level of socketed gems':                    re.compile(r'(\d+) to level of socketed gems.*'),
-    'to level of socketed bow gems':                re.compile(r'(\d+) to level of socketed bow gems.*'),
-    'to level of socketed chaos gems':              re.compile(r'(\d+) to level of socketed chaos gems.*'),
-    'to level of socketed cold gems':               re.compile(r'(\d+) to level of socketed cold gems.*'),
-    'to level of socketed fire gems':               re.compile(r'(\d+) to level of socketed fire gems.*'),
-    'to level of socketed lightning gems':          re.compile(r'(\d+) to level of socketed lightning gems.*'),
-    'to level of socketed melee gems':              re.compile(r'(\d+) to level of socketed melee gems.*'),
-    'to level of socketed minion gems':             re.compile(r'(\d+) to level of socketed minion gems.*'),
-    'to level of socketed support gems':            re.compile(r'(\d+) to level of socketed support gems.*'),
-    'to quality of socketed support gems':          re.compile(r'(\d+)% to quality of socketed support gems.*'),
-    'increased accuracy rating':                    re.compile(r'(\d+)% increased accuracy rating.*'),
-    'increased armour':                             re.compile(r'(\d+)% increased armour.*'),
-    'increased attack damage':                      re.compile(r'(\d+)% increased attack damage.*'),
-    'increased damage with bleeding':               re.compile(r'(\d+)% increased damage with bleeding.*'),
-    'increased burning damage':                     re.compile(r'(\d+)% increased burning damage.*'),
-    'increased cold damage':                        re.compile(r'(\d+)% increased cold damage.*'),
-    'increased armour and evasion':                 re.compile(r'(\d+)% increased armour and evasion.*'),
-    'increased armour and energy shield':           re.compile(r'(\d+)% increased armour and energy shield.*'),
-    'increased elemental damage with attack skills':    re.compile(r'(\d+)% increased elemental damage with attack skills.*'),
-    'increased elemental damage':                   re.compile(r'(\d+)% increased elemental damage.*'),
-    'increased energy shield':                      re.compile(r'(\d+)% increased energy shield.*'),
-    'increased evasion':                            re.compile(r'(\d+)% increased evasion.*'),
-    'increased fire damage':                        re.compile(r'(\d+)% increased fire damage.*'),
-    'increased lightning damage':                   re.compile(r'(\d+)% increased lightning damage.*'),
-    'incr_max_es':          re.compile(r'(\d+)% increased maximum energy shield.*'),
-    'incr_phys_dmg':        re.compile(r'(\d+)% increased physical damage.*'),
-    'incr_glob_phys_dmg':   re.compile(r'(\d+)% increased global physical damage.*'),
-    'incr_poison_dmg':      re.compile(r'(\d+)% increased damage with poison.*'),
-    'incr_quantity':        re.compile(r'(\d+)% increased quantity.*'),
-    'incr_rarity':          re.compile(r'(\d+)% increased rarity.*'),
-    'incr_mine_dmg':        re.compile(r'(\d+)% increased mine damage.*'),
-    'incr_mine_lay':        re.compile(r'(\d+)% increased mine laying speed.*'),
-    'incr_trap_dmg':        re.compile(r'(\d+)% increased trap damage.*'),
-    'incr_trap_throw':      re.compile(r'(\d+)% increased trap throwing speed.*'),
-    'life_leech':           re.compile(r'(\d+)% increased life leeched per second.*'),
-    'life_on_block':        re.compile(r'(\d+) life gained when you block.*'),
-    'life_on_hit':          re.compile(r'(\d+) life gained for each enemy hit by your attacks.*'),
-    'life_on_hit_weapon':   re.compile(r'(\d+) life gained for each enemy hit by attacks.*'),
-    'life_on_kill':         re.compile(r'(\d+) life gained on kill.*'),
-    'life_regen':           re.compile(r'(\d+) life regenerated per second.*'),
-    'life_regen_percent':   re.compile(r'(\d+)% of life regenerated per second.*'),
-    'light_radius':         re.compile(r'(\d+)% increased light radius.*'),
-    'mana_on_block':        re.compile(r'(\d+) mana gained when you block.*'),
-    'mana_on_kill':         re.compile(r'(\d+) mana gained on kill.*'),
-    'mana_regen':           re.compile(r'(\d+)% increased mana regeneration rate.*'),
-    'max_life':             re.compile(r'(\d+) to maximum life.*'),
-    'max_mana':             re.compile(r'(\d+) to maximum mana.*'),
-    'mov_speed':            re.compile(r'(\d+)% increased movement speed.*'),
-    'phys_leech_life':      re.compile(r'(\d+\.?\d*)% of physical attack damage leeched as life.*'),
-    'phys_leech_mana':      re.compile(r'(\d+\.?\d*)% of physical attack damage leeched as mana.*'),
-    'phys_reflect':         re.compile(r'reflects (\d+) physical damage to melee attackers.*'),
-    'phys_reduct':          re.compile(r'(\d+)% additional physical damage reduction.*'),
-    'poison_duration':      re.compile(r'(\d+)% increased poison duration.*'),
-    'projectile_speed':     re.compile(r'(\d+)% increased projectile speed.*'),
-    'reduced_attr_req':     re.compile(r'(\d+)% reduced attribute requirements.*'),
-    'spell_dmg':            re.compile(r'(\d+)% increased spell damage.*'),
-    'stunblock':            re.compile(r'(\d+)% increased stun and block recovery.*'),
-    'stun_duration':        re.compile(r'(\d+)% increased stun duration.*'),
-    'stun_threshold':       re.compile(r'(\d+)% reduced enemy stun.*'),
-    'to1attr_int':          re.compile(r'(\d+) to intelligence.*'),
-    'to1attr_dex':          re.compile(r'(\d+) to dexterity.*'),
-    'to1attr_str':          re.compile(r'(\d+) to strength.*'),
-    'to_all_attr':          re.compile(r'(\d+) to all attributes.*'),
-    'to_all_res':           re.compile(r'(\d+)% to all elemental resistances.*'),
-    'to_armour':            re.compile(r'(\d+) to armour.*'),
-    'to_chaos_res':         re.compile(r'(\d+)% to chaos resistance.*'),
-    'to_cold_res':          re.compile(r'(\d+)% to cold resistance.*'),
-    'to_evasion':           re.compile(r'(\d+) to evasion rating.*'),
-    'to_fire_res':          re.compile(r'(\d+)% to fire resistance.*'),
-    'to_lightning_res':     re.compile(r'(\d+)% to lightning resistance.*'),
-    'to_max_es':            re.compile(r'(\d+) to maximum energy shield.*'),
-    'to_weapon_range':      re.compile(r'(\d+) to weapon range.*')
-    }
 
-# from https://pathofexile.gamepedia.com/Public_stash_tab_API and https://pathofexile.gamepedia.com/Equipment
+# Set of regular expressions for all mods
+# More complex expressions before simple ones, for example:
+# mods with cold dmg to spells have to be before simple cold dmg and so on
+_supported_mods = {
+    re.compile(r'adds (\d+) to (\d+) cold damage to attacks'): [],
+    re.compile(r'regenerate (\d+)% of energy shield per second'): [],
+    re.compile(r'(\d+) to dexterity'): [],
+    re.compile(r'(\d+) to strength'): [],
+    re.compile(r'(\d+) to intelligence'): [],
+    re.compile(r'(\d+) to all attributes'): [],
+    re.compile(r'(\d+)% increased spell damage'): ['x% increased fire spell damage',
+                                                   'x% increased cold spell damage',
+                                                   'x% increased lightning spell damage',
+                                                   'x% increased chaos spell damage'],
+    re.compile(r'(\d+)% increased fire damage'): ['x% increased fire spell damage'],
+    re.compile(r'(\d+)% increased cold damage'): ['x% increased cold spell damage'],
+    re.compile(r'(\d+)% increased lightning damage'): ['x% increased lightning spell damage'],
+    re.compile(r'(\d+)% increased chaos damage'): ['x% increased chaos spell damage'],
+    re.compile(r'(\d+)% increased mana regeneration rate'): [],
+    re.compile(r'(\d+)% increased life regeneration rate'): [],
+    re.compile(r'(\d+) to maximum mana'): [],
+    re.compile(r'(\d+) to maximum life'): [],
+    re.compile(r'(\d+)% to all elemental resistances'): [],
+    re.compile(r'(\d+)% to fire resistance'): ['x% total to all elemental resistances', 'x% total to fire resistance'],
+    re.compile(r'(\d+)% to lightning resistance'): ['x% total to all elemental resistances',
+                                                    'x% total to fire resistance'],
+    re.compile(r'(\d+)% to cold resistance'): ['x% total to all elemental resistances', 'x% total to fire resistance'],
+    re.compile(r'(\d+)% to chaos resistance'): [],
+    re.compile(r'(\d+)% of physical attack damage leeched as life'): [],
+    re.compile(r'(\d+) to maximum energy shield'): [],
+    re.compile(r'grants level (\d+) herald of ice skill'): [],
+    re.compile(r'adds (\d+) to (\d+) physical damage to attacks'): [],
+    re.compile(r'adds (\d+) to (\d+) fire damage to attacks'): [],
+    re.compile(r'adds (\d+) to (\d+) fire damage to spells'): [],
+    re.compile(r'adds (\d+) to (\d+) fire damage to spells and attacks'): [],
+    re.compile(r'adds (\d+) to (\d+) cold damage to attacks'): [],
+    re.compile(r'adds (\d+) to (\d+) cold damage to spells'): [],
+    re.compile(r'adds (\d+) to (\d+) cold damage to spells and attacks'): [],
+    re.compile(r'adds (\d+) to (\d+) lightning damage to attacks'): [],
+    re.compile(r'adds (\d+) to (\d+) lightning damage to spells'): [],
+    re.compile(r'adds (\d+) to (\d+) lightning damage to spells and attacks'): [],
+    re.compile(r'adds (\d+) to (\d+) chaos damage to attacks'): [],
+    re.compile(r'adds (\d+) to (\d+) chaos damage to spells'): [],
+    re.compile(r'(\d+)% increased critical strike chance for spells'): [],
+    re.compile(r'(\d+)% increased projectile speed'): [],
+    re.compile(r'gain (\d+)% of fire damage as extra chaos damage'): [],
+    re.compile(r'gain (\d+)% of cold damage as extra chaos damage'): [],
+    re.compile(r'gain (\d+)% of lightning damage as extra chaos damage'): [],
+    re.compile(r'gain (\d+)% of physical damage as extra chaos damage'): [],
+    re.compile(r'gain (\d+)% of physical damage as extra fire damage'): [],
+    re.compile(r'gain (\d+)% of physical damage as extra cold damage'): [],
+    re.compile(r'gain (\d+)% of physical damage as extra lightning damage'): [],
+
+}
+
+
+def get_mod_text_from_regex(mod_value):
+    return mod_value.pattern.replace('(\\d+)', 'x').replace('.*', '').replace('(\\d+\\.?\\d*)', 'x')
+
+
+def get_mod_text_template(mod_text):
+    return re.sub(r'(\d+\.?\d*)', 'x', mod_text)
+
+
+# Lazy way to create dictionary. We need it to not replace text each time we want to find mod regex in set above.
+# Having full mod text as key allows us to find it when iterating over item mods
+supported_mods = {
+    get_mod_text_from_regex(mod).replace("\\", ""): [mod, _supported_mods.get(mod)]
+    for mod in _supported_mods
+}
+
+# List of all item types from https://pathofexile.gamepedia.com/Public_stash_tab_API
+# and item bases from https://pathofexile.gamepedia.com/Equipment
+# Not in lower case to use in UI
 item_bases = {
     'accessory': {
         'amulet': ['Coral Amulet', 'Paula Amulet', 'Amber Amulet', 'Jade Amulet', 'Lapis Amulet', 'Gold Amulet',
@@ -285,13 +247,3 @@ item_bases = {
                      'Infernal Sword', 'Exquisite Blade'],
     }
 }
-
-
-# Get text from supported_mods regex
-def get_mod_text(mod_key):
-    if supported_mods[mod_key]:
-        return supported_mods[mod_key].pattern.replace('(\\d+)', 'X').replace('.*', '').replace('(\\d+\\.?\\d*)', 'x')
-
-
-def get_mod_text_from_value(mod_value):
-    return mod_value.pattern.replace('(\\d+)', 'X').replace('.*', '').replace('(\\d+\\.?\\d*)', 'x')

@@ -20,21 +20,23 @@ class Requester:
         self.filters = []
         self._items_data = []
         self.items = []
-        self.requested_category1 = []
-        self.requested_category2 = []
-        self.requested_base = []
         self.stashes = {}
         self.session = None
         self.session_id = session_id
 
     def run(self):
         if self.session_id and not self.session_id.isspace():
-            self.request_data()
-            self.process_items_data()
+            try:
+                self.request_data()
+                self.process_items_data()
+            except ValueError:
+                # Either we could not find stash, got invalid session id or API failed completely (maintenance?)
+                raise
 
     def get_stash_names(self):
         request_string = 'https://www.pathofexile.com/character-window/get-stash-items?league=' + self.league + \
-                         '&tabIndex=0&tabs=0&accountName=' + self.account_name + '&tabs=1'
+                         '&tabIndex=0&accountName=' + self.account_name + '&tabs=1'
+
         response_json = self.session.get(request_string).json()
         tabs = response_json['tabs']
         for tab in tabs:
@@ -43,18 +45,25 @@ class Requester:
                 index = tab['i']
                 if name not in self.stashes:
                     self.stashes[name] = index
+        return True
 
     def request_data(self):
         self.session = requests.Session()
         self.session.headers = {'Cookie': 'POESESSID=' + self.session_id}
-        self.get_stash_names()
+        try:
+            if not self.get_stash_names():
+                return False  # API call failed
+        except ValueError:
+            raise ValueError('no connection')
         if self.stash_name not in self.stashes:
-            print("Stash not found: " + self.stash_name)
-            return
+            raise ValueError('stash not found')
         stash_index = str(self.stashes[self.stash_name])
         request_string = 'https://www.pathofexile.com/character-window/get-stash-items?league=' + self.league + \
                          '&tabIndex=' + stash_index + '&tabs=0&accountName=' + self.account_name
-        response_json = self.session.get(request_string).json()
+        try:
+            response_json = self.session.get(request_string).json()
+        except ValueError:
+            raise ValueError('invalid session id')
         for item in response_json['items']:
             self._items_data.append(item)
 
@@ -68,11 +77,8 @@ class Requester:
                 self.copy_info(item_data, item)
                 # determine item base and decide if we need it on our list of items
                 self.determine_base(item_data, item)
-                if item.category1:
-                    if item.category1 in self.requested_category1 or item.category2 in self.requested_category2 or \
-                            item.base in self.requested_base:
-                        self.items.append(item)
-                    # self.items.append(item)
+                if item.base:
+                    self.items.append(item)
 
     @staticmethod
     def copy_info(item_data, item):
@@ -91,8 +97,8 @@ class Requester:
             for category2 in item_bases[category1]:
                 for base in item_bases[category1][category2]:
                     if str(item_data['typeLine']).lower() == base.lower():
-                        item.category1 = category1
-                        item.category2 = category2
+                        item.category1 = category1.lower()
+                        item.category2 = category2.lower()
                         item.base = base
                         item.name = item_data['name']
                         return
