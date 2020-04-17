@@ -1,6 +1,6 @@
 import re
 from collections import defaultdict
-from src.Constants import get_mod_text_template, supported_mods
+from src.Constants import get_mod_text_template, supported_mods, unsupported_mods
 
 '''
 Class for storing item statistics and processing mod filters.
@@ -57,6 +57,7 @@ class Item:
         self.implicits = []
         self.totals = defaultdict(float)
         self.mods_matched = defaultdict(float)
+        self.unsupported_mods = []
 
     def calculate_mods(self, filters):
         if not filters or not isinstance(filters, dict):
@@ -76,7 +77,11 @@ class Item:
             mod_regex = supported_mods.get(mod)
 
             if not mod_regex:
-                print("Found unsupported mod: " + mod)
+                for unsupported in unsupported_mods:
+                    if not re.findall(unsupported, mod):
+                        print("Found unsupported mod: " + mod)
+                        self.unsupported_mods.append(mod)
+                        break
                 continue
             else:
                 mod_regex = mod_regex[0]
