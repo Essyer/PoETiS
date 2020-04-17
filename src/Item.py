@@ -81,7 +81,7 @@ class Item:
             else:
                 mod_regex = mod_regex[0]
 
-            expected_value, mod_is_total = self.determine_expected_value(filters, mod)
+            expected_value = self.determine_expected_value(filters, mod)
             if not expected_value:
                 continue
 
@@ -98,18 +98,16 @@ class Item:
             if 0 < expected_value['base'] <= float(mod_value):
                 self.mods_matched[mod] = float(mod_value)
 
-            if mod_is_total:
-                for total in expected_value:
-                    if total != 'base':
-                        self.totals[total] += float(mod_value)
-                        if self.totals[total] >= expected_value[total]:
-                            self.mods_matched[total] += self.totals[total]
+            for total in expected_value:
+                if total != 'base':
+                    self.totals[total] += float(mod_value)
+                    if self.totals[total] >= expected_value[total]:
+                        self.mods_matched[total] = self.totals[total]
 
     def determine_expected_value(self, filters, mod):
         expected_mods_cat1 = filters.get(self.category1)
         expected_mods_cat2 = filters.get(self.category2)
         expected_mods_base = filters.get(self.base.lower())
-        is_total = False  # Until proven otherwise
         expected_value = {}
 
         # First check if we are looking for this specific mod
@@ -128,7 +126,6 @@ class Item:
         if not mod_totals:
             expected_value = None  # We are not looking for this mod
         else:
-            is_total = True
             mod_totals = mod_totals[1]  # mod_totals is second element of supported_mods, first is regex
             for total in mod_totals:
                 if expected_mods_base and expected_mods_base.get(total):
@@ -138,4 +135,4 @@ class Item:
                 elif expected_mods_cat1 and expected_mods_cat1.get(total):
                     expected_value[total] = expected_mods_cat1.get(total)
 
-        return expected_value, is_total
+        return expected_value
