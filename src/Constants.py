@@ -7,6 +7,7 @@ FILTERS_PATH = "filters.xml"
 # x to total mana cost of skills (it's about -x mana cost)
 # x% increased effect of curses on you (it's about reduced effect)
 # x% increased mana reserved (reduced)
+# x% increased attribute requirements (reduced)
 
 # Set of regular expressions for all mods
 # More complex expressions before simple ones, for example:
@@ -46,7 +47,7 @@ _supported_mods = {
     re.compile(r'(\d+)% increased physical damage'): [],
     re.compile(r'(\d+)% increased mana regeneration rate'): [],
     re.compile(r'(\d+) to accuracy rating'): [],
-    re.compile(r'(\d+) to global critical strike multiplier'): [],
+    re.compile(r'(\d+)% to global critical strike multiplier'): [],
     re.compile(r'(\d+)% increased global critical strike chance'): [],
     re.compile(r'(\d+)% increased critical strike chance'): [],
     re.compile(r'(\d+)% increased spell damage'): ['x% increased fire spell damage', 'x% increased cold spell damage',
@@ -221,6 +222,10 @@ _supported_mods = {
     re.compile(r'damage penetrates (\d+)% elemental resistances'): ['damage penetrates x% fire resistance',
                                                                     'damage penetrates x% cold resistance'
                                                                     'damage penetrates x% lightning resistance'],
+    re.compile(r'(\d+)% additional block chance against projectiles'): [],
+    re.compile(r'adds (\d+) to (\d+) physical damage to spells'): [],
+    re.compile(r'adds (\d+) to (\d+) physical damage'): [],
+    re.compile(r'attacks have (\d+)% chance to cause bleeding'): [],
 
 }
 

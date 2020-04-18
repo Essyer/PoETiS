@@ -1,23 +1,23 @@
 import requests
+import xml.etree.ElementTree as ET
 from src.Constants import item_bases
 from src.Item import Item
 
 
 '''
-To use Requester, after creating object add some values from item_bases to one of filter lists: 
-"requested_category1" (accessory, armour...) , "requested_category2" (amulet,belt...) 
-or "requested_base" (Coral Amulet...)
-Only items that are specified in those lists will be added to list "items".
+To use Requester, pass xml mods configuration path in initialization.
 Then you can execute run() method and retrieve items information from "items" list.
+You can switch configuration file at any time with switch_mod_configuration() method.
+
 '''
 
 
 class Requester:
-    def __init__(self, account_name, stash_name, league, session_id):
+    def __init__(self, account_name, stash_name, league, session_id, mods_configuration_file):
         self.stash_name = stash_name
         self.league = league
         self.account_name = account_name
-        self.filters = []
+        self.mods_filter = self.load_mods_configuration(mods_configuration_file)
         self._items_data = []
         self.items = []
         self.stashes = {}
@@ -25,6 +25,7 @@ class Requester:
         self.session_id = session_id
 
     def run(self):
+        self.clear()
         if self.session_id and not self.session_id.isspace():
             try:
                 self.request_data()
@@ -32,6 +33,42 @@ class Requester:
             except ValueError:
                 # Either we could not find stash, got invalid session id or API failed completely (maintenance?)
                 raise
+            self.calculate_items_mods()
+
+    def clear(self):
+        self.items.clear()
+        self.stashes.clear()
+        self._items_data.clear()
+
+    @staticmethod
+    def load_mods_configuration(xml_path):
+        filter_dict = {}
+        root = ET.parse(xml_path).getroot()
+        category1 = root.getchildren()  # weapon, accessory, armour...
+        for cat1 in category1:
+            mods1 = cat1.find('mods').getchildren()
+            if mods1:
+                mods1 = [(mod.find('text').text, mod.find('value').text) for mod in mods1]
+                filter_dict[cat1.tag] = {mod[0]: float(mod[1]) for mod in mods1}
+
+            category2 = cat1.getchildren()  # bow, claw, helmet, ring...
+            for cat2 in category2:
+                if cat2.tag == 'mods':
+                    continue
+                mods2 = cat2.find('mods').getchildren()
+                if mods2:
+                    mods2 = [(mod.find('text').text, mod.find('value').text) for mod in mods2]
+                    filter_dict[cat2.tag] = {mod[0]: float(mod[1]) for mod in mods2}
+
+        return filter_dict
+
+    def switch_mod_configuration(self, xml_path):
+        self.mods_filter = self.load_mods_configuration(xml_path)
+
+    def debug_print_matches(self, only_with_matches):
+        for item in self.items:
+            if len(item.mods_matched) > 0 or not only_with_matches:
+                print("{} - {}|{} {} {}".format(len(item.mods_matched), item.x, item.y, item.name, item.base))
 
     def get_stash_names(self):
         request_string = 'https://www.pathofexile.com/character-window/get-stash-items?league=' + self.league + \
@@ -79,6 +116,11 @@ class Requester:
                 self.determine_base(item_data, item)
                 if item.base:
                     self.items.append(item)
+
+    def calculate_items_mods(self):
+        for item in self.items:
+            item.calculate_mods(self.mods_filter)
+        self.items = sorted(self.items, key=lambda i: len(i.mods_matched), reverse=True)
 
     @staticmethod
     def copy_info(item_data, item):

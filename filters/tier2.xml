@@ -1,0 +1,2595 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Values based on https://poeaffix.net -->
+<!-- If mod is in suffix and prefix list, sum of both values is taken  -->
+<!-- No shaper/elder/influence/delve/crafted mods, also omitted some mods e.g. phys reflect on belts -->
+<root>
+    <accessory>
+        <mods>
+        </mods>
+
+
+        <amulet>
+            <mods>
+                <mod>
+                    <text>adds x to x physical damage to attacks</text>
+                    <value>14</value>
+                </mod>
+                <mod>
+                    <text>adds x to x cold damage to attacks</text>
+                    <value>21.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x fire damage to attacks</text>
+                    <value>24</value>
+                </mod>
+                <mod>
+                    <text>adds x to x lightning damage to attacks</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x% increased elemental damage with attack skills</text>
+                    <value>37</value>
+                </mod>
+                <mod>
+                    <text>x to maximum energy shield</text>
+                    <value>44</value>
+                </mod>
+                <mod>
+                    <text>x% increased energy shield</text>
+                    <value>17</value>
+                </mod>
+                <mod>
+                    <text>x% increased evasion rating</text>
+                    <value>17</value>
+                </mod>
+                <mod>
+                    <text>x% increased armour</text>
+                    <value>17</value>
+                </mod>
+                <mod>
+                    <text>x to maximum life</text>
+                    <value>70</value>
+                </mod>
+                <mod>
+                    <text>x% of physical attack damage leeched as life</text>
+                    <value>0.6</value>
+                </mod>
+                <mod>
+                    <text>x% of physical attack damage leeched as mana</text>
+                    <value>0.6</value>
+                </mod>
+                <mod>
+                    <text>x to maximum mana</text>
+                    <value>69</value>
+                </mod>
+                <mod>
+                    <text>x% increased spell damage</text>
+                    <value>18</value>
+                </mod>
+                <mod>
+                    <text>x% increased rarity of items found</text>
+                    <value>34</value>
+                </mod>
+                <mod>
+                    <text>x to accuracy rating</text>
+                    <value>251</value>
+                </mod>
+                <mod>
+                    <text>x to all attributes</text>
+                    <value>29</value>
+                </mod>
+                <mod>
+                    <text>x to dexterity</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x to strength</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x to intelligence</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x% increased cast speed</text>
+                    <value>8</value>
+                </mod>
+                <mod>
+                    <text>x% increased critical strike chance</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x% to global critical strike multiplier</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x life gained on kill</text>
+                    <value>7</value>
+                </mod>
+                <mod>
+                    <text>x life gained for each enemy hit by your attacks</text>
+                    <value>3</value>
+                </mod>
+                <mod>
+                    <text>x mana gained on kill</text>
+                    <value>2</value>
+                </mod>
+                <mod>
+                    <text>x% increased cold damage</text>
+                    <value>18</value>
+                </mod>
+                <mod>
+                    <text>x% increased fire damage</text>
+                    <value>18</value>
+                </mod>
+                <mod>
+                    <text>x% increased lightning damage</text>
+                    <value>18</value>
+                </mod>
+                <mod>
+                    <text>x% to cold resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to fire resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to lightning resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to chaos resistance</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% to all elemental resistances</text>
+                    <value>15</value>
+                </mod>
+                <mod>
+                    <text>x% increased mana regeneration rate</text>
+                    <value>50</value>
+                </mod>
+                <mod>
+                    <text>x life regenerated per second</text>
+                    <value>13</value>
+                </mod>
+            </mods>
+        </amulet>
+
+
+        <belt>
+            <mods>
+                <mod>
+                    <text>x to armour</text>
+                    <value>401</value>
+                </mod>
+                <mod>
+                    <text>x to maximum energy shield</text>
+                    <value>44</value>
+                </mod>
+                <mod>
+                    <text>x to maximum life</text>
+                    <value>80</value>
+                </mod>
+                <mod>
+                    <text>x% increased elemental damage with attack skills</text>
+                    <value>37</value>
+                </mod>
+                <mod>
+                    <text>x to strength</text>
+                    <value>51</value>
+                </mod>
+                <mod>
+                    <text>x% to cold resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to fire resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to lightning resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to chaos resistance</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased stun duration on enemies</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% reduced enemy stun threshold</text>
+                    <value>12</value>
+                </mod>
+                <mod>
+                    <text>x% increased stun and block recovery</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x life regenerated per second</text>
+                    <value>13</value>
+                </mod>
+            </mods>
+        </belt>
+
+
+        <ring>
+            <mods>
+                <mod>
+                    <text>adds x to x physical damage to attacks</text>
+                    <value>8</value>
+                </mod>
+                <mod>
+                    <text>adds x to x cold damage to attacks</text>
+                    <value>21.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x fire damage to attacks</text>
+                    <value>24</value>
+                </mod>
+                <mod>
+                    <text>adds x to x lightning damage to attacks</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x% increased elemental damage with attack skills</text>
+                    <value>31</value>
+                </mod>
+                <mod>
+                    <text>x to maximum energy shield</text>
+                    <value>38</value>
+                </mod>
+                <mod>
+                    <text>x to evasion rating</text>
+                    <value>121</value>
+                </mod>
+                <mod>
+                    <text>x to maximum life</text>
+                    <value>60</value>
+                </mod>
+                <mod>
+                    <text>x to maximum mana</text>
+                    <value>69</value>
+                </mod>
+                <mod>
+                    <text>x% increased rarity of items found</text>
+                    <value>34</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed gems</text>
+                    <value>2</value>
+                </mod>
+                <mod>
+                    <text>x to accuracy rating</text>
+                    <value>251</value>
+                </mod>
+                <mod>
+                    <text>x to all attributes</text>
+                    <value>9</value>
+                </mod>
+                <mod>
+                    <text>x to dexterity</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x to strength</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x to intelligence</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x% increased cast speed</text>
+                    <value>5</value>
+                </mod>
+                <mod>
+                    <text>x% increased attack speed</text>
+                    <value>6</value>
+                </mod>
+                <mod>
+                    <text>x life gained on kill</text>
+                    <value>7</value>
+                </mod>
+                <mod>
+                    <text>x life gained for each enemy hit by your attacks</text>
+                    <value>3</value>
+                </mod>
+                <mod>
+                    <text>x mana gained on kill</text>
+                    <value>2</value>
+                </mod>
+                <mod>
+                    <text>x% increased cold damage</text>
+                    <value>13</value>
+                </mod>
+                <mod>
+                    <text>x% increased fire damage</text>
+                    <value>13</value>
+                </mod>
+                <mod>
+                    <text>x% increased lightning damage</text>
+                    <value>13</value>
+                </mod>
+                <mod>
+                    <text>x% to cold resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to fire resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to lightning resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to chaos resistance</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% to all elemental resistances</text>
+                    <value>12</value>
+                </mod>
+                <mod>
+                    <text>x% increased mana regeneration rate</text>
+                    <value>50</value>
+                </mod>
+                <mod>
+                    <text>x life regenerated per second</text>
+                    <value>13</value>
+                </mod>
+            </mods>
+        </ring>
+    </accessory>
+
+
+
+
+    <armour>
+        <mods></mods>
+
+
+        <boots>
+            <mods>
+                <mod>
+                    <text>x% increased armour</text>
+                    <value>80</value>
+                </mod>
+                <mod>
+                    <text>x% increased evasion rating</text>
+                    <value>80</value>
+                </mod>
+                 <mod>
+                    <text>x% increased energy shield</text>
+                    <value>80</value>
+                </mod>
+                <mod>
+                    <text>x to armour</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x to evasion rating</text>
+                    <value>36</value>
+                </mod>
+                <mod>
+                    <text>x to maximum energy shield</text>
+                    <value>31</value>
+                </mod>
+                <mod>
+                    <text>x to maximum life</text>
+                    <value>70</value>
+                </mod>
+                <mod>
+                    <text>x% increased movement speed</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x% increased rarity of items found</text>
+                    <value>12</value>
+                </mod>
+                <mod>
+                    <text>x to strength</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x to dexterity</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x to intelligence</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x life regenerated per second</text>
+                    <value>13</value>
+                </mod>
+                <mod>
+                    <text>x% cold resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% fire resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% lightning resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% chaos resistance</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased stun and block recovery</text>
+                    <value>23</value>
+                </mod>
+            </mods>
+        </boots>
+
+
+        <chest>
+            <mods>
+                <mod>
+                    <text>x to armour</text>
+                    <value>139</value>
+                </mod>
+                <mod>
+                    <text>x to evasion rating</text>
+                    <value>139</value>
+                </mod>
+                <mod>
+                    <text>x to maximum energy shield</text>
+                    <value>77</value>
+                </mod>
+                <mod>
+                    <text>x% increased armour</text>
+                    <value>92</value>
+                </mod>
+                <mod>
+                    <text>x% increased evasion rating</text>
+                    <value>92</value>
+                </mod>
+                <mod>
+                    <text>x% increased energy shield</text>
+                    <value>92</value>
+                </mod>
+                <mod>
+                    <text>x to maximum mana</text>
+                    <value>65</value>
+                </mod>
+                <mod>
+                    <text>x to maximum life</text>
+                    <value>110</value>
+                </mod>
+                <mod>
+                    <text>x to strength</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x to dexterity</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x to intelligence</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x life regenerated per second</text>
+                    <value>16</value>
+                </mod>
+                <mod>
+                    <text>x% to cold resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to fire resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to lightning resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to chaos resistance</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased stun and block recovery</text>
+                    <value>23</value>
+                </mod>
+            </mods>
+        </chest>
+
+
+        <gloves>
+            <mods>
+                <mod>
+                    <text>adds x to x physical damage to attacks</text>
+                    <value>4.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x cold damage to attacks</text>
+                    <value>9.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x fire damage to attacks</text>
+                    <value>8</value>
+                </mod>
+                <mod>
+                    <text>adds x to x lightning damage to attacks</text>
+                    <value>11.5</value>
+                </mod>
+                <mod>
+                    <text>x% increased armour</text>
+                    <value>80</value>
+                </mod>
+                <mod>
+                    <text>x% increased evasion rating</text>
+                    <value>80</value>
+                </mod><mod>
+                    <text>x% increased energy shield</text>
+                    <value>80</value>
+                </mod>
+                <mod>
+                    <text>x to armour</text>
+                    <value>11</value>
+                </mod>
+                <mod>
+                    <text>x to evasion rating</text>
+                    <value>11</value>
+                </mod>
+                <mod>
+                    <text>x to maximum energy shield</text>
+                    <value>31</value>
+                </mod>
+                <mod>
+                    <text>x to maximum mana</text>
+                    <value>65</value>
+                </mod>
+                <mod>
+                    <text>x to maximum life</text>
+                    <value>70</value>
+                </mod>
+                <mod>
+                    <text>x% increased rarity of items foudn</text>
+                    <value>24</value>
+                </mod>
+            </mods>
+        </gloves>
+
+
+        <helmet>
+            <mods>
+                <mod>
+                    <text>x to armour</text>
+                    <value>36</value>
+                </mod>
+                <mod>
+                    <text>x to evasion rating</text>
+                    <value>36</value>
+                </mod>
+                <mod>
+                    <text>x to maximum energy shield</text>
+                    <value>39</value>
+                </mod>
+                <mod>
+                    <text>x% increased armour</text>
+                    <value>80</value>
+                </mod>
+                <mod>
+                    <text>x% increased evasion rating</text>
+                    <value>80</value>
+                </mod>
+                <mod>
+                    <text>x% increased energy shield</text>
+                    <value>80</value>
+                </mod>
+                <mod>
+                    <text>x to maximum life</text>
+                    <value>80</value>
+                </mod>
+                <mod>
+                    <text>x to maximum mana</text>
+                    <value>65</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed minion gems</text>
+                    <value>2</value>
+                </mod>
+                <mod>
+                    <text>x% increased rarity of items found</text>
+                    <value>28</value>
+                </mod>
+                <mod>
+                    <text>x to accuracy rating</text>
+                    <value>321</value>
+                </mod>
+                <mod>
+                    <text>x to strength</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x to dexterity</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x to intelligence</text>
+                    <value>51</value>
+                </mod>
+                <mod>
+                    <text>x life regenerated per second</text>
+                    <value>13</value>
+                </mod>
+                <mod>
+                    <text>x% to cold resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to fire resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to lightning resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to chaos resistance</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased stun and block recovery</text>
+                    <value>23</value>
+                </mod>
+            </mods>
+        </helmet>
+
+
+        <shield>
+            <mods>
+                <mod>
+                    <text>x to armour</text>
+                    <value>139</value>
+                </mod>
+                <mod>
+                    <text>x to evasion rating</text>
+                    <value>139</value>
+                </mod>
+                <mod>
+                    <text>x to maximum energy shield</text>
+                    <value>62</value>
+                </mod>
+                <mod>
+                    <text>x% increased armour</text>
+                    <value>92</value>
+                </mod>
+                <mod>
+                    <text>x% increased evasion rating</text>
+                    <value>92</value>
+                </mod>
+                <mod>
+                    <text>x% increased energy shield</text>
+                    <value>92</value>
+                </mod>
+                <mod>
+                    <text>x to maximum life</text>
+                    <value>90</value>
+                </mod>
+                <mod>
+                    <text>x to maximum mana</text>
+                    <value>65</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed melee gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed cold gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed fire gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed lightning gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed chaos gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x% increased physical damage</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x% increased spell damage</text>
+                    <value>70</value>
+                </mod>
+                <mod>
+                    <text>x% increased fire damage</text>
+                    <value>70</value>
+                </mod>
+                <mod>
+                    <text>x% increased cold damage</text>
+                    <value>70</value>
+                </mod>
+                <mod>
+                    <text>x% increased lightning damage</text>
+                    <value>70</value>
+                </mod>
+                <mod>
+                    <text>x to strength</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x to dexterity</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x to intelligence</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x life regenerated per second</text>
+                    <value>13</value>
+                </mod>
+                <mod>
+                    <text>x% to cold resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to fire resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to lightning resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to chaos resistance</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased stun and block recovery</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x% to all elemental resistances</text>
+                    <value>15</value>
+                </mod>
+                <mod>
+                    <text>x% chance to block</text>
+                    <value>4</value>
+                </mod>
+                <mod>
+                    <text>x% of life regenerated per second</text>
+                    <value>0.8</value>
+                </mod>
+                <mod>
+                    <text>x% additional block chance against projectiles</text>
+                    <value>9</value>
+                </mod>
+                <mod>
+                    <text>x% chance to avoid being stunned</text>
+                    <value>17</value>
+                </mod>
+                <mod>
+                    <text>x life gained when you block</text>
+                    <value>61</value>
+                </mod>
+                <mod>
+                    <text>x mana gained when you block</text>
+                    <value>22</value>
+                </mod>
+                <mod>
+                    <text>x to accuracy rating</text>
+                    <value>251</value>
+                </mod>
+                <mod>
+                    <text>x% increased attack speed</text>
+                    <value>8</value>
+                </mod>
+                <mod>
+                    <text>x% increased cast speed</text>
+                    <value>8</value>
+                </mod>
+                <mod>
+                    <text>x% chance to dodge attacks</text>
+                    <value>3</value>
+                </mod>
+                <mod>
+                    <text>x% chance to dodge spells</text>
+                    <value>3</value>
+                </mod>
+                <mod>
+                    <text>x% chance to block spells</text>
+                    <value>4</value>
+                </mod>
+                <mod>
+                    <text>x% chance to avoid elemental ailments</text>
+                    <value>16</value>
+                </mod>
+                <mod>
+                    <text>x% increased critical strike chance for spells</text>
+                    <value>80</value>
+                </mod>
+                <mod>
+                    <text>x% increased mana regeneration rate</text>
+                    <value>50</value>
+                </mod>
+            </mods>
+        </shield>
+
+
+        <quiver>
+            <mods>
+                <mod>
+                    <text>adds x to x physical damage to attacks</text>
+                    <value>4.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x cold damage to attacks</text>
+                    <value>9.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x fire damage to attacks</text>
+                    <value>8</value>
+                </mod>
+                <mod>
+                    <text>adds x to x lightning damage to attacks</text>
+                    <value>11.5</value>
+                </mod>
+                <mod>
+                    <text>x% increased elemental damage with attack skills</text>
+                    <value>37</value>
+                </mod>
+                <mod>
+                    <text>x to maximum life</text>
+                    <value>80</value>
+                </mod>
+                <mod>
+                    <text>x% of physical attack damage leeched as life</text>
+                    <value>0.6</value>
+                </mod>
+                <mod>
+                    <text>x% of physical attack damage leeched as mana</text>
+                    <value>0.6</value>
+                </mod>
+                <mod>
+                    <text>x to accuracy rating</text>
+                    <value>251</value>
+                </mod>
+                <mod>
+                    <text>x% increased projectile speed</text>
+                    <value>34</value>
+                </mod>
+                <mod>
+                    <text>x% increased attack speed</text>
+                    <value>5</value>
+                </mod>
+                <mod>
+                    <text>x to dexterity</text>
+                    <value>51</value>
+                </mod>
+                <mod>
+                    <text>x% increased critical strike chance</text>
+                    <value>35</value>
+                </mod>
+                <mod>
+                    <text>x% to global critical strike multiplier</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x life gained on kill</text>
+                    <value>7</value>
+                </mod>
+                <mod>
+                    <text>x mana gained on kill</text>
+                    <value>2</value>
+                </mod>
+                <mod>
+                    <text>x% to cold resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to fire resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to lightning resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to chaos resistance</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased stun duration on enemies</text>
+                    <value>26</value>
+                </mod>
+            </mods>
+        </quiver>
+    </armour>
+
+
+
+
+    <weapon>
+        <mods></mods>
+
+
+        <bow>
+            <mods>
+                <mod>
+                    <text>adds x to x physical damage</text>
+                    <value>36.5</value>
+                </mod>
+                <mod>
+                    <text>x% increased physical damage</text>
+                    <value>155</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed bow gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x% of physical attack damage leeched as life</text>
+                    <value>0.6</value>
+                </mod>
+                <mod>
+                    <text>x% increased elemental damage with attack skills</text>
+                    <value>31</value>
+                </mod>
+                <mod>
+                    <text>adds x to x cold damage</text>
+                    <value>47</value>
+                </mod>
+                <mod>
+                    <text>adds x to x fire damage</text>
+                    <value>57.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x lightning damage</text>
+                    <value>68.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x chaos damage</text>
+                    <value>72.5</value>
+                </mod>
+                <mod>
+                    <text>x to accuracy rating</text>
+                    <value>201</value>
+                </mod>
+                <mod>
+                    <text>x% increased attack speed</text>
+                    <value>11</value>
+                </mod>
+                <mod>
+                    <text>x to dexterity</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x% increased critical strike chance</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x% to global critical strike multiplier</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x life gained on kill</text>
+                    <value>7</value>
+                </mod>
+                <mod>
+                    <text>x life gained for each enemy hit by your attacks</text>
+                    <value>4</value>
+                </mod>
+                <mod>
+                    <text>x mana gained on kill</text>
+                    <value>2</value>
+                </mod>
+                <mod>
+                    <text>x% to cold resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to fire resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to lightning resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to chaos resistance</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased stun duration on enemies</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased projectile speed</text>
+                    <value>34</value>
+                </mod>
+                <mod>
+                    <text>x% increased damage with poison</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% chance to poison on hit</text>
+                    <value>20</value>
+                </mod>
+                <mod>
+                    <text>x% increased poison duration</text>
+                    <value>13</value>
+                </mod>
+                <mod>
+                    <text>x% increased damage with bleeding</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% chance to cause bleeding</text>
+                    <value>15</value>
+                </mod>
+                <mod>
+                    <text>x% increased bleeding duration</text>
+                    <value>13</value>
+                </mod>
+            </mods>
+        </bow>
+
+
+        <claw>
+            <mods>
+                <mod>
+                    <text>adds x to x physical damage</text>
+                    <value>26.5</value>
+                </mod>
+                <mod>
+                    <text>x% increased physical damage</text>
+                    <value>155</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed melee gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x% of physical attack damage leeched as life</text>
+                    <value>0.6</value>
+                </mod>
+                <mod>
+                    <text>x% increased elemental damage with attack skills</text>
+                    <value>31</value>
+                </mod>
+                <mod>
+                    <text>adds x to x cold damage</text>
+                    <value>47</value>
+                </mod>
+                <mod>
+                    <text>adds x to x fire damage</text>
+                    <value>57.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x lightning damage</text>
+                    <value>68.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x chaos damage</text>
+                    <value>72.5</value>
+                </mod>
+                <mod>
+                    <text>x to maximum mana</text>
+                    <value>65</value>
+                </mod>
+                <mod>
+                    <text>x to accuracy rating</text>
+                    <value>201</value>
+                </mod>
+                <mod>
+                    <text>x% increased attack speed</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x to dexterity</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x to intelligence</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x% increased critical strike chance</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x% to global critical strike multiplier</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x life gained on kill</text>
+                    <value>7</value>
+                </mod>
+                <mod>
+                    <text>x life gained for each enemy hit by your attacks</text>
+                    <value>4</value>
+                </mod>
+                <mod>
+                    <text>x mana gained on kill</text>
+                    <value>2</value>
+                </mod>
+                <mod>
+                    <text>x% to cold resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to fire resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to lightning resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to chaos resistance</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased stun duration on enemies</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased mana regeneration rate</text>
+                    <value>50</value>
+                </mod>
+                <mod>
+                    <text>x% increased damage with poison</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% chance to poison on hit</text>
+                    <value>20</value>
+                </mod>
+                <mod>
+                    <text>x% increased poison duration</text>
+                    <value>13</value>
+                </mod>
+            </mods>
+        </claw>
+
+
+        <dagger>
+            <mods>
+                <mod>
+                    <text>adds x to x physical damage</text>
+                    <value>26.5</value>
+                </mod>
+                <mod>
+                    <text>x% increased physical damage</text>
+                    <value>155</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed melee gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed cold gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed fire gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed lightning gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed chaos gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x% of physical attack damage leeched as life</text>
+                    <value>0.6</value>
+                </mod>
+                <mod>
+                    <text>x% increased elemental damage with attack skills</text>
+                    <value>31</value>
+                </mod>
+                <mod>
+                    <text>adds x to x cold damage</text>
+                    <value>47</value>
+                </mod>
+                <mod>
+                    <text>adds x to x fire damage</text>
+                    <value>57.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x lightning damage</text>
+                    <value>68.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x chaos damage</text>
+                    <value>72.5</value>
+                </mod>
+                <mod>
+                    <text>x to maximum mana</text>
+                    <value>65</value>
+                </mod>
+                <mod>
+                    <text>x% increased spell damage</text>
+                    <value>70</value>
+                </mod>
+                <mod>
+                    <text>adds x to x cold damage to spells</text>
+                    <value>37.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x fire damage to spells</text>
+                    <value>46</value>
+                </mod>
+                <mod>
+                    <text>adds x to x lightning damage to spells</text>
+                    <value>54.5</value>
+                </mod>
+                <mod>
+                    <text>x to accuracy rating</text>
+                    <value>201</value>
+                </mod>
+                <mod>
+                    <text>x% increased attack speed</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x to dexterity</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x to intelligence</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x% increased critical strike chance</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x% to global critical strike multiplier</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x life gained on kill</text>
+                    <value>7</value>
+                </mod>
+                <mod>
+                    <text>x life gained for each enemy hit by your attacks</text>
+                    <value>4</value>
+                </mod>
+                <mod>
+                    <text>x mana gained on kill</text>
+                    <value>2</value>
+                </mod>
+                <mod>
+                    <text>x% to cold resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to fire resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to lightning resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to chaos resistance</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased stun duration on enemies</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased mana regeneration rate</text>
+                    <value>50</value>
+                </mod>
+                <mod>
+                    <text>x% increased critical strike chance for spells</text>
+                    <value>80</value>
+                </mod>
+                <mod>
+                    <text>x% increased damage with poison</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% chance to poison on hit</text>
+                    <value>20</value>
+                </mod>
+                <mod>
+                    <text>x% increased poison duration</text>
+                    <value>13</value>
+                </mod>
+            </mods>
+        </dagger>
+
+
+        <sceptre>
+            <mods>
+                <mod>
+                    <text>adds x to x physical damage</text>
+                    <value>26.5</value>
+                </mod>
+                <mod>
+                    <text>x% increased physical damage</text>
+                    <value>155</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed melee gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed cold gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed fire gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed lightning gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed chaos gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x% of physical attack damage leeched as life</text>
+                    <value>0.6</value>
+                </mod>
+                <mod>
+                    <text>x% increased elemental damage with attack skills</text>
+                    <value>31</value>
+                </mod>
+                <mod>
+                    <text>adds x to x cold damage</text>
+                    <value>47</value>
+                </mod>
+                <mod>
+                    <text>adds x to x fire damage</text>
+                    <value>57.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x lightning damage</text>
+                    <value>68.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x chaos damage</text>
+                    <value>72.5</value>
+                </mod>
+                <mod>
+                    <text>x to maximum mana</text>
+                    <value>65</value>
+                </mod>
+                <mod>
+                    <text>x% increased spell damage</text>
+                    <value>70</value>
+                </mod>
+                <mod>
+                    <text>adds x to x cold damage to spells</text>
+                    <value>37.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x fire damage to spells</text>
+                    <value>46</value>
+                </mod>
+                <mod>
+                    <text>adds x to x lightning damage to spells</text>
+                    <value>54.5</value>
+                </mod>
+                <mod>
+                    <text>x% increased fire damage</text>
+                    <value>70</value>
+                </mod>
+                <mod>
+                    <text>x% increased cold damage</text>
+                    <value>70</value>
+                </mod>
+                <mod>
+                    <text>x% increased lightning damage</text>
+                    <value>70</value>
+                </mod>
+                <mod>
+                    <text>x to accuracy rating</text>
+                    <value>201</value>
+                </mod>
+                <mod>
+                    <text>x% increased attack speed</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x to strength</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x to intelligence</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x% increased critical strike chance</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x% to global critical strike multiplier</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x life gained on kill</text>
+                    <value>7</value>
+                </mod>
+                <mod>
+                    <text>x life gained for each enemy hit by your attacks</text>
+                    <value>4</value>
+                </mod>
+                <mod>
+                    <text>x mana gained on kill</text>
+                    <value>2</value>
+                </mod>
+                <mod>
+                    <text>x% to cold resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to fire resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to lightning resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to chaos resistance</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased stun duration on enemies</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased mana regeneration rate</text>
+                    <value>50</value>
+                </mod>
+                <mod>
+                    <text>x% increased critical strike chance for spells</text>
+                    <value>80</value>
+                </mod>
+                <mod>
+                    <text>x% increased cast speed</text>
+                    <value>20</value>
+                </mod>
+                <mod>
+                    <text>x% increased cold damage</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x% increased fire damage</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x% increased lightning damage</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x% reduced enemy stun threshold</text>
+                    <value>12</value>
+                </mod>
+                <mod>
+                    <text>x% increased burning damage</text>
+                    <value>21</value>
+                </mod>
+            </mods>
+        </sceptre>
+
+
+        <staff>
+            <mods>
+                <mod>
+                    <text>adds x to x physical damage</text>
+                    <value>36.5</value>
+                </mod>
+                <mod>
+                    <text>x% increased physical damage</text>
+                    <value>155</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed melee gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed cold gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed fire gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed lightning gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed chaos gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x% of physical attack damage leeched as life</text>
+                    <value>0.6</value>
+                </mod>
+                <mod>
+                    <text>x% increased elemental damage with attack skills</text>
+                    <value>31</value>
+                </mod>
+                <mod>
+                    <text>adds x to x cold damage</text>
+                    <value>70.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x fire damage</text>
+                    <value>86.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x lightning damage</text>
+                    <value>102.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x chaos damage</text>
+                    <value>108.5</value>
+                </mod>
+                <mod>
+                    <text>x to maximum mana</text>
+                    <value>65</value>
+                </mod>
+                <mod>
+                    <text>adds x to x cold damage to spells</text>
+                    <value>56.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x fire damage to spells</text>
+                    <value>62</value>
+                </mod>
+                <mod>
+                    <text>adds x to x lightning damage to spells</text>
+                    <value>81.5</value>
+                </mod>
+                <mod>
+                    <text>x% increased spell damage</text>
+                    <value>105</value>
+                </mod>
+                <mod>
+                    <text>x% increased fire damage</text>
+                    <value>105</value>
+                </mod>
+                <mod>
+                    <text>x% increased cold damage</text>
+                    <value>105</value>
+                </mod>
+                <mod>
+                    <text>x% increased lightning damage</text>
+                    <value>105</value>
+                </mod>
+                <mod>
+                    <text>x to accuracy rating</text>
+                    <value>201</value>
+                </mod>
+                <mod>
+                    <text>x% increased attack speed</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x to strength</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x to intelligence</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x% increased critical strike chance</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x% to global critical strike multiplier</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x life gained on kill</text>
+                    <value>7</value>
+                </mod>
+                <mod>
+                    <text>x life gained for each enemy hit by your attacks</text>
+                    <value>4</value>
+                </mod>
+                <mod>
+                    <text>x mana gained on kill</text>
+                    <value>2</value>
+                </mod>
+                <mod>
+                    <text>x% to cold resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to fire resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to lightning resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to chaos resistance</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased stun duration on enemies</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased mana regeneration rate</text>
+                    <value>50</value>
+                </mod>
+                <mod>
+                    <text>x% increased critical strike chance for spells</text>
+                    <value>80</value>
+                </mod>
+                <mod>
+                    <text>x% increased cast speed</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x% increased cold damage</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x% increased fire damage</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x% increased lightning damage</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x% reduced enemy stun threshold</text>
+                    <value>12</value>
+                </mod>
+                <mod>
+                    <text>x% increased burning damage</text>
+                    <value>31</value>
+                </mod>
+            </mods>
+        </staff>
+
+
+        <wand>
+            <mods>
+                <mod>
+                    <text>adds x to x physical damage</text>
+                    <value>26.5</value>
+                </mod>
+                <mod>
+                    <text>x% increased physical damage</text>
+                    <value>155</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed cold gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed fire gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed lightning gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed chaos gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x% of physical attack damage leeched as life</text>
+                    <value>0.6</value>
+                </mod>
+                <mod>
+                    <text>x% increased elemental damage with attack skills</text>
+                    <value>31</value>
+                </mod>
+                <mod>
+                    <text>adds x to x cold damage</text>
+                    <value>47</value>
+                </mod>
+                <mod>
+                    <text>adds x to x fire damage</text>
+                    <value>57.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x lightning damage</text>
+                    <value>68.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x chaos damage</text>
+                    <value>72.5</value>
+                </mod>
+                <mod>
+                    <text>x to maximum mana</text>
+                    <value>65</value>
+                </mod>
+                <mod>
+                    <text>x% increased spell damage</text>
+                    <value>70</value>
+                </mod>
+                <mod>
+                    <text>adds x to x cold damage to spells</text>
+                    <value>37.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x fire damage to spells</text>
+                    <value>46</value>
+                </mod>
+                <mod>
+                    <text>adds x to x lightning damage to spells</text>
+                    <value>54.5</value>
+                </mod>
+                <mod>
+                    <text>x% increased fire damage</text>
+                    <value>70</value>
+                </mod>
+                <mod>
+                    <text>x% increased cold damage</text>
+                    <value>70</value>
+                </mod>
+                <mod>
+                    <text>x% increased lightning damage</text>
+                    <value>70</value>
+                </mod>
+                <mod>
+                    <text>x to accuracy rating</text>
+                    <value>201</value>
+                </mod>
+                <mod>
+                    <text>x% increased attack speed</text>
+                    <value>11</value>
+                </mod>
+                <mod>
+                    <text>x to intelligence</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x% increased critical strike chance</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x% to global critical strike multiplier</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x life gained on kill</text>
+                    <value>7</value>
+                </mod>
+                <mod>
+                    <text>x life gained for each enemy hit by your attacks</text>
+                    <value>4</value>
+                </mod>
+                <mod>
+                    <text>x mana gained on kill</text>
+                    <value>2</value>
+                </mod>
+                <mod>
+                    <text>x% to cold resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to fire resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to lightning resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to chaos resistance</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased stun duration on enemies</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased mana regeneration rate</text>
+                    <value>50</value>
+                </mod>
+                <mod>
+                    <text>x% increased critical strike chance for spells</text>
+                    <value>80</value>
+                </mod>
+                <mod>
+                    <text>x% increased cast speed</text>
+                    <value>20</value>
+                </mod>
+                <mod>
+                    <text>x% increased cold damage</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x% increased fire damage</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x% increased lightning damage</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x% increased projectile speed</text>
+                    <value>34</value>
+                </mod>
+                <mod>
+                    <text>x% increased burning damage</text>
+                    <value>21</value>
+                </mod>
+            </mods>
+        </wand>
+
+
+        <oneaxe>
+            <mods>
+                <mod>
+                    <text>adds x to x physical damage</text>
+                    <value>26.5</value>
+                </mod>
+                <mod>
+                    <text>x% increased physical damage</text>
+                    <value>155</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed melee gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x% of physical attack damage leeched as life</text>
+                    <value>0.6</value>
+                </mod>
+                <mod>
+                    <text>x% increased elemental damage with attack skills</text>
+                    <value>31</value>
+                </mod>
+                <mod>
+                    <text>adds x to x cold damage</text>
+                    <value>47</value>
+                </mod>
+                <mod>
+                    <text>adds x to x fire damage</text>
+                    <value>57.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x lightning damage</text>
+                    <value>68.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x chaos damage</text>
+                    <value>72.5</value>
+                </mod>
+                <mod>
+                    <text>x to accuracy rating</text>
+                    <value>201</value>
+                </mod>
+                <mod>
+                    <text>x% increased attack speed</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x to dexterity</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x to strength</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x% increased critical strike chance</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x% to global critical strike multiplier</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x life gained on kill</text>
+                    <value>7</value>
+                </mod>
+                <mod>
+                    <text>x life gained for each enemy hit by your attacks</text>
+                    <value>4</value>
+                </mod>
+                <mod>
+                    <text>x mana gained on kill</text>
+                    <value>2</value>
+                </mod>
+                <mod>
+                    <text>x% to cold resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to fire resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to lightning resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to chaos resistance</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased stun duration on enemies</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% reduced enemy stun threshold</text>
+                    <value>12</value>
+                </mod>
+                <mod>
+                    <text>x% increased damage with bleeding</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% chance to cause bleeding on hit</text>
+                    <value>15</value>
+                </mod>
+                <mod>
+                    <text>x% increased bleeding duration</text>
+                    <value>13</value>
+                </mod>
+            </mods>
+        </oneaxe>
+
+
+        <twoaxe>
+            <mods>
+                <mod>
+                    <text>adds x to x physical damage</text>
+                    <value>36.5</value>
+                </mod>
+                <mod>
+                    <text>x% increased physical damage</text>
+                    <value>155</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed melee gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x% of physical attack damage leeched as life</text>
+                    <value>0.6</value>
+                </mod>
+                <mod>
+                    <text>x% increased elemental damage with attack skills</text>
+                    <value>31</value>
+                </mod>
+                <mod>
+                    <text>adds x to x cold damage</text>
+                    <value>70.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x fire damage</text>
+                    <value>86.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x lightning damage</text>
+                    <value>102.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x chaos damage</text>
+                    <value>108.5</value>
+                </mod>
+                <mod>
+                    <text>x to accuracy rating</text>
+                    <value>201</value>
+                </mod>
+                <mod>
+                    <text>x% increased attack speed</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x to dexterity</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x to strength</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x% increased critical strike chance</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x% to global critical strike multiplier</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x life gained on kill</text>
+                    <value>7</value>
+                </mod>
+                <mod>
+                    <text>x life gained for each enemy hit by your attacks</text>
+                    <value>4</value>
+                </mod>
+                <mod>
+                    <text>x mana gained on kill</text>
+                    <value>2</value>
+                </mod>
+                <mod>
+                    <text>x% to cold resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to fire resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to lightning resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to chaos resistance</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased stun duration on enemies</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% reduced enemy stun threshold</text>
+                    <value>12</value>
+                </mod>
+                <mod>
+                    <text>x% increased damage with bleeding</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% chance to cause bleeding on hit</text>
+                    <value>15</value>
+                </mod>
+                <mod>
+                    <text>x% increased bleeding duration</text>
+                    <value>13</value>
+                </mod>
+            </mods>
+        </twoaxe>
+
+
+        <onemace>
+            <mods>
+                <mod>
+                    <text>adds x to x physical damage</text>
+                    <value>26.5</value>
+                </mod>
+                <mod>
+                    <text>x% increased physical damage</text>
+                    <value>155</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed melee gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x% of physical attack damage leeched as life</text>
+                    <value>0.6</value>
+                </mod>
+                <mod>
+                    <text>x% increased elemental damage with attack skills</text>
+                    <value>31</value>
+                </mod>
+                <mod>
+                    <text>adds x to x cold damage</text>
+                    <value>47</value>
+                </mod>
+                <mod>
+                    <text>adds x to x fire damage</text>
+                    <value>57.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x lightning damage</text>
+                    <value>68.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x chaos damage</text>
+                    <value>72.5</value>
+                </mod>
+                <mod>
+                    <text>x to accuracy rating</text>
+                    <value>201</value>
+                </mod>
+                <mod>
+                    <text>x% increased attack speed</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x to strength</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x% increased critical strike chance</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x% to global critical strike multiplier</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x life gained on kill</text>
+                    <value>7</value>
+                </mod>
+                <mod>
+                    <text>x life gained for each enemy hit by your attacks</text>
+                    <value>4</value>
+                </mod>
+                <mod>
+                    <text>x mana gained on kill</text>
+                    <value>2</value>
+                </mod>
+                <mod>
+                    <text>x% to cold resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to fire resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to lightning resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to chaos resistance</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased stun duration on enemies</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% reduced enemy stun threshold</text>
+                    <value>12</value>
+                </mod>
+                <mod>
+                    <text>x% increased damage with bleeding</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% chance to cause bleeding on hit</text>
+                    <value>15</value>
+                </mod>
+                <mod>
+                    <text>x% increased bleeding duration</text>
+                    <value>13</value>
+                </mod>
+            </mods>
+        </onemace>
+
+
+        <twomace>
+            <mods>
+                <mod>
+                    <text>adds x to x physical damage</text>
+                    <value>36.5</value>
+                </mod>
+                <mod>
+                    <text>x% increased physical damage</text>
+                    <value>155</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed melee gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x% of physical attack damage leeched as life</text>
+                    <value>0.6</value>
+                </mod>
+                <mod>
+                    <text>x% increased elemental damage with attack skills</text>
+                    <value>31</value>
+                </mod>
+                <mod>
+                    <text>adds x to x cold damage</text>
+                    <value>70.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x fire damage</text>
+                    <value>86.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x lightning damage</text>
+                    <value>102.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x chaos damage</text>
+                    <value>108.5</value>
+                </mod>
+                <mod>
+                    <text>x to accuracy rating</text>
+                    <value>201</value>
+                </mod>
+                <mod>
+                    <text>x% increased attack speed</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x to strength</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x% increased critical strike chance</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x% to global critical strike multiplier</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x life gained on kill</text>
+                    <value>7</value>
+                </mod>
+                <mod>
+                    <text>x life gained for each enemy hit by your attacks</text>
+                    <value>4</value>
+                </mod>
+                <mod>
+                    <text>x mana gained on kill</text>
+                    <value>2</value>
+                </mod>
+                <mod>
+                    <text>x% to cold resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to fire resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to lightning resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to chaos resistance</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased stun duration on enemies</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% reduced enemy stun threshold</text>
+                    <value>12</value>
+                </mod>
+                <mod>
+                    <text>x% increased damage with bleeding</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% chance to cause bleeding on hit</text>
+                    <value>15</value>
+                </mod>
+                <mod>
+                    <text>x% increased bleeding duration</text>
+                    <value>13</value>
+                </mod>
+            </mods>
+        </twomace>
+
+
+        <onesword>
+            <mods>
+                <mod>
+                    <text>adds x to x physical damage</text>
+                    <value>26.5</value>
+                </mod>
+                <mod>
+                    <text>x% increased physical damage</text>
+                    <value>155</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed melee gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x% of physical attack damage leeched as life</text>
+                    <value>0.6</value>
+                </mod>
+                <mod>
+                    <text>x% increased elemental damage with attack skills</text>
+                    <value>31</value>
+                </mod>
+                <mod>
+                    <text>adds x to x cold damage</text>
+                    <value>47</value>
+                </mod>
+                <mod>
+                    <text>adds x to x fire damage</text>
+                    <value>57.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x lightning damage</text>
+                    <value>68.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x chaos damage</text>
+                    <value>72.5</value>
+                </mod>
+                <mod>
+                    <text>x to accuracy rating</text>
+                    <value>201</value>
+                </mod>
+                <mod>
+                    <text>x% increased attack speed</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x to dexterity</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x to strength</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x% increased critical strike chance</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x% to global critical strike multiplier</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x life gained on kill</text>
+                    <value>7</value>
+                </mod>
+                <mod>
+                    <text>x life gained for each enemy hit by your attacks</text>
+                    <value>4</value>
+                </mod>
+                <mod>
+                    <text>x mana gained on kill</text>
+                    <value>2</value>
+                </mod>
+                <mod>
+                    <text>x% to cold resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to fire resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to lightning resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to chaos resistance</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased stun duration on enemies</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% reduced enemy stun threshold</text>
+                    <value>12</value>
+                </mod>
+                <mod>
+                    <text>x% increased damage with poison</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% chance to poison on hit</text>
+                    <value>20</value>
+                </mod>
+                <mod>
+                    <text>x% increased posion duration</text>
+                    <value>13</value>
+                </mod>
+                <mod>
+                    <text>x% increased damage with bleeding</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% chance to cause bleeding on hit</text>
+                    <value>15</value>
+                </mod>
+                <mod>
+                    <text>x% increased bleeding duration</text>
+                    <value>13</value>
+                </mod>
+            </mods>
+        </onesword>
+
+
+        <twosword>
+            <mods>
+                <mod>
+                    <text>adds x to x physical damage</text>
+                    <value>36.5</value>
+                </mod>
+                <mod>
+                    <text>x% increased physical damage</text>
+                    <value>155</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x to level of socketed melee gems</text>
+                    <value>1</value>
+                </mod>
+                <mod>
+                    <text>x% of physical attack damage leeched as life</text>
+                    <value>0.6</value>
+                </mod>
+                <mod>
+                    <text>x% increased elemental damage with attack skills</text>
+                    <value>31</value>
+                </mod>
+                <mod>
+                    <text>adds x to x cold damage</text>
+                    <value>70.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x fire damage</text>
+                    <value>86.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x lightning damage</text>
+                    <value>102.5</value>
+                </mod>
+                <mod>
+                    <text>adds x to x chaos damage</text>
+                    <value>108.5</value>
+                </mod>
+                <mod>
+                    <text>x to accuracy rating</text>
+                    <value>201</value>
+                </mod>
+                <mod>
+                    <text>x% increased attack speed</text>
+                    <value>23</value>
+                </mod>
+                <mod>
+                    <text>x to dexterity</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x to strength</text>
+                    <value>43</value>
+                </mod>
+                <mod>
+                    <text>x% increased critical strike chance</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x% to global critical strike multiplier</text>
+                    <value>30</value>
+                </mod>
+                <mod>
+                    <text>x life gained on kill</text>
+                    <value>7</value>
+                </mod>
+                <mod>
+                    <text>x life gained for each enemy hit by your attacks</text>
+                    <value>4</value>
+                </mod>
+                <mod>
+                    <text>x mana gained on kill</text>
+                    <value>2</value>
+                </mod>
+                <mod>
+                    <text>x% to cold resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to fire resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to lightning resistance</text>
+                    <value>42</value>
+                </mod>
+                <mod>
+                    <text>x% to chaos resistance</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% increased stun duration on enemies</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% reduced enemy stun threshold</text>
+                    <value>12</value>
+                </mod>
+                <mod>
+                    <text>x% increased damage with poison</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% chance to poison on hit</text>
+                    <value>20</value>
+                </mod>
+                <mod>
+                    <text>x% increased posion duration</text>
+                    <value>13</value>
+                </mod>
+                <mod>
+                    <text>x% increased damage with bleeding</text>
+                    <value>26</value>
+                </mod>
+                <mod>
+                    <text>x% chance to cause bleeding on hit</text>
+                    <value>15</value>
+                </mod>
+                <mod>
+                    <text>x% increased bleeding duration</text>
+                    <value>13</value>
+                </mod>
+            </mods>
+        </twosword>
+
+    </weapon>
+
+</root>
