@@ -226,6 +226,15 @@ _supported_mods = {
     re.compile(r'adds (\d+) to (\d+) physical damage to spells'): [],
     re.compile(r'adds (\d+) to (\d+) physical damage'): [],
     re.compile(r'attacks have (\d+)% chance to cause bleeding'): [],
+    re.compile(r'(\d+)% increased flask charges gained'): [],
+    re.compile(r'(\d+)% chance to avoid elemental ailments'): [],
+    re.compile(r'(\d+)% reduced attribute requirements'): [],
+    re.compile(r'(\d+)% additional physical damage reduction'): [],
+    re.compile(r'(\d+)% increased flask effect duration'): [],
+    re.compile(r'(\d+)% increased armour and evasion'): [],
+    re.compile(r'(\d+) to level of all physical spell skill gems'): [],
+    re.compile(r'(\d+)% increased flask mana recovery rate'): [],
+    re.compile(r'(\d+)% to damage over time multiplier'): [],
 
 }
 

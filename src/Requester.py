@@ -68,7 +68,8 @@ class Requester:
     def debug_print_matches(self, only_with_matches):
         for item in self.items:
             if len(item.mods_matched) > 0 or not only_with_matches:
-                print("{} - {}|{} {} {}".format(len(item.mods_matched), item.x, item.y, item.name, item.base))
+                print("{} - {}|{} {} {} {}".format(len(item.mods_matched), item.x, item.y, item.name,
+                                                   item.base, list(item.mods_matched)))
 
     def get_stash_names(self):
         request_string = 'https://www.pathofexile.com/character-window/get-stash-items?league=' + self.league + \
