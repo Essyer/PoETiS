@@ -1,117 +1,159 @@
-from PyQt5.QtWidgets import QApplication, QWidget
-from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QTreeView, QPushButton
-from PyQt5.QtGui import QStandardItemModel, QStandardItem
-from PyQt5.QtCore import QPoint, Qt, QFile
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 import xml.etree.ElementTree as ElementTree
-from src.FilterAdd import FilterAdd
-from src.utils import log_method_name, load_styles
-from src.Constants import FILTERS_PATH
-import os
+from src.DragWidget import DragWidget
+from src.utils import load_styles, xml_indent, log_method_name
+from src.ModsContainer import ModsContainer, DEFAULT_FILTER_PATH
 
-NUM_OF_COLUMNS = 2
+WINDOW_WIDTH = 600
+WINDOW_HEIGHT = 400
+DEFAULT_MOD_TEXT = "Add your new mod here..."
 
 
-class FiltersWidgetUI(object):
+# Allows to get mod text before modification is done
+class ItemDelegate(QItemDelegate):
+    def createEditor(self, parent: QWidget, option: "QStyleOptionViewItem", index: QModelIndex) -> QWidget:
+        if index.data():
+            FiltersWidget.mod_text_before_change = index.data()
+
+        return QItemDelegate.createEditor(self, parent, option, index)
+
+
+# Allows to load and modify XML mods values
+class FiltersWidget(DragWidget):
+    # Not going to use more than one instance so it is safe, need to somehow store mod text before it is modified
+    mod_text_before_change = ""
 
     def __init__(self):
-        self.tree = None
-        self.root = None
-        self.treeView = None
-        self.model = None
-
-    def setup_ui(self, Widget):
+        super(FiltersWidget, self).__init__(None, Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
         log_method_name()
-        QWidget.__init__(self)
-        self.filter_add = FilterAdd()
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
         load_styles(self)
 
-        self.tree = ElementTree.parse(FILTERS_PATH)
-        self.root = self.tree.getroot()
+        # Setup layout
         self.treeView = QTreeView()
-        self.btn_close = QPushButton("Close")
-        self.btn_add = QPushButton("Add")
-        self.btn_remove = QPushButton("Remove")
+        layout = QVBoxLayout()
+        layout.addWidget(self.treeView)
+        btn_hide = QPushButton("Close")
+        btn_hide.clicked.connect(self.hide)
+        layout.addWidget(btn_hide)
+        self.setLayout(layout)
+        self.setMinimumSize(WINDOW_WIDTH, WINDOW_HEIGHT)
+
         self.model = QStandardItemModel()
-        #self.model.itemChanged.connect(self._item_changed)
-        self.model.setColumnCount(NUM_OF_COLUMNS)
-        self.add_filters(self.model, self.root)
         self.treeView.setModel(self.model)
-        self.model.setHorizontalHeaderLabels([self.tr("Name"), self.tr("Value")])
-        layoutTree = QVBoxLayout()
-        layoutBtn = QVBoxLayout()
-        layoutMain = QHBoxLayout()
-        layoutTree.addWidget(self.treeView)
-        layoutTree.addWidget(self.btn_close)
-        layoutBtn.addWidget(self.btn_add)
-        layoutBtn.addWidget(self.btn_remove)
-        layoutMain.addLayout(layoutTree)
-        layoutMain.addLayout(layoutBtn)
-        self.treeView.setColumnWidth(0, 250)
-        self.treeView.setColumnWidth(1, 50)
-        self.setLayout(layoutMain)
+        self.treeView.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.treeView.setHeaderHidden(True)
 
-    def add_filters(self, parent, filters):
+        # Set delegate to grab mod value before it is changed, need it to modify xml and dictionary values
+        self.treeView.setItemDelegate(ItemDelegate())
+        self.model.itemChanged.connect(self.process_item_changed)
+
+        self.xml_path = DEFAULT_FILTER_PATH
+        self.xml_root = None
+
+        self.load_mods(self.xml_path)
+
+    def load_mods(self, xml_path: str) -> None:
         log_method_name()
-        # add items from xml to UI on app startup
+        self.xml_root = ElementTree.parse(xml_path).getroot()
+        root = self.model.invisibleRootItem()
+        category1 = list(self.xml_root)  # weapon, accessory, armour...
+        for cat1 in category1:
+            cat1_item = QStandardItem(cat1.tag)
+            cat1_item.setEditable(False)
+            root.appendRow(cat1_item)
 
-        for filter in filters:
-            have_child = True if len(list(filter)) > 0 else False
-            name = None
+            category2 = list(cat1)  # bow, claw, helmet, ring...
+            for cat2 in category2:
+                if cat2.tag == "mod":
+                    continue
+                cat2_item = QStandardItem(cat2.tag)
+                cat2_item.setEditable(False)
+                cat1_item.appendRow(cat2_item)
+                mods2 = list(cat2)
+                if mods2:
+                    for mod in mods2:
+                        cat2_item.appendRow(QStandardItem(mod.text))
+                    cat2_item.appendRow(QStandardItem(DEFAULT_MOD_TEXT))
 
-            name = QStandardItem(filter.attrib['name'])
-            name.setEditable(False)
-            type = QStandardItem(filter.attrib['type'])
-            type.setEditable(False)
-            # takes only tags with item type and adds it to the tree
-            for element in filter:
-                if element.tag == "item":
-                    item = QStandardItem(element.text)
-                    item.setEditable(False)
-                    parent.appendRow([name, item])
+            # Mods of category1 are added after subcategories because adding new mod or modifying existing one
+            # makes it to go to the end of elements list
+            mods1 = cat1.findall("mod")
+            if mods1:
+                for mod in mods1:
+                    cat1_item.appendRow(QStandardItem(mod.text))
+                cat1_item.appendRow(QStandardItem(DEFAULT_MOD_TEXT))
 
-    def close_btn(self):
+    def process_item_changed(self, item1: QStandardItem) -> None:
         log_method_name()
-        self.show_hide()
+        parent = item1.parent()
+        parents = []
+        while parent:
+            parents.append(parent.text())
+            parent = parent.parent()
 
-    def add_filter(self):
+        if item1.text() == "":  # Deleting mod
+            if FiltersWidget.mod_text_before_change == DEFAULT_MOD_TEXT:
+                # Minor bug (not affecting XML file): If someone adds some characters after default mod text and then
+                # removes them, there will be additional entry in mod list with default mod text, resets after program
+                # reboot.
+                item1.setText(DEFAULT_MOD_TEXT)
+            else:
+                self.delete_mod_xml(parents[::-1], FiltersWidget.mod_text_before_change)
+                self.model.removeRow(item1.index().row(), item1.index().parent())
+        elif any(c.isdigit() for c in item1.text()):
+            if (FiltersWidget.mod_text_before_change == DEFAULT_MOD_TEXT  # Adding mod
+                    or not any(c.isdigit() for c in FiltersWidget.mod_text_before_change)):
+                self.add_mod_xml(parents[::-1], item1.text())
+                item1.parent().appendRow(QStandardItem(DEFAULT_MOD_TEXT))
+            else:  # Modifying mod
+                self.delete_mod_xml(parents[::-1], FiltersWidget.mod_text_before_change)
+                self.add_mod_xml(parents[::-1], item1.text())
+
+    def add_mod_xml(self, parents: list, mod: str) -> None:
         log_method_name()
-        self.filter_add.show()
+        if mod == DEFAULT_MOD_TEXT:
+            return
 
-class FiltersWidget(QWidget, FiltersWidgetUI):
-    """ Mod values main class """
+        # Add entry to currently used dictionary
+        parent_dict = ModsContainer.mods
+        for p in parents:
+            parent_dict = parent_dict[p]
+        parent_dict[ModsContainer.get_mod_key(mod)] = ModsContainer.get_mod_value(mod)
 
-    def __init__(self, parent=None):
+        # Save entry in mod filter file
+        parent_xml = self.xml_root
+        for parent in parents:
+            node = parent_xml.find(parent)
+            if node:
+                parent_xml = node
+        if parent_xml != self.xml_root:
+            element = ElementTree.Element("mod")
+            element.text = mod
+            parent_xml.append(element)
+            xml_indent(self.xml_root)
+            tree = ElementTree.ElementTree(self.xml_root)
+            tree.write(self.xml_path)
+
+    def delete_mod_xml(self, parents: list, mod: str) -> None:
         log_method_name()
-        super(FiltersWidget, self).__init__(parent)
-        self.setup_ui(self)
-        self.clicked = False
-        self.btn_add.clicked.connect(self.add_filter)
-        self.btn_close.clicked.connect(self.close_btn)
-        self.setWindowTitle('PoETis - mod values')
-        self.setGeometry(200, 200, 390, 300)
-        self.gui_state = False
+        parent_xml = self.xml_root
+        # Remove entry from currently used dictionary
+        parent_dict = ModsContainer.mods
+        for p in parents:
+            parent_dict = parent_dict[p]
+        del parent_dict[ModsContainer.get_mod_key(mod)]
 
-    def show_hide(self):
-        self.hide()
-
-    def keyPressEvent(self, qkeyevent):
-        pass
-
-    def keyReleaseEvent(self, qkeyevent):
-        pass
-
-    def mousePressEvent(self, event):
-        pass
-
-    def mouseMoveEvent(self, event):
-        pass
-
-
-if __name__ == '__main__':
-    import sys
-
-    app = QApplication(sys.argv)
-    window = FiltersWidget()
-    window.show()
-    sys.exit(app.exec_())
+        for parent in parents:
+            node = parent_xml.find(parent)
+            if node:
+                parent_xml = node
+        if parent_xml != self.xml_root:
+            elements = parent_xml.findall("mod")
+            for element in elements:
+                if element.text == mod:
+                    parent_xml.remove(element)
+                    xml_indent(self.xml_root)
+                    tree = ElementTree.ElementTree(self.xml_root)
+                    tree.write(self.xml_path)

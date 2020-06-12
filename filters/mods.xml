@@ -1,0 +1,210 @@
+<root>
+  <accessory>
+    <amulet>
+      <mod>adds 0 to 22 physical damage to attacks</mod>
+      <mod>adds 0 to 36 cold damage to attacks</mod>
+      <mod>adds 0 to 40 fire damage to attacks</mod>
+      <mod>adds 0 to 49 lightning damage to attacks</mod>
+      <mod>32 to maximum energy shield</mod>
+      <mod>17% increased energy shield</mod>
+      <mod>14% increased evasion rating</mod>
+      <mod>14% increased armour</mod>
+      <mod>50 to maximum life</mod>
+      <mod>0.6% of physical attack damage leeched as life</mod>
+      <mod>0.6% of physical attack damage leeched as mana</mod>
+      <mod>60 to maximum mana</mod>
+      <mod>13% increased spell damage</mod>
+      <mod>34% increased rarity of items found</mod>
+      <mod>25 to all attributes</mod>
+      <mod>8% increased cast speed</mod>
+      <mod>25% increased critical strike chance</mod>
+      <mod>25% to global critical strike multiplier</mod>
+      <mod>18% increased cold damage</mod>
+      <mod>18% increased fire damage</mod>
+      <mod>18% increased lightning damage</mod>
+    </amulet>
+    <belt>
+      <mod>323 to armour</mod>
+      <mod>32 to maximum energy shield</mod>
+      <mod>60 to maximum life</mod>
+    </belt>
+    <ring>
+      <mod>adds 0 to 13 physical damage to attacks</mod>
+      <mod>adds 0 to 36 cold damage to attacks</mod>
+      <mod>adds 0 to 40 fire damage to attacks</mod>
+      <mod>adds 0 to 49 lightning damage to attacks</mod>
+      <mod>21% increased elemental damage with attack skills</mod>
+      <mod>27 to maximum energy shield</mod>
+      <mod>121 to evasion rating</mod>
+      <mod>50 to maximum life</mod>
+      <mod>60 to maximum mana</mod>
+      <mod>34% increased rarity of items found</mod>
+      <mod>3 to level of socketed gems</mod>
+      <mod>5% increased cast speed</mod>
+      <mod>6% increased attack speed</mod>
+      <mod>13% increased cold damage</mod>
+      <mod>13% increased fire damage</mod>
+      <mod>13% increased lightning damage</mod>
+      <mod>12% to all elemental resistances</mod>
+    </ring>
+    <mod>33 to dexterity</mod>
+    <mod>33 to strength</mod>
+    <mod>33 to intelligence</mod>
+    <mod>30% to cold resistance</mod>
+    <mod>30% to fire resistance</mod>
+    <mod>30% to lightning resistance</mod>
+    <mod>15% to chaos resistance</mod>
+    <mod>40% increased mana regeneration rate</mod>
+    <mod>31% increased elemental damage with attack skills</mod>
+  </accessory>
+  <armour>
+    <boots>
+      <mod>36 to armour</mod>
+      <mod>36 to evasion rating</mod>
+      <mod>31 to maximum energy shield</mod>
+      <mod>50 to maximum life</mod>
+      <mod>60 to maximum mana</mod>
+      <mod>20% increased movement speed</mod>
+    </boots>
+    <chest>
+      <mod>61 to armour</mod>
+      <mod>61 to evasion rating</mod>
+      <mod>50 to maximum energy shield</mod>
+      <mod>60 to maximum mana</mod>
+      <mod>80 to maximum life</mod>
+    </chest>
+    <gloves>
+      <mod>adds 0 to 9 physical damage to attacks</mod>
+      <mod>adds 0 to 19 cold damage to attacks</mod>
+      <mod>adds 0 to 16 fire damage to attacks</mod>
+      <mod>adds 0 to 23 lightning damage to attacks</mod>
+      <mod>36 to armour</mod>
+      <mod>36 to evasion rating</mod>
+      <mod>24 to maximum energy shield</mod>
+      <mod>55 to maximum mana</mod>
+      <mod>50 to maximum life</mod>
+    </gloves>
+    <helmet>
+      <mod>36 to armour</mod>
+      <mod>36 to evasion rating</mod>
+      <mod>24 to maximum energy shield</mod>
+      <mod>50 to maximum life</mod>
+      <mod>55 to maximum mana</mod>
+      <mod>3 to level of socketed minion gems</mod>
+    </helmet>
+    <shield>
+      <mod>139 to armour</mod>
+      <mod>139 to evasion rating</mod>
+      <mod>62 to maximum energy shield</mod>
+      <mod>90 to maximum life</mod>
+      <mod>65 to maximum mana</mod>
+      <mod>18% increased physical damage</mod>
+      <mod>50% increased spell damage</mod>
+      <mod>50% increased fire damage</mod>
+      <mod>50% increased cold damage</mod>
+      <mod>50% increased lightning damage</mod>
+      <mod>15% to all elemental resistances</mod>
+      <mod>4% chance to block</mod>
+      <mod>0.8% of life regenerated per second</mod>
+      <mod>61 life gained when you block</mod>
+      <mod>22 mana gained when you block</mod>
+      <mod>8% increased attack speed</mod>
+      <mod>8% increased cast speed</mod>
+      <mod>3% chance to dodge attacks</mod>
+      <mod>3% chance to dodge spells</mod>
+      <mod>4% chance to block spells</mod>
+      <mod>60% increased critical strike chance for spells</mod>
+      <mod>40% increased mana regeneration rate</mod>
+    </shield>
+    <quiver>
+      <mod>adds 0 to 9 physical damage to attacks</mod>
+      <mod>adds 0 to 19 cold damage to attacks</mod>
+      <mod>adds 0 to 16 fire damage to attacks</mod>
+      <mod>adds 0 to 23 lightning damage to attacks</mod>
+      <mod>31% increased elemental damage with attack skills</mod>
+      <mod>50 to maximum life</mod>
+      <mod>0.6% of physical attack damage leeched as life</mod>
+      <mod>0.6% of physical attack damage leeched as mana</mod>
+      <mod>26% increased projectile speed</mod>
+      <mod>5% increased attack speed</mod>
+      <mod>25% increased critical strike chance</mod>
+      <mod>25% to global critical strike multiplier</mod>
+    </quiver>
+    <mod>68% increased armour</mod>
+    <mod>68% increased evasion rating</mod>
+    <mod>68% increased energy shield</mod>
+    <mod>68% increased armour and energy shield</mod>
+    <mod>68% increased armour and evasion rating</mod>
+    <mod>68% increased evasion rating and energy shield</mod>
+    <mod>33 to strength</mod>
+    <mod>33 to dexterity</mod>
+    <mod>33 to intelligence</mod>
+    <mod>30% cold resistance</mod>
+    <mod>30% fire resistance</mod>
+    <mod>30% lightning resistance</mod>
+    <mod>21% chaos resistance</mod>
+  </armour>
+  <weapon>
+    <bow>
+      <mod>adds 0 to 61 physical damage</mod>
+      <mod>1 to level of socketed gems</mod>
+      <mod>2 to level of socketed bow gems</mod>
+      <mod>adds 0 to 78 cold damage</mod>
+      <mod>adds 0 to 95 fire damage</mod>
+      <mod>adds 0 to 113 lightning damage</mod>
+      <mod>adds 0 to 145 chaos damage</mod>
+      <mod>7% increased attack speed</mod>
+      <mod>26% increased projectile speed</mod>
+    </bow>
+    <claw>
+      <mod>adds 0 to 43 physical damage</mod>
+      <mod>adds 0 to 78 cold damage</mod>
+      <mod>adds 0 to 95 fire damage</mod>
+      <mod>adds 0 to 113 lightning damage</mod>
+      <mod>adds 0 to 145 chaos damage</mod>
+      <mod>20% increased attack speed</mod>
+    </claw>
+    <dagger>
+      <mod>adds 0 to 43 physical damage</mod>
+      <mod>31% increased elemental damage with attack skills</mod>
+      <mod>adds 0 to 78 cold damage</mod>
+      <mod>adds 0 to 95 fire damage</mod>
+      <mod>adds 0 to 113 lightning damage</mod>
+      <mod>adds 0 to 145 chaos damage</mod>
+      <mod>50% increased spell damage</mod>
+      <mod>adds 0 to 62 cold damage to spells</mod>
+      <mod>adds 0 to 72 fire damage to spells</mod>
+      <mod>adds 0 to 90 lightning damage to spells</mod>
+      <mod>20% increased attack speed</mod>
+    </dagger>
+    <sceptre>
+      <mod>adds 0 to 43 physical damage</mod>
+      <mod>adds 0 to 78 cold damage</mod>
+      <mod>adds 0 to 95 fire damage</mod>
+      <mod>adds 0 to 113 lightning damage</mod>
+      <mod>adds 0 to 145 chaos damage</mod>
+      <mod>50% increased spell damage</mod>
+      <mod>adds 0 to 62 cold damage to spells</mod>
+      <mod>adds 0 to 72 fire damage to spells</mod>
+      <mod>adds 0 to 90 lightning damage to spells</mod>
+      <mod>50% increased fire damage</mod>
+      <mod>50% increased cold damage</mod>
+      <mod>50% increased lightning damage</mod>
+      <mod>20% increased attack speed</mod>
+      <mod>17% increased cast speed</mod>
+      <mod>21% increased burning damage</mod>
+    </sceptre>
+    <mod>0.2% of physical attack damage leeched as life</mod>
+    <mod>110% increased physical damage</mod>
+    <mod>21% increased elemental damage with attack skills</mod>
+    <mod>25% increased critical strike chance</mod>
+    <mod>25% to global critical strike multiplier</mod>
+    <mod>26% increased damage with poison</mod>
+    <mod>20% chance to poison on hit</mod>
+    <mod>13% increased poison duration</mod>
+    <mod>26% increased damage with bleeding</mod>
+    <mod>15% chance to cause bleeding</mod>
+    <mod>13% increased bleeding duration</mod>
+    <mod>60% increased critical strike chance for spells</mod>
+  </weapon>
+</root>

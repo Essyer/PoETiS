@@ -1,245 +1,193 @@
-from __future__ import unicode_literals
-from src.MainMenu import MainMenu
-from src.RectSelect import RectSelect
+import sys
+import re
+import time
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from src.DragButton import DragButton
+from src.DragWidget import DragWidget
 from src.FiltersWidget import FiltersWidget
-from PyQt5.QtWidgets import QApplication, QWidget
-import xml.etree.ElementTree as ET
-from src.RectProcess import RectProcess
-from PyQt5.QtWidgets import QPushButton, QHBoxLayout, QSizePolicy,QGridLayout
-from PyQt5.QtGui import QPainter, QPen, QIcon, QPixmap
-from PyQt5.QtCore import Qt, QRect
-from win32api import GetSystemMetrics
-from src.utils import initialize_logging, log_method_name
-from src.Constants import CONFIG_PATH
-
-window_width = GetSystemMetrics(0)
-window_height = GetSystemMetrics(1)
-width_multi = 0.88542
-height_multi = 0.83334
-width_width_scale = window_width/1920
-window_height_scale = window_height/1080
+from src.SettingsWidget import SettingsWidget
+from src.Requester import Requester
+from src.PainterWidget import PainterWidget
+from src.ModsContainer import ModsContainer, DEFAULT_FILTER_PATH
+from src.utils import load_styles, initialize_logging, log_method_name
 
 
-class MainWidget(QWidget):
-    """ Rectangle printing class """
-
-    def __init__(self, parent=None):
-        log_method_name()
-        super(MainWidget, self).__init__(parent)
-        self.rect_processor = RectProcess(width_width_scale, window_height_scale)
-        self.rect_select = RectSelect()
-        self.filter_list = FiltersWidget()
-        self.main_menu = MainMenu(self.rect_processor)
+class MainWidget(QMainWindow):
+    def __init__(self, screen_geometry: QRect):
+        super(MainWidget, self).__init__(None, Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
         self.image_path = "src/img/"
-        self.setup_ui(self)
-        self.setMouseTracking(1)
-        self.btn_menu.clicked.connect(self.open_menu)
-        self.btn_settings.clicked.connect(self.open_settings)
-        self.btn_net.clicked.connect(self.show_net)
-        self.btn_mods.clicked.connect(self.show_mods)
-        self.btn_hide.clicked.connect(self.hide_buttons)
-        self.btn_show.clicked.connect(self.show_buttons)
-
-        self.rect_select.signal_rects_selected.connect(self.signal_rects_selected)
-        self.main_menu.signal_rects_created.connect(self.signal_show_net)
-        self.main_menu.signal_rects_processing.connect(self.signal_nets_processing)
-        self.qp = None
-        self.gui_state = None
-        self.rects_state = None
-        self.rectangles_ready = None
-        self.net_clickable = None
-        self.selected_rects = []
-        self.load_rects_selected()
-
-    def closeEvent(self, event):
-        log_method_name()
-        event.accept()
-
-    def hide_buttons(self):
+        # initialize_logging()
         log_method_name()
 
-        self.btn_show.show()
-        self.btn_net.hide()
-        self.btn_menu.hide()
-        self.btn_settings.hide()
-        self.btn_mods.hide()
-        self.btn_hide.hide()
+        self.error_widget = DragWidget()
+        load_styles(self.error_widget)
+        self.error_widget.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
 
+        # Load mod configuration
+        ModsContainer.load_mods_config(DEFAULT_FILTER_PATH)
 
-    def show_buttons(self):
+        # Initialize other classes, order is important
+        self.filters_widget = FiltersWidget()
+        self.painter_widget = PainterWidget(screen_geometry)
+        self.settings_widget = SettingsWidget(self.painter_widget)
+        self.requester = Requester(self.settings_widget, self.painter_widget)
+        self.last_requested_time = 0
+
+        # Setup Requester thread
+        self.objThread = QThread()
+        self.requester.moveToThread(self.objThread)
+        self.requester.finished.connect(self.objThread.quit)
+        self.requester.failed.connect(self._requester_failed)
+        self.objThread.started.connect(self.requester.run)
+        self.objThread.finished.connect(self._set_run_button_icon_run)
+
+        # Setup main widget UI
+        self.screen_geometry = screen_geometry
+        self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
+        self.setAttribute(Qt.WA_NoSystemBackground, True)
+        self.setAttribute(Qt.WA_TranslucentBackground, True)
+
+        self.move(0, 250)
+        self.settings_widget.first_load.connect(self.update_y)
+        layout = QVBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setAlignment(Qt.AlignTop)
+        layout.setSpacing(0)
+
+        # Setup buttons
+        self.drag_button = DragButton(self, True)
+        icon = QIcon()
+        icon.addPixmap(QPixmap(self.image_path + 'move.png'))
+        self.drag_button.setIcon(icon)
+
+        self.run_button = QPushButton()
+        icon.addPixmap(QPixmap(self.image_path + 'run.png'))
+        self.run_button.setIcon(icon)
+        self.run_button.clicked.connect(self._run_requester)
+
+        self.painter_button = QPushButton()
+        self.painter_button.clicked.connect(lambda: self.show_hide_widget(self.painter_widget))
+        icon.addPixmap(QPixmap(self.image_path + 'draw1.png'))
+        self.painter_button.setIcon(icon)
+
+        self.filters_button = QPushButton()
+        self.filters_button.clicked.connect(lambda: self.show_hide_widget(self.filters_widget))
+        icon.addPixmap(QPixmap(self.image_path + 'filter.png'))
+        self.filters_button.setIcon(icon)
+
+        self.settings_button = QPushButton()
+        self.settings_button.clicked.connect(lambda: self.show_hide_widget(self.settings_widget))
+        icon.addPixmap(QPixmap(self.image_path + 'settings.png'))
+        self.settings_button.setIcon(icon)
+
+        self.exit_button = QPushButton()
+        self.exit_button.clicked.connect(QCoreApplication.quit)
+        icon.addPixmap(QPixmap(self.image_path + 'exit.png'))
+        self.exit_button.setIcon(icon)
+
+        self.buttons = [
+            self.drag_button,
+            self.run_button,
+            self.painter_button,
+            self.filters_button,
+            self.settings_button,
+            self.exit_button
+        ]
+        for button in self.buttons:
+            button.setFixedWidth(25)
+            button.setFixedHeight(25)
+            button.setWindowFlags(Qt.Dialog)
+            load_styles(button)
+            layout.addWidget(button, 0, Qt.AlignTop)
+
+        widget = QWidget(flags=Qt.Widget)
+        widget.setLayout(layout)
+        self.setCentralWidget(widget)
+
+    def show_hide_buttons(self) -> None:
         log_method_name()
-        self.btn_net.show()
-        self.btn_menu.show()
-        self.btn_settings.show()
-        self.btn_mods.show()
-        self.btn_hide.show()
-        self.btn_show.hide()
+        for button in self.buttons:
+            if button != self.drag_button:
+                if button.isVisible():
+                    button.hide()
+                else:
+                    button.show()
 
-    def open_menu(self):
+    def show_hide_widget(self, widget: QWidget) -> None:
         log_method_name()
-        self.main_menu.show()
+        icon = QIcon()
+        if widget.isVisible():
+            if isinstance(widget, PainterWidget):
+                if widget.config_change_mode:
+                    widget.hide_modification_mode()
+                    return
+                else:
+                    icon.addPixmap(QPixmap(self.image_path + 'draw1.png'))
+                    self.painter_button.setIcon(icon)
+            widget.hide()
+        else:
+            if isinstance(widget, PainterWidget):
+                if not widget.items:
+                    return
+                else:
+                    icon.addPixmap(QPixmap(self.image_path + 'draw2.png'))
+                    self.painter_button.setIcon(icon)
+            widget.show()
 
-    def open_settings(self):
-        log_method_name()
-        self.rect_select.show()
+    def _run_requester(self) -> None:
+        # Do not allow to send requests too often
+        now = time.time()
+        if now - self.last_requested_time < 10:
+            return
+        self.last_requested_time = now
+        icon = QIcon()
+        icon.addPixmap(QPixmap(self.image_path + 'timer.png'))
+        self.run_button.setIcon(icon)
+        self.objThread.start()
 
-    def signal_rects_selected(self, rects):
-        log_method_name()
-        self.selected_rects = []
-        if rects[0]:
-            self.selected_rects.append('UltraRare')
-        if rects[1]:
-            self.selected_rects.append('HighValuable')
-        if rects[2]:
-            self.selected_rects.append('Valuable')
-        if rects[3]:
-            self.selected_rects.append('MidValuable')
-        if rects[4]:
-            self.selected_rects.append('LowValuable')
+    def _show_error_window(self, error_message: str) -> None:
 
-    def load_rects_selected(self):
-        log_method_name()
-        tree = ET.parse(CONFIG_PATH)
-        root = tree.getroot()
+        # Break message with new lines if it is too long
+        error_message = re.sub("(.{128})", "\\1\n", error_message, 0, re.DOTALL)
 
-        if root.findall('t1_color')[0].text == 'true':
-            self.selected_rects.append('UltraRare')
-        if root.findall('t2_color')[0].text == 'true':
-            self.selected_rects.append('HighValuable')
-        if root.findall('t3_color')[0].text == 'true':
-            self.selected_rects.append('Valuable')
-        if root.findall('t4_color')[0].text == 'true':
-            self.selected_rects.append('MidValuable')
-        if root.findall('t5_color')[0].text == 'true':
-            self.selected_rects.append('LowValuable')
+        error_message = "PoETiS Error:\n" + error_message
 
-    def signal_nets_processing(self):
-        log_method_name()
-        self.btn_net.setIcon(self.net_processing)
-        self.btn_menu.setDisabled(True)
-        print("net processing")
+        layout = QVBoxLayout()
+        label = QLabel(error_message)
+        label.setStyleSheet('color: yellow')
+        layout.addWidget(label)
+        button_exit = QPushButton("Close")
+        button_exit.clicked.connect(self.error_widget.hide)
+        layout.addWidget(button_exit)
+        self.error_widget.setLayout(layout)
+        self.error_widget.show()
 
-    def signal_show_net(self):
-        log_method_name()
-        print("net processed")
-        self.btn_net.setIcon(self.net_rdy)
-        self.net_clickable = True
-        self.btn_menu.setEnabled(True)
+    def _requester_failed(self, e: Exception) -> None:
+        self.objThread.quit()
+        self._set_run_button_icon_run()
+        self._show_error_window(e.__str__())
+        self.last_requested_time = 0
 
-    def show_mods(self):
-        log_method_name()
-        self.filter_list.show()
+    # Set icon back after Requester is done
+    def _set_run_button_icon_run(self) -> None:
+        icon = QIcon()
+        icon.addPixmap(QPixmap(self.image_path + 'run.png'))
+        self.run_button.setIcon(icon)
 
-    def show_net(self):
-        log_method_name()
-        if self.net_clickable:
-            self.rectangles_ready = not self.rectangles_ready
-            self.update()
+    # Send new position to SettingsWidget and save it
+    def update_pos_size(self) -> None:
+        self.settings_widget.main_widget_y = self.y()
+        self.settings_widget.save_cfg()
 
-    def setup_ui(self, Widget):
-        log_method_name()
-        self.setFixedSize(window_width, window_height)
-        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
-        self.setAttribute(Qt.WA_TransparentForMouseEvents)
-        self.setAttribute(Qt.WA_TranslucentBackground)
-        self.setAttribute(Qt.WA_NoSystemBackground)
-
-        self.net_processing = QIcon()
-        self.net_processing.addPixmap(QPixmap(self.image_path + 'net_p.png'))
-        self.net_nrdy = QIcon()
-        self.net_nrdy.addPixmap(QPixmap(self.image_path + 'net_n.png'))
-        self.net_rdy = QIcon()
-        self.net_rdy.addPixmap(QPixmap(self.image_path + 'net_r.png'))
-        self.btn_net = QPushButton()
-        self.btn_net.setIcon(self.net_nrdy)
-        self.btn_net.setStyleSheet('QPushButton{border: 0px solid;}')
-        self.btn_net.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-
-        self.btn_menu = QPushButton()
-        icon1 = QIcon()
-        icon1.addPixmap(QPixmap(self.image_path + 'menu.png'))
-        self.btn_menu.setIcon(icon1)
-        self.btn_menu.setStyleSheet('QPushButton{border: 0px solid;}')
-        self.btn_menu.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-
-        self.btn_settings = QPushButton()
-        icon1 = QIcon()
-        icon1.addPixmap(QPixmap(self.image_path + 'settings.png'))
-        self.btn_settings.setIcon(icon1)
-        self.btn_settings.setStyleSheet('QPushButton{border: 0px solid;}')
-        self.btn_settings.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-
-        self.btn_mods = QPushButton()
-        icon1 = QIcon()
-        icon1.addPixmap(QPixmap(self.image_path + 'mods.png'))
-        self.btn_mods.setIcon(icon1)
-        self.btn_mods.setStyleSheet('QPushButton{border: 0px solid;}')
-        self.btn_mods.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-
-        self.btn_hide = QPushButton()
-        icon1 = QIcon()
-        icon1.addPixmap(QPixmap(self.image_path + 'hide.png'))
-        self.btn_hide.setIcon(icon1)
-        self.btn_hide.setStyleSheet('QPushButton{border: 0px solid;}')
-        self.btn_hide.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-
-        self.btn_show = QPushButton()
-        icon1 = QIcon()
-        icon1.addPixmap(QPixmap(self.image_path + 'show.png'))
-        self.btn_show.setIcon(icon1)
-        self.btn_show.setStyleSheet('QPushButton{border: 0px solid;}')
-        self.btn_show.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-
-        vbox = QHBoxLayout()
-
-        vbox.addWidget(self.btn_net)
-        vbox.addWidget(self.btn_menu)
-        vbox.addWidget(self.btn_settings)
-        vbox.addWidget(self.btn_mods)
-        vbox.addWidget(self.btn_hide)
-        vbox.addWidget(self.btn_show)
-
-        vbox.setContentsMargins(0, 30, window_width * width_multi, window_height * height_multi)
-
-        self.btn_show.hide()
-        self.setLayout(vbox)
-
-    def paintEvent(self, r):
-        log_method_name()
-        self.qp = QPainter()
-        self.qp.begin(self)
-        if self.rectangles_ready:
-            self.draw_net(r)
-        self.qp.end()
-
-    def draw_net(self, r):
-        log_method_name()
-        self.qp.setRenderHint(QPainter.Antialiasing)
-        pen = QPen(Qt.red)
-        for key, value in self.rect_processor.rectangles.items():
-            if key in self.selected_rects:
-                for val in value:
-                    pen.setWidth(self.rect_processor.border_size)
-                    pen.setColor(val[1])
-                    self.qp.setPen(pen)
-                    self.qp.drawRect(val[0])
-
-    def mouseMoveEvent(self, QMouseEvent):
-
-        for key, value in self.rect_processor.rectangles.items():
-            if key in self.selected_rects:
-                for val in value:
-                    if val[0].x() < QMouseEvent.pos().x() < (val[0].x() + val[0].width()):
-                        if val[0].y() < QMouseEvent.pos().y() < (val[0].y() + val[0].height()):
-                            print(val[2].explicit_tiers)
-                            print(val[2].score)
+    def update_y(self, y):
+        # TODO: Never gets called...
+        self.move(0, y)
 
 
 if __name__ == '__main__':
-    import sys
-    initialize_logging()
     app = QApplication(sys.argv)
-    window = MainWidget()
-    window.showFullScreen()
-    window.setFocus()
-    sys.exit(app.exec_())
+    window = MainWidget(app.desktop().screenGeometry())
+    window.show()
+    app.exec_()
