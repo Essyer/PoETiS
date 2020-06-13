@@ -22,7 +22,7 @@ You can download a prepared executable or run from sources (just install all dep
 After you run it for the first time, a new file "config.xml" will be created in the location of the executable and you will see a widget bar on the left edge of your screen.
 
 ![](https://i.ibb.co/qmrw6YP/main-widget.png)
-![](https://i.ibb.co/vQp7wjb/main-widget-hidden.png)
+![](https://i.ibb.co/tZw1kBF/widget-hidden1.png)
 
 Buttons:
 1. Allows to drag widget by the left edge, when clicked hides and shows some buttons.
