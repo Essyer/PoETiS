@@ -23,7 +23,7 @@ Buttons:
 1. Allows to drag widget by the left edge, when clicked hides and shows some buttons.
 2. Sends request for items data, maximum once per 10 seconds. You need to have valid data in settings, described below.
 3. After button 2. icon gets back from "hourglass" to "play", you can toggle on/off grid of rectangles.
-4. Mods list. Initial list is an example, if you don't like turn off the tool (last button) and replace content of filters/mods.xml with filters/mods_empty.xml or delete all mods one by one.
+4. Mods list. Initial list is an example, if you don't like it, turn off the tool (last button) and replace content of filters/mods.xml with filters/mods_empty.xml or delete all mods one by one.
 You can delete mods by removing cell content and add new ones modifying default mod message at the end of each section. Each mod needs to have at least one numeric value.
 5. Settings. With first run you will need to provide data to all fields, set stash type and adjust net accordingly.
 Slider determines how many mods in item should have value from your filter to be detected and have color frame.
