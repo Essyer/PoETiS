@@ -8,7 +8,7 @@ Bug was already reported [here](https://www.pathofexile.com/forum/view-thread/28
 
 One stash at a time. You can switch between stashes, but each time you need to modify settings.
 
-Only rare and magic items.
+Only identified rare and magic items, you can have other items in stash, but they won't be processed.
 
 GGG API limits items returned to 100 of the same type, so if you dump over 100 ring to your stash some of them won't be processed and you won't know about it.
 
