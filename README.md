@@ -11,6 +11,8 @@ One stash at a time, doesn't have to be premium, just normal or quad stash with 
 
 Only identified rare and magic items, you can have other items in stash, but they won't be processed.
 
+Pseudo mods are not supported, I may add them in future.
+
 Depending on GGG servers load you may need to wait a bit after putting items into the stash.
 
 GGG API limits items returned to 100 of the same type, so if you dump over 100 rings in your stash, some of them won't be processed and you won't know about it.
