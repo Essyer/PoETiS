@@ -10,6 +10,8 @@ One stash at a time, needs to be public (you can set stash public without settin
 
 Only identified rare and magic items, you can have other items in stash, but they won't be processed.
 
+Depending on GGG servers load you may need to wait a bit after putting items into the stash.
+
 GGG API limits items returned to 100 of the same type, so if you dump over 100 ring to your stash some of them won't be processed and you won't know about it.
 
 ## Setup
