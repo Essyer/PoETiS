@@ -41,3 +41,7 @@ Each color represents number of mods that meet requirements specified in your fi
 
 ![](https://i.ibb.co/0qhjLHh/colors.png)
 
+
+## Known issues
+
+Jewels are not supported yet. I'm waiting for GGG to release API changes described [here](https://www.pathofexile.com/forum/view-thread/2784742/page/1#p22948552), "We will most likely move all item images to this system before 3.11.0."
