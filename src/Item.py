@@ -1,4 +1,3 @@
-import re
 from collections import defaultdict
 from src.ModsContainer import ModsContainer
 

@@ -7,7 +7,7 @@ LOGGING_APP_NAME = "log"
 logger = logging.getLogger(LOGGING_APP_NAME)
 last_logged_method_name = ""
 last_logged_error = ""
-styles_file = "src/styles.css"
+styles_file = "styles/styles.css"
 default_league_name = "Harvest"
 
 
