@@ -50,7 +50,7 @@ class MainWidget(QMainWindow):
         self.setAttribute(Qt.WA_TranslucentBackground, True)
 
         self.move(0, 250)
-        self.settings_widget.first_load.connect(self.update_y)
+        self.settings_widget.first_load.connect(self.update_y)  # TODO: Doesn't work
         layout = QVBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setAlignment(Qt.AlignTop)
@@ -109,7 +109,7 @@ class MainWidget(QMainWindow):
     def show_hide_buttons(self) -> None:
         log_method_name()
         for button in self.buttons:
-            if button != self.drag_button:
+            if button != self.drag_button and button != self.run_button and button != self.painter_button:
                 if button.isVisible():
                     button.hide()
                 else:

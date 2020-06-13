@@ -3,7 +3,7 @@ from PyQt5.QtCore import *
 
 
 class Slider(QWidget):
-    def __init__(self, slider_colors, slider_orientation=Qt.Horizontal):
+    def __init__(self, slider_orientation=Qt.Horizontal):
         super(Slider, self).__init__()
         self._slider = QSlider(slider_orientation)
         self.on_value_changed_call(self.set_value)
@@ -14,13 +14,22 @@ class Slider(QWidget):
         self._colorTicksWidget.setLayout(QHBoxLayout())
         self._colorTicksWidget.layout().setContentsMargins(0, 0, 0, 0)
         self.value = 0
+        self.slider_colors = []
 
         self.layout().addWidget(self._colorTicksWidget)
         self.layout().addWidget(self._slider)
-        self.slider_colors = slider_colors
         for index in range(5):
             button = QPushButton()
-            button.setStyleSheet("background-color: " + self.slider_colors[index])
+            button.setStyleSheet("background-color: red")
+            button.setContentsMargins(0, 0, 0, 0)
+            self._colorTicksWidget.layout().addWidget(button)
+
+    def set_colors(self, colors: list) -> None:
+        self.slider_colors = colors
+        for children, index in self._colorTicksWidget.layout().children():
+            self._colorTicksWidget.layout().removeItem(children)  # Remove default red color tiles
+            button = QPushButton()
+            button.setStyleSheet("background-color: " + colors[index])
             button.setContentsMargins(0, 0, 0, 0)
             self._colorTicksWidget.layout().addWidget(button)
 
@@ -45,11 +54,12 @@ class Slider(QWidget):
         self._slider.valueChanged.connect(function)
 
     def _update_colors(self, value: int) -> None:
-        index = 0
-        for children in self._colorTicksWidget.children():
-            if isinstance(children, QPushButton):
-                if index < value - 1:
-                    children.setStyleSheet("background-color: gray")
-                else:
-                    children.setStyleSheet("background-color: " + self.slider_colors[index])
-                index += 1
+        if self.slider_colors:
+            index = 0
+            for children in self._colorTicksWidget.children():
+                if isinstance(children, QPushButton):
+                    if index < value - 1:
+                        children.setStyleSheet("background-color: gray")
+                    else:
+                        children.setStyleSheet("background-color: " + self.slider_colors[index])
+                    index += 1

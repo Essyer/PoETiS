@@ -27,11 +27,11 @@ def prepare_cfg(path: str) -> None:
     ElementTree.SubElement(root, "data_file").text = "data.xml"
 
     ElementTree.SubElement(root, "slider_value").text = "3"
-    ElementTree.SubElement(root, "t1_color").text = "true"
-    ElementTree.SubElement(root, "t2_color").text = "true"
-    ElementTree.SubElement(root, "t3_color").text = "true"
-    ElementTree.SubElement(root, "t4_color").text = "true"
-    ElementTree.SubElement(root, "t5_color").text = "true"
+    ElementTree.SubElement(root, "slider_color1").text = "brown"
+    ElementTree.SubElement(root, "slider_color2").text = "blue"
+    ElementTree.SubElement(root, "slider_color3").text = "green"
+    ElementTree.SubElement(root, "slider_color4").text = "yellow"
+    ElementTree.SubElement(root, "slider_color5").text = "white"
 
     ElementTree.SubElement(root, "main_widget_y").text = "200"
     ElementTree.SubElement(root, "painter_x").text = "250"

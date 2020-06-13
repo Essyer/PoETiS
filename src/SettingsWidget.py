@@ -22,6 +22,7 @@ class SettingsWidget(DragWidget):
         self.painter_widget = painter_widget
         self.painter_widget.colors = slider_colors
 
+        self._create_slider()  # Need to create if before loading configuration file to set tiles colors
         self._load_cfg()
         self._setup_ui()
         self.main_widget_y = 0
@@ -91,7 +92,6 @@ class SettingsWidget(DragWidget):
         label_session = QLabel("Number of mods to detect")
         layout_main.addWidget(label_session)
         layout_slider = QHBoxLayout()
-        self.slider = Slider(slider_colors)
         self.slider.set_range(1, 5)
         self.slider.set_value(self.slider_value)
         load_styles(self.slider)
@@ -105,6 +105,9 @@ class SettingsWidget(DragWidget):
         layout_main.addWidget(self.btn_hide)
 
         self.setLayout(layout_main)
+
+    def _create_slider(self):
+        self.slider = Slider()
 
     def close(self) -> None:
         self.hide()
@@ -136,6 +139,21 @@ class SettingsWidget(DragWidget):
         else:
             self.stash_type = "Quad"
 
+        self._set_values_from_cfg()
+
+    def _set_values_from_cfg(self) -> None:
+        tree = ElementTree.parse(CONFIG_PATH)
+        root = tree.getroot()
+
+        slider_color1 = root.find("slider_color1").text
+        slider_color2 = root.find("slider_color2").text
+        slider_color3 = root.find("slider_color3").text
+        slider_color4 = root.find("slider_color4").text
+        slider_color5 = root.find("slider_color5").text
+        colors = [slider_color1, slider_color2, slider_color3, slider_color4, slider_color5]
+
+        self.painter_widget.colors = colors
+        self.slider.set_colors(colors)
         self.slider_value = int(root.find("slider_value").text)
 
         self.main_widget_y = int(root.find("main_widget_y").text)

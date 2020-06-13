@@ -106,7 +106,8 @@ class PainterWidget(QWidget):
             return
         cell_width = int((self.width()) / self.stash_cells)
         cell_height = int((self.height() - self.drag_button.height()) / self.stash_cells)
-        self.qp.drawRect(item.x * cell_width + pen_width, item.y * cell_height + pen_width, item.width * cell_width - pen_width, item.height * cell_height - pen_width)
+        self.qp.drawRect(item.x * cell_width + pen_width, item.y * cell_height + pen_width, item.width * cell_width -
+                         pen_width, item.height * cell_height - pen_width)
 
     def show_hide_config(self) -> None:
         log_method_name()
