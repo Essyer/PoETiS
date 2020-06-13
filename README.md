@@ -5,6 +5,7 @@ Path of Exile Tiers in Stash tool allows you to scan your stash for items with s
 
 As of 13.06.2020 PoE Vulkan stays on top of everything, so if you want to use Vulkan and any 3rd party tool you need to run game in windowed mode (not windowed fullscreen).
 Bug was already reported [here](https://www.pathofexile.com/forum/view-thread/2867255).
+There is [workaround](https://www.reddit.com/r/pathofexile/comments/gseuoy/vulkan_test_technical_megathread/fs6tie9/?utm_source=reddit&utm_medium=usertext&utm_name=pathofexile&utm_content=t1_fsufmjb), although I still hope they will fix it.
 
 One stash at a time, doesn't have to be premium, just normal or quad stash with items. You can switch between stashes, but each time you need to modify settings.
 
