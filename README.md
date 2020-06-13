@@ -30,6 +30,7 @@ You can delete mods by removing cell content and add new ones modifying default 
 5. Settings. With first run you will need to provide data to all fields, set stash type and adjust net accordingly.
 Slider determines how many mods in item should have value greater or equal to your filter to be detected and have color frame.
 You can modify colors in settings.xml after you exit tool, just make sure it meets QColor constructor [requirements](https://doc.qt.io/qt-5/qcolor.html).
+Guide how to get session ID - [here](https://github.com/Stickymaddness/Procurement/wiki/SessionID). Remember it will change over time, so if you get error message about invalid session ID or no connection, you may need to provide new session ID.
 6. Terminates tool. All settings data is saved at the moment you edit it.
 
 Example of frames:
