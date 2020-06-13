@@ -13,7 +13,6 @@ slider_colors = ["brown", "green", "blue", "yellow", "white"]
 
 class SettingsWidget(DragWidget):
     configuration_changed = pyqtSignal(dict)
-    first_load = pyqtSignal(int)
 
     def __init__(self, painter_widget: PainterWidget):
         self.painter_geometry = None
@@ -125,6 +124,12 @@ class SettingsWidget(DragWidget):
             index += 1
         self.combo_league.setCurrentText(self.league)
 
+    @staticmethod
+    def load_main_widget_y() -> int:
+        tree = ElementTree.parse(CONFIG_PATH)
+        root = tree.getroot()
+        return int(root.find("main_widget_y").text)
+
     def _load_cfg(self) -> None:
         log_method_name()
         if not os.path.isfile(CONFIG_PATH):
@@ -165,7 +170,6 @@ class SettingsWidget(DragWidget):
         self.painter_widget.setGeometry(painter_geometry)
         self.painter_widget.setFixedWidth(painter_geometry.width())
         self.painter_widget.setFixedHeight(painter_geometry.height())
-        self.first_load.emit(int(root.find("main_widget_y").text))
 
     def save_cfg(self) -> None:
         log_method_name()

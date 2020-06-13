@@ -81,6 +81,8 @@ class ModsContainer:
                     continue
                 mods2 = list(cat2)
                 if mods2:
+                    if cat1.tag not in filter_dict:
+                        filter_dict[cat1.tag] = {}
                     filter_dict[cat1.tag][cat2.tag] = {
                         ModsContainer.get_mod_key(mod.text): ModsContainer.get_mod_value(mod.text)
                         for mod in mods2 if mod.tag != 'totals'
