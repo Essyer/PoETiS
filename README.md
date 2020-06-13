@@ -28,7 +28,7 @@ Buttons:
 4. Mods list. Initial list is an example, if you don't like it, turn off the tool (last button) and replace content of filters/mods.xml with filters/mods_empty.xml or delete all mods one by one from mods list window.
 You can delete mods by removing cell content and add new ones modifying default mod message at the end of each section. Each mod needs to have at least one numeric value.
 5. Settings. With first run you will need to provide data to all fields, set stash type and adjust net accordingly.
-Slider determines how many mods in item should have value from your filter to be detected and have color frame.
+Slider determines how many mods in item should have value greater or equal to your filter to be detected and have color frame.
 You can modify colors in settings.xml after you exit tool, just make sure it meets QColor constructor [requirements](https://doc.qt.io/qt-5/qcolor.html).
 6. Terminates tool. All settings data is saved at the moment you edit it.
 
