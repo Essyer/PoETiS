@@ -36,7 +36,7 @@ Example of frames:
 
 ![](https://i.ibb.co/YccKHfH/borders.png)
 
-Each color represents number of modificators that meet requirements specified in your filter. Brown - one good mod, blue - two mods etc.
+Each color represents number of mods that meet requirements specified in your filter. Brown - one good mod, blue - two mods etc.
 
 ![](https://i.ibb.co/0qhjLHh/colors.png)
 
