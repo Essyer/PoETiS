@@ -3,7 +3,7 @@ Path of Exile Tiers in Stash tool allows you to scan your public stash for items
 
 ## Limitations
 
-As of 13.06.2020 PoE vulcan stays on top of everything, so if you want to use vulcan and any 3rd party tool you need to run game in windowed mode (not windowed fullscreen).
+As of 13.06.2020 PoE Vulkan stays on top of everything, so if you want to use Vulkan and any 3rd party tool you need to run game in windowed mode (not windowed fullscreen).
 Bug was already reported [here](https://www.pathofexile.com/forum/view-thread/2867255).
 
 One stash at a time, needs to be public (you can set stash public without setting price on items). You can switch between stashes, but each time you need to modify settings.
@@ -12,11 +12,11 @@ Only identified rare and magic items, you can have other items in stash, but the
 
 Depending on GGG servers load you may need to wait a bit after putting items into the stash.
 
-GGG API limits items returned to 100 of the same type, so if you dump over 100 ring to your stash some of them won't be processed and you won't know about it.
+GGG API limits items returned to 100 of the same type, so if you dump over 100 rings in your stash, some of them won't be processed and you won't know about it.
 
 ## Setup
-You can download prepared executable or run from sources (just install all dependencies from requirements.txt).
-After you run it for the first time, a new file "config.xml" will be created in executable location and you will see widget bar on the left edge of your screen.
+You can download a prepared executable or run from sources (just install all dependencies from requirements.txt).
+After you run it for the first time, a new file "config.xml" will be created in the location of the executable and you will see a widget bar on the left edge of your screen.
 
 ![](https://i.ibb.co/qmrw6YP/main-widget.png)
 ![](https://i.ibb.co/vQp7wjb/main-widget-hidden.png)
