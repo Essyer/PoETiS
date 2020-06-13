@@ -72,6 +72,8 @@ class SettingsWidget(DragWidget):
         self.edit_session.textChanged.connect(self.save_cfg)
         layout_main.addWidget(self.edit_session)
 
+        label_session = QLabel("Stash type")
+        layout_main.addWidget(label_session)
         layout_radio = QHBoxLayout()
         self.radio_stash_normal = QRadioButton("Normal")
         self.radio_stash_normal.toggled.connect(self.save_cfg)
