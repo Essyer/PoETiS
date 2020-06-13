@@ -86,6 +86,7 @@ class PainterWidget(QWidget):
                 self.qp.drawRect(i * cell_width, j * cell_height, cell_width, cell_height)
 
         self.qp.end()
+        self.update()  # Need to refresh in case when net over items was visible
 
     def paint_items(self) -> None:
         for item in self.items:
