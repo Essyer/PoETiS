@@ -25,7 +25,7 @@ After you run it for the first time, a new file "config.xml" will be created in 
 ![](https://i.ibb.co/tZw1kBF/widget-hidden1.png)
 
 Buttons:
-1. Allows to drag widget by the left edge, when clicked hides and shows some buttons.
+1. Allows to drag widget by the left edge, when clicked hides and shows rest of the buttons.
 2. Sends request for items data, maximum once per 10 seconds. You need to have valid data in settings, described below.
 3. After button 2. icon gets back from "hourglass" to "play", you can toggle on/off frames.
 4. Mods list. Initial list is an example, if you don't like it, turn off the tool (last button) and replace content of filters/mods.xml with filters/mods_empty.xml or delete all mods one by one from mods list window.
