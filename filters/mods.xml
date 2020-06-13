@@ -114,7 +114,6 @@
       <mod>3% chance to dodge spells</mod>
       <mod>4% chance to block spells</mod>
       <mod>60% increased critical strike chance for spells</mod>
-      <mod>40% increased mana regeneration rate</mod>
     </shield>
     <quiver>
       <mod>adds 0 to 9 physical damage to attacks</mod>
@@ -152,7 +151,6 @@
       <mod>adds 0 to 78 cold damage</mod>
       <mod>adds 0 to 95 fire damage</mod>
       <mod>adds 0 to 113 lightning damage</mod>
-      <mod>adds 0 to 145 chaos damage</mod>
       <mod>7% increased attack speed</mod>
       <mod>26% increased projectile speed</mod>
     </bow>
@@ -161,8 +159,6 @@
       <mod>adds 0 to 78 cold damage</mod>
       <mod>adds 0 to 95 fire damage</mod>
       <mod>adds 0 to 113 lightning damage</mod>
-      <mod>adds 0 to 145 chaos damage</mod>
-      <mod>20% increased attack speed</mod>
     </claw>
     <dagger>
       <mod>adds 0 to 43 physical damage</mod>
@@ -170,19 +166,16 @@
       <mod>adds 0 to 78 cold damage</mod>
       <mod>adds 0 to 95 fire damage</mod>
       <mod>adds 0 to 113 lightning damage</mod>
-      <mod>adds 0 to 145 chaos damage</mod>
       <mod>50% increased spell damage</mod>
       <mod>adds 0 to 62 cold damage to spells</mod>
       <mod>adds 0 to 72 fire damage to spells</mod>
       <mod>adds 0 to 90 lightning damage to spells</mod>
-      <mod>20% increased attack speed</mod>
     </dagger>
     <sceptre>
       <mod>adds 0 to 43 physical damage</mod>
       <mod>adds 0 to 78 cold damage</mod>
       <mod>adds 0 to 95 fire damage</mod>
       <mod>adds 0 to 113 lightning damage</mod>
-      <mod>adds 0 to 145 chaos damage</mod>
       <mod>50% increased spell damage</mod>
       <mod>adds 0 to 62 cold damage to spells</mod>
       <mod>adds 0 to 72 fire damage to spells</mod>
@@ -190,12 +183,87 @@
       <mod>50% increased fire damage</mod>
       <mod>50% increased cold damage</mod>
       <mod>50% increased lightning damage</mod>
-      <mod>20% increased attack speed</mod>
       <mod>17% increased cast speed</mod>
-      <mod>21% increased burning damage</mod>
     </sceptre>
+    <staff>
+      <mod>adds 0 to 61 physical damage</mod>
+      <mod>adds 0 to 117 cold damage</mod>
+      <mod>adds 0 to 143 fire damage</mod>
+      <mod>adds 0 to 169 lightning damage</mod>
+      <mod>1 to level of socketed gems</mod>
+      <mod>1 to level of socketed cold gems</mod>
+      <mod>1 to level of socketed fire gems</mod>
+      <mod>1 to level of socketed lightning gems</mod>
+      <mod>1 to level of socketed chaos gems</mod>
+      <mod>60 to maximum mana</mod>
+      <mod>adds 0 to 93 cold damage to spells</mod>
+      <mod>adds 0 to 102 fire damage to spells</mod>
+      <mod>adds 0 to 136 lightning damage to spells</mod>
+      <mod>90% increased spell damage</mod>
+      <mod>90% increased fire damage</mod>
+      <mod>90% increased cold damage</mod>
+      <mod>90% increased lightning damage</mod>
+      <mod>26% increased cast speed</mod>
+    </staff>
+    <wand>
+      <mod>adds 0 to 43 physical damage</mod>
+      <mod>adds 0 to 78 cold damage</mod>
+      <mod>adds 0 to 95 fire damage</mod>
+      <mod>adds 0 to 113 lightning damage</mod>
+      <mod>1 to level of socketed gems</mod>
+      <mod>1 to level of socketed cold gems</mod>
+      <mod>1 to level of socketed fire gems</mod>
+      <mod>1 to level of socketed lightning gems</mod>
+      <mod>1 to level of socketed chaos gems</mod>
+      <mod>60 to maximum mana</mod>
+      <mod>60% increased spell damage</mod>
+      <mod>60% increased fire damage</mod>
+      <mod>60% increased cold damage</mod>
+      <mod>60% increased lightning damage</mod>
+      <mod>adds 0 to 62 cold damage to spells</mod>
+      <mod>adds 0 to 72 fire damage to spells</mod>
+      <mod>adds 0 to 90 lightning damage to spells</mod>
+      <mod>17% increased cast speed</mod>
+    </wand>
+    <oneaxe>
+      <mod>adds 0 to 43 physical damage</mod>
+      <mod>adds 0 to 78 cold damage</mod>
+      <mod>adds 0 to 95 fire damage</mod>
+      <mod>adds 0 to 113 lightning damage</mod>
+    </oneaxe>
+    <twoaxe>
+      <mod>adds 0 to 61 physical damage</mod>
+      <mod>adds 0 to 117 cold damage</mod>
+      <mod>adds 0 to 143 fire damage</mod>
+      <mod>adds 0 to 169 lightning damage</mod>
+    </twoaxe>
+    <onemace>
+      <mod>adds 0 to 43 physical damage</mod>
+      <mod>adds 0 to 78 cold damage</mod>
+      <mod>adds 0 to 95 fire damage</mod>
+      <mod>adds 0 to 113 lightning damage</mod>
+    </onemace>
+    <twomace>
+      <mod>adds 0 to 61 physical damage</mod>
+      <mod>adds 0 to 117 cold damage</mod>
+      <mod>adds 0 to 143 fire damage</mod>
+      <mod>adds 0 to 169 lightning damage</mod>
+    </twomace>
+    <onesword>
+      <mod>adds 0 to 43 physical damage</mod>
+      <mod>adds 0 to 78 cold damage</mod>
+      <mod>adds 0 to 95 fire damage</mod>
+      <mod>adds 0 to 113 lightning damage</mod>
+    </onesword>
+    <twosword>
+      <mod>adds 0 to 61 physical damage</mod>
+      <mod>adds 0 to 117 cold damage</mod>
+      <mod>adds 0 to 143 fire damage</mod>
+      <mod>adds 0 to 169 lightning damage</mod>
+    </twosword>
     <mod>0.2% of physical attack damage leeched as life</mod>
     <mod>110% increased physical damage</mod>
+    <mod>20% increased attack speed</mod>
     <mod>21% increased elemental damage with attack skills</mod>
     <mod>25% increased critical strike chance</mod>
     <mod>25% to global critical strike multiplier</mod>
@@ -206,5 +274,6 @@
     <mod>15% chance to cause bleeding</mod>
     <mod>13% increased bleeding duration</mod>
     <mod>60% increased critical strike chance for spells</mod>
+    <mod>adds 0 to 145 chaos damage</mod>
   </weapon>
 </root>

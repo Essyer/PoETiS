@@ -1,0 +1,71 @@
+<root>
+  <accessory>
+    <amulet>
+
+    </amulet>
+    <belt>
+
+    </belt>
+    <ring>
+
+    </ring>
+  </accessory>
+  <armour>
+    <boots>
+
+    </boots>
+    <chest>
+
+    </chest>
+    <gloves>
+
+    </gloves>
+    <helmet>
+
+    </helmet>
+    <shield>
+
+    </shield>
+    <quiver>
+
+    </quiver>
+  </armour>
+  <weapon>
+    <bow>
+
+    </bow>
+    <claw>
+
+    </claw>
+    <dagger>
+
+    </dagger>
+    <sceptre>
+
+    </sceptre>
+    <staff>
+
+    </staff>
+    <wand>
+
+    </wand>
+    <oneaxe>
+
+    </oneaxe>
+    <twoaxe>
+
+    </twoaxe>
+    <onemace>
+
+    </onemace>
+    <twomace>
+
+    </twomace>
+    <onesword>
+
+    </onesword>
+    <twosword>
+
+    </twosword>
+  </weapon>
+</root>

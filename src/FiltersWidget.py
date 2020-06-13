@@ -75,7 +75,7 @@ class FiltersWidget(DragWidget):
                 if mods2:
                     for mod in mods2:
                         cat2_item.appendRow(QStandardItem(mod.text))
-                    cat2_item.appendRow(QStandardItem(DEFAULT_MOD_TEXT))
+                cat2_item.appendRow(QStandardItem(DEFAULT_MOD_TEXT))
 
             # Mods of category1 are added after subcategories because adding new mod or modifying existing one
             # makes it to go to the end of elements list
@@ -83,7 +83,7 @@ class FiltersWidget(DragWidget):
             if mods1:
                 for mod in mods1:
                     cat1_item.appendRow(QStandardItem(mod.text))
-                cat1_item.appendRow(QStandardItem(DEFAULT_MOD_TEXT))
+            cat1_item.appendRow(QStandardItem(DEFAULT_MOD_TEXT))
 
     def process_item_changed(self, item1: QStandardItem) -> None:
         log_method_name()
@@ -119,6 +119,8 @@ class FiltersWidget(DragWidget):
         # Add entry to currently used dictionary
         parent_dict = ModsContainer.mods
         for p in parents:
+            if p not in parent_dict:
+                parent_dict[p] = {}
             parent_dict = parent_dict[p]
         parent_dict[ModsContainer.get_mod_key(mod)] = ModsContainer.get_mod_value(mod)
 
@@ -126,7 +128,7 @@ class FiltersWidget(DragWidget):
         parent_xml = self.xml_root
         for parent in parents:
             node = parent_xml.find(parent)
-            if node:
+            if node is not None:
                 parent_xml = node
         if parent_xml != self.xml_root:
             element = ElementTree.Element("mod")
