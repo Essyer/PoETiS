@@ -40,11 +40,11 @@ QComboBox{
 }
 
 QRadioButton:indicator:checked, QCheckBox:indicator:unchecked {
-    image: url(./src/img/checkbox_checked.png);
+    image: url(./img/checkbox_checked.png);
 }
 
 QRadioButton:indicator:unchecked, QCheckBox:indicator:checked {
-    image: url(./src/img/checkbox_unchecked.png);
+    image: url(./img/checkbox_unchecked.png);
 }
 
 QComboBox::drop-down

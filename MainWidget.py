@@ -17,7 +17,7 @@ from src.utils import load_styles, initialize_logging, log_method_name
 class MainWidget(QMainWindow):
     def __init__(self, screen_geometry: QRect):
         super(MainWidget, self).__init__(None, Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
-        self.image_path = "src/img/"
+        self.image_path = "img/"
         # initialize_logging()
         log_method_name()
 
