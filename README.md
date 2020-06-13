@@ -6,7 +6,7 @@ Path of Exile Tiers in Stash tool allows you to scan your public stash for items
 As of 13.06.2020 PoE vulcan stays on top of everything, so if you want to use vulcan and any 3rd party tool you need to run game in windowed mode (not windowed fullscreen).
 Bug was already reported [here](https://www.pathofexile.com/forum/view-thread/2867255).
 
-One stash at a time. You can switch between stashes, but each time you need to modify settings.
+One stash at a time, needs to be public (you can set stash public without setting price on items). You can switch between stashes, but each time you need to modify settings.
 
 Only identified rare and magic items, you can have other items in stash, but they won't be processed.
 
