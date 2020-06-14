@@ -46,6 +46,8 @@ Each color represents number of mods that meet requirements specified in your fi
 
 ![](https://i.ibb.co/0qhjLHh/colors.png)
 
+## Failed to execute script error
+If you get this error, download debug version. Unzip it, open command line in this folder and run executable in cmd, just type "P", hit tab button to auto fill name and hit enter. You should see error message.
 
 ## Attributions
 Buttons used in project were made by:
