@@ -17,15 +17,17 @@ Depending on GGG servers load you may need to wait a bit after putting items int
 
 GGG API limits items returned to 100 of the same type, so if you dump over 100 rings in your stash, some of them won't be processed and you won't know about it.
 
+Jewels are not supported yet. I'm waiting for GGG to release API changes described [here](https://www.pathofexile.com/forum/view-thread/2784742/page/1#p22948552), "We will most likely move all item images to this system before 3.11.0."
+
 ## Setup
 You can download a prepared executable or run from sources (just install all dependencies from requirements.txt).
 After you run it for the first time, a new file "config.xml" will be created in the location of the executable and you will see a widget bar on the left edge of your screen.
 
 ![](https://i.ibb.co/qmrw6YP/main-widget.png)
-![](https://i.ibb.co/vQp7wjb/main-widget-hidden.png)
+![](https://i.ibb.co/tZw1kBF/widget-hidden1.png)
 
 Buttons:
-1. Allows to drag widget by the left edge, when clicked hides and shows some buttons.
+1. Allows to drag widget by the left edge, when clicked hides and shows rest of the buttons.
 2. Sends request for items data, maximum once per 10 seconds. You need to have valid data in settings, described below.
 3. After button 2. icon gets back from "hourglass" to "play", you can toggle on/off frames.
 4. Mods list. Initial list is an example, if you don't like it, turn off the tool (last button) and replace content of filters/mods.xml with filters/mods_empty.xml or delete all mods one by one from mods list window.
@@ -44,11 +46,8 @@ Each color represents number of mods that meet requirements specified in your fi
 
 ![](https://i.ibb.co/0qhjLHh/colors.png)
 
-
-## Known issues
-
-Jewels are not supported yet. I'm waiting for GGG to release API changes described [here](https://www.pathofexile.com/forum/view-thread/2784742/page/1#p22948552), "We will most likely move all item images to this system before 3.11.0."
-
+## Failed to execute script error
+If you get this error, download debug version. Unzip it, open command line in this folder and run executable in cmd, just type "P", hit tab button to auto fill name and hit enter. You should see error message.
 
 ## Attributions
 Buttons used in project were made by:
