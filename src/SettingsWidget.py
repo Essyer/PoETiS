@@ -165,7 +165,7 @@ class SettingsWidget(DragWidget):
         self.league_base_name = self._cfg_load_or_default(root, "league_base_name", default_league_name)
         self.session_id = self._cfg_load_or_default(root, "session_id")
         self.stash_type = self._cfg_load_or_default(root, "stash_type", "Quad")
-        print('after load, stash type: ', self.stash_type)
+        self.painter_widget.stash_type = self.stash_type
         self.main_widget_y = self._cfg_load_or_default(root, "main_widget_y", "0")
 
         self._set_values_from_cfg()
@@ -185,6 +185,8 @@ class SettingsWidget(DragWidget):
         self.painter_widget.colors = colors
         self.slider.set_colors(colors)
         self.slider_value = int(self._cfg_load_or_default(root, "slider_value", "3"))
+        # maybe just read this from settings widget at run time?
+        self.painter_widget.number_of_mods_to_draw = self.slider_value
 
         self.main_widget_y = int(root.find("main_widget_y").text)
 
