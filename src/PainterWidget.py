@@ -1,13 +1,19 @@
 from time import sleep
-import pywintypes  # Need to import even though not using, win32gui crashes on exe init without it
-from win32gui import GetWindowText, GetForegroundWindow
+from src.utils import log_method_name, load_styles, print_windows_warning
+
+try:
+    import pywintypes  # Need to import even though not using, win32gui crashes on exe init without it
+    from win32gui import GetWindowText, GetForegroundWindow
+except ModuleNotFoundError:
+    print_windows_warning()
+
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from src.DragButton import DragButton
 from src.ResizeButton import ResizeButton
 from src.Item import Item
-from src.utils import log_method_name, load_styles
+
 
 stash_cells_root = {
     "Quad": 24,
@@ -28,6 +34,10 @@ class FocusCheck(QObject):
         self.last_window = None
 
     def run(self) -> None:
+        if "GetWindowText" not in dir():
+            # skip focus check and allow draw anytime
+            self.frames_draw_allowed = True
+            return
         while True:
             window = GetWindowText(GetForegroundWindow())
             self.frames_draw_allowed = window.lower() in windows_to_draw_frames

@@ -104,3 +104,7 @@ def xml_indent(elem: ElementTree.Element, level=0) -> None:
     else:
         if level and (not elem.tail or not elem.tail.strip()):
             elem.tail = i
+
+
+def print_windows_warning() -> None:
+    print("[WARNING] Skipping Windows-only API calls.  Please install windows dependencies if you want this functionality.")
