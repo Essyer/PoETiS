@@ -49,7 +49,8 @@ class MainWidget(QMainWindow):
         self.setAttribute(Qt.WA_NoSystemBackground, True)
         self.setAttribute(Qt.WA_TranslucentBackground, True)
 
-        self.move(0, self.settings_widget.load_main_widget_y())
+
+        self.move(0, self.settings_widget.main_widget_y)
         layout = QVBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setAlignment(Qt.AlignTop)

@@ -1,8 +1,12 @@
+import os.path
 import re
 import xml.etree.ElementTree as ElementTree
 
-DEFAULT_FILTER_PATH = "filters/mods.xml"
-CONFIG_PATH = "config.xml"
+
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__ + "/.."))
+FILTER_DIR = PROJECT_ROOT + "/filters/"
+DEFAULT_FILTER_PATH = FILTER_DIR + "mods.xml"
+CONFIG_PATH = PROJECT_ROOT + "/config.xml"
 
 
 class ModsContainer:

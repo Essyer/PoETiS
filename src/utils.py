@@ -2,6 +2,7 @@ import logging
 import sys
 import xml.etree.ElementTree as ElementTree
 from PyQt5.QtWidgets import *
+from src.ModsContainer import DEFAULT_FILTER_PATH
 
 LOGGING_APP_NAME = "log"
 logger = logging.getLogger(LOGGING_APP_NAME)
@@ -21,6 +22,7 @@ def prepare_cfg(path: str) -> None:
     ElementTree.SubElement(root, "account_name")
     ElementTree.SubElement(root, "stash_name")
     ElementTree.SubElement(root, "stash_type")
+    ElementTree.SubElement(root, "mod_file").text = DEFAULT_FILTER_PATH
     ElementTree.SubElement(root, "league")
     ElementTree.SubElement(root, "league_base_name").text = default_league_name
     ElementTree.SubElement(root, "session_id")
