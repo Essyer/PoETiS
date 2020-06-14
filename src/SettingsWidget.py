@@ -5,7 +5,7 @@ from PyQt5.QtCore import *
 from src.PainterWidget import PainterWidget
 from src.DragWidget import DragWidget
 from src.Slider import Slider
-from src.utils import log_method_name, prepare_cfg, load_styles, default_league_name
+from src.utils import log_method_name, prepare_cfg, load_styles, default_league_name, xml_indent
 from src.ModsContainer import CONFIG_PATH, FILTER_DIR, DEFAULT_FILTER_PATH
 
 slider_colors = ["brown", "green", "blue", "yellow", "white"]
@@ -176,7 +176,6 @@ class SettingsWidget(DragWidget):
         self.session_id = self._cfg_load_or_default(root, "session_id")
         self.stash_type = self._cfg_load_or_default(root, "stash_type", "Quad")
         self.painter_widget.stash_type = self.stash_type
-        self.main_widget_y = self._cfg_load_or_default(root, "main_widget_y", "0")
 
         self._set_values_from_cfg()
 
@@ -198,7 +197,7 @@ class SettingsWidget(DragWidget):
         # maybe just read this from settings widget at run time?
         self.painter_widget.number_of_mods_to_draw = self.slider_value
 
-        self.main_widget_y = int(root.find("main_widget_y").text)
+        self.main_widget_y = int(self._cfg_load_or_default(root, "main_widget_y", "0"))
 
         painter_x = int(self._cfg_load_or_default(root, "painter_x", "250"))
         painter_y = int(self._cfg_load_or_default(root, "painter_y", "250"))
@@ -231,6 +230,7 @@ class SettingsWidget(DragWidget):
             self._cfg_set_or_create(root, "painter_w", str(self.painter_geometry.width()))
             self._cfg_set_or_create(root, "painter_h", str(self.painter_geometry.height()))
 
+        xml_indent(root)
         tree.write(CONFIG_PATH)
 
         # Painter already notifies us about size/position changes through signal,

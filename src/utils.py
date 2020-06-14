@@ -18,30 +18,8 @@ def load_styles(object_instance: QWidget) -> None:
 
 
 def prepare_cfg(path: str) -> None:
+    # all this does now is create the file with the root element
     root = ElementTree.Element("root")
-    ElementTree.SubElement(root, "account_name")
-    ElementTree.SubElement(root, "stash_name")
-    ElementTree.SubElement(root, "stash_type")
-    ElementTree.SubElement(root, "mod_file").text = DEFAULT_FILTER_PATH
-    ElementTree.SubElement(root, "league")
-    ElementTree.SubElement(root, "league_base_name").text = default_league_name
-    ElementTree.SubElement(root, "session_id")
-    ElementTree.SubElement(root, "data_file").text = "data.xml"
-
-    ElementTree.SubElement(root, "slider_value").text = "1"
-    ElementTree.SubElement(root, "slider_color1").text = "brown"
-    ElementTree.SubElement(root, "slider_color2").text = "blue"
-    ElementTree.SubElement(root, "slider_color3").text = "green"
-    ElementTree.SubElement(root, "slider_color4").text = "yellow"
-    ElementTree.SubElement(root, "slider_color5").text = "white"
-
-    ElementTree.SubElement(root, "main_widget_y").text = "200"
-    ElementTree.SubElement(root, "painter_x").text = "250"
-    ElementTree.SubElement(root, "painter_y").text = "250"
-    ElementTree.SubElement(root, "painter_w").text = "500"
-    ElementTree.SubElement(root, "painter_h").text = "500"
-
-    xml_indent(root)
     tree = ElementTree.ElementTree(root)
     tree.write(path)
 
