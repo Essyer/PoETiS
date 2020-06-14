@@ -16,10 +16,16 @@ from src.utils import load_styles, initialize_logging, log_method_name
 
 class MainWidget(QMainWindow):
     def __init__(self, screen_geometry: QRect):
-        super(MainWidget, self).__init__(None, Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
+        super(MainWidget, self).__init__(None)
         self.image_path = "img/"
         # initialize_logging()
         log_method_name()
+
+        # Setup main widget UI
+        self.screen_geometry = screen_geometry
+        self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.Tool)
+        self.setAttribute(Qt.WA_NoSystemBackground, True)
+        self.setAttribute(Qt.WA_TranslucentBackground, True)
 
         self.error_widget = DragWidget()
         load_styles(self.error_widget)
@@ -42,12 +48,6 @@ class MainWidget(QMainWindow):
         self.requester.failed.connect(self._requester_failed)
         self.objThread.started.connect(self.requester.run)
         self.objThread.finished.connect(self._set_run_button_icon_run)
-
-        # Setup main widget UI
-        self.screen_geometry = screen_geometry
-        self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
-        self.setAttribute(Qt.WA_NoSystemBackground, True)
-        self.setAttribute(Qt.WA_TranslucentBackground, True)
 
         self.move(0, self.settings_widget.load_main_widget_y())
         layout = QVBoxLayout()

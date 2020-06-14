@@ -1,3 +1,6 @@
+from time import sleep
+import pywintypes  # Need to import even though not using, win32gui crashes on exe init without it
+from win32gui import GetWindowText, GetForegroundWindow
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
@@ -11,7 +14,27 @@ stash_cells_root = {
     "Normal": 12
 }
 
+windows_to_draw_frames = ["python", "poetis", "path of exile"]
+
 pen_width = 3
+
+
+# Checks if frames over items should be drawn, triggers hide if focus is not on the widget or game
+class FocusCheck(QObject):
+    def __init__(self, painter_widget):
+        super(FocusCheck, self).__init__()
+        self.painter_widget = painter_widget
+        self.frames_draw_allowed = False
+        self.last_window = None
+
+    def run(self) -> None:
+        while True:
+            window = GetWindowText(GetForegroundWindow())
+            self.frames_draw_allowed = window.lower() in windows_to_draw_frames
+            sleep(0.2)
+            if window != self.last_window:
+                self.painter_widget.update()
+            self.last_window = window
 
 
 class PainterWidget(QWidget):
@@ -34,6 +57,13 @@ class PainterWidget(QWidget):
         self.setFixedWidth(500)
         self.setFixedHeight(500)
         self.qp = QPainter()
+
+        # Setup window focus checking thread
+        self.focus_check = FocusCheck(self)
+        self.focus_check_thread = QThread()
+        self.focus_check.moveToThread(self.focus_check_thread)
+        self.focus_check_thread.started.connect(self.focus_check.run)
+        self.focus_check_thread.start()
 
         self.config_change_mode = False  # True when modifying net size and position
         self.drag_button = DragButton(self, False)
@@ -69,7 +99,7 @@ class PainterWidget(QWidget):
         self.stash_cells = stash_cells_root[self.stash_type]
         if self.config_change_mode:
             self.paint_config()
-        else:
+        elif self.focus_check.frames_draw_allowed:
             self.paint_items()
 
     def paint_config(self) -> None:
@@ -96,6 +126,8 @@ class PainterWidget(QWidget):
                 pen = QPen(Qt.red)
                 pen.setWidth(pen_width)
                 pen.setColor(QColor("Red"))
+                if len(item.explicits) == 6:
+                    pen.setStyle(Qt.DotLine)  # Change pen style if there are no open affixes
                 if self.colors:
                     pen.setColor(QColor(self.colors[len(item.mods_matched)-1]))
                 self.qp.setPen(pen)

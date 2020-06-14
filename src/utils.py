@@ -26,7 +26,7 @@ def prepare_cfg(path: str) -> None:
     ElementTree.SubElement(root, "session_id")
     ElementTree.SubElement(root, "data_file").text = "data.xml"
 
-    ElementTree.SubElement(root, "slider_value").text = "3"
+    ElementTree.SubElement(root, "slider_value").text = "1"
     ElementTree.SubElement(root, "slider_color1").text = "brown"
     ElementTree.SubElement(root, "slider_color2").text = "blue"
     ElementTree.SubElement(root, "slider_color3").text = "green"
