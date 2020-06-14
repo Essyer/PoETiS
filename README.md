@@ -17,6 +17,8 @@ Depending on GGG servers load you may need to wait a bit after putting items int
 
 GGG API limits items returned to 100 of the same type, so if you dump over 100 rings in your stash, some of them won't be processed and you won't know about it.
 
+Jewels are not supported yet. I'm waiting for GGG to release API changes described [here](https://www.pathofexile.com/forum/view-thread/2784742/page/1#p22948552), "We will most likely move all item images to this system before 3.11.0."
+
 ## Setup
 You can download a prepared executable or run from sources (just install all dependencies from requirements.txt).
 After you run it for the first time, a new file "config.xml" will be created in the location of the executable and you will see a widget bar on the left edge of your screen.
@@ -36,19 +38,16 @@ You can modify colors in settings.xml after you exit tool, just make sure it mee
 Guide how to get session ID - [here](https://github.com/Stickymaddness/Procurement/wiki/SessionID). Remember it will change over time, so if you get error message about invalid session ID or no connection, you may need to provide new session ID.
 6. Terminates tool. All settings data is saved at the moment you edit it.
 
-Example of frames:
+Example of frames, dashed frame means that item doesn't have open affixes:
 
-![](https://i.ibb.co/YccKHfH/borders.png)
+![](https://i.ibb.co/WDZVMGm/borders-dash.png)
 
 Each color represents number of mods that meet requirements specified in your filter. Brown - one good mod, blue - two mods etc.
 
 ![](https://i.ibb.co/0qhjLHh/colors.png)
 
-
-## Known issues
-
-Jewels are not supported yet. I'm waiting for GGG to release API changes described [here](https://www.pathofexile.com/forum/view-thread/2784742/page/1#p22948552), "We will most likely move all item images to this system before 3.11.0."
-
+## Failed to execute script error
+If you get this error, download debug version. Unzip it, open command line in this folder and run executable in cmd, just type "P", hit tab button to auto fill name and hit enter. You should see error message.
 
 ## Attributions
 Buttons used in project were made by:

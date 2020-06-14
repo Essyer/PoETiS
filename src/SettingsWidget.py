@@ -38,12 +38,6 @@ class SettingsWidget(DragWidget):
         load_styles(self)
         layout_main = QVBoxLayout()
 
-        label_id = QLabel("Account name")
-        layout_main.addWidget(label_id)
-        self.edit_account_name = QLineEdit(self.account_name)
-        self.edit_account_name.textChanged.connect(self.save_cfg)
-        layout_main.addWidget(self.edit_account_name)
-
         label_stash = QLabel("Stash name")
         layout_main.addWidget(label_stash)
         self.edit_stash = QLineEdit(self.stash_name)
@@ -71,11 +65,25 @@ class SettingsWidget(DragWidget):
         self.combo_league.currentTextChanged.connect(self.save_cfg)
         layout_main.addWidget(self.combo_league)
 
-        label_session = QLabel("Session ID")
-        layout_main.addWidget(label_session)
+        self.button_show_account_session = QPushButton("Show/hide account name and session")
+        layout_main.addWidget(self.button_show_account_session)
+
+        self.label_account_name = QLabel("Account name")
+        layout_main.addWidget(self.label_account_name)
+        self.edit_account_name = QLineEdit(self.account_name)
+        self.edit_account_name.textChanged.connect(self.save_cfg)
+        layout_main.addWidget(self.edit_account_name)
+
+        self.label_session = QLabel("Session ID")
+        layout_main.addWidget(self.label_session)
         self.edit_session = QLineEdit(self.session_id)
         self.edit_session.textChanged.connect(self.save_cfg)
         layout_main.addWidget(self.edit_session)
+
+        # Hide account name and session ID if any of them was provided before
+        if self.account_name or self.session_id:
+            self.hide_account_session(True)
+        self.button_show_account_session.clicked.connect(self.hide_account_session)
 
         label_session = QLabel("Stash type")
         layout_main.addWidget(label_session)
@@ -149,7 +157,9 @@ class SettingsWidget(DragWidget):
         # no longer used
         tree = ElementTree.parse(CONFIG_PATH)
         root = tree.getroot()
-        return int(root.find("main_widget_y").text)
+        y = int(root.find("main_widget_y").text)
+        self.main_widget_y = y
+        return y
 
     def _load_cfg(self) -> None:
         log_method_name()
@@ -254,3 +264,17 @@ class SettingsWidget(DragWidget):
             "session_id": self.edit_session.text(),
             "mod_file": FILTER_DIR + self.combo_mod_file.currentText()
         }
+
+    def hide_account_session(self, force_hide=False):
+        if self.edit_account_name.isVisible() or force_hide:
+            self.edit_account_name.hide()
+            self.label_account_name.hide()
+            self.edit_session.hide()
+            self.label_session.hide()
+            self.adjustSize()
+        else:
+            self.edit_account_name.show()
+            self.label_account_name.show()
+            self.edit_session.show()
+            self.label_session.show()
+            self.adjustSize()
