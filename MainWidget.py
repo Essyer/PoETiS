@@ -25,15 +25,15 @@ class MainWidget(QMainWindow):
         load_styles(self.error_widget)
         self.error_widget.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
 
-        # Load mod configuration
-        ModsContainer.load_mods_config(DEFAULT_FILTER_PATH)
-
         # Initialize other classes, order is important
-        self.filters_widget = FiltersWidget()
         self.painter_widget = PainterWidget(screen_geometry)
         self.settings_widget = SettingsWidget(self.painter_widget)
+        self.filters_widget = FiltersWidget(self.settings_widget)
         self.requester = Requester(self.settings_widget, self.painter_widget)
         self.last_requested_time = 0
+
+        # Load mod configuration
+        ModsContainer.load_mods_config(self.settings_widget.mod_file)
 
         # Setup Requester thread
         self.objThread = QThread()

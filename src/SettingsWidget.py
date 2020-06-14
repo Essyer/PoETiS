@@ -50,12 +50,12 @@ class SettingsWidget(DragWidget):
         self.edit_stash.textChanged.connect(self.save_cfg)
         layout_main.addWidget(self.edit_stash)
 
-        # label_mod_config = QLabel("Mod Filter")
-        # layout_main.addWidget(label_mod_config)
-        # self.combo_mod_file = QComboBox()
-        # self._update_mod_file_combo()
-        # self.combo_mod_file.activated.connect(self.save_cfg)
-        # layout_main.addWidget(self.combo_mod_file)
+        label_mod_config = QLabel("Mod Filter")
+        layout_main.addWidget(label_mod_config)
+        self.combo_mod_file = QComboBox()
+        self._update_mod_file_combo()
+        self.combo_mod_file.activated.connect(self.save_cfg)
+        layout_main.addWidget(self.combo_mod_file)
 
         label_base_league_name = QLabel("League base name")
         layout_main.addWidget(label_base_league_name)
@@ -157,7 +157,8 @@ class SettingsWidget(DragWidget):
         root = tree.getroot()
         self.account_name = self._cfg_load_or_default(root, "account_name")
         self.stash_name = self._cfg_load_or_default(root, "stash_name")
-        # self.mod_file = self._cfg_load_or_default(root, "mod_file", DEFAULT_FILTER_PATH)
+        # mod_file should probably be validated upon loading (for existence)
+        self.mod_file = self._cfg_load_or_default(root, "mod_file", DEFAULT_FILTER_PATH)
         self.league = self._cfg_load_or_default(root, "league")
         self.league_base_name = self._cfg_load_or_default(root, "league_base_name", default_league_name)
         self.session_id = self._cfg_load_or_default(root, "session_id")
@@ -200,7 +201,7 @@ class SettingsWidget(DragWidget):
 
         self._cfg_set_or_create(root, "account_name", self.edit_account_name.text())
         self._cfg_set_or_create(root, "stash_name", self.edit_stash.text())
-        # self._cfg_set_or_create(root, "mod_file", self.combo_mod_file.currentText())
+        self._cfg_set_or_create(root, "mod_file", FILTER_DIR + self.combo_mod_file.currentText())
         self._cfg_set_or_create(root, "league_base_name", self.edit_base_league_name.text())
         self._cfg_set_or_create(root, "league", self.combo_league.currentText())
         self._cfg_set_or_create(root, "session_id", self.edit_session.text())
@@ -245,5 +246,6 @@ class SettingsWidget(DragWidget):
             "account_name": self.edit_account_name.text(),
             "stash_name": self.edit_stash.text(),
             "league": self.combo_league.currentText(),
-            "session_id": self.edit_session.text()
+            "session_id": self.edit_session.text(),
+            "mod_file": FILTER_DIR + self.combo_mod_file.currentText()
         }

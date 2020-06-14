@@ -60,6 +60,7 @@ class Requester(QObject):
         self.session_id = d["session_id"]
         self.stash_name = d["stash_name"]
         self.league = d["league"]
+        ModsContainer.load_mods_config(d["mod_file"])
 
     def debug_print_matches(self, num_of_matches=1) -> None:
         print("Item base - Mods - Item name")
