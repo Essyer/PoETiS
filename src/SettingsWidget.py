@@ -80,14 +80,16 @@ class SettingsWidget(DragWidget):
         label_session = QLabel("Stash type")
         layout_main.addWidget(label_session)
         layout_radio = QHBoxLayout()
+
         self.radio_stash_normal = QRadioButton("Normal")
-        self.radio_stash_normal.toggled.connect(self.save_cfg)
         radio_stash_quad = QRadioButton("Quad")
-        radio_stash_quad.toggled.connect(self.save_cfg)
         if self.stash_type == "Normal":
             self.radio_stash_normal.setChecked(True)
         else:
             radio_stash_quad.setChecked(True)
+        self.radio_stash_normal.toggled.connect(self.save_cfg)
+        radio_stash_quad.toggled.connect(self.save_cfg)
+
         layout_radio.addWidget(self.radio_stash_normal)
         layout_radio.addWidget(radio_stash_quad)
         layout_main.addLayout(layout_radio)
@@ -163,6 +165,7 @@ class SettingsWidget(DragWidget):
         self.league_base_name = self._cfg_load_or_default(root, "league_base_name", default_league_name)
         self.session_id = self._cfg_load_or_default(root, "session_id")
         self.stash_type = self._cfg_load_or_default(root, "stash_type", "Quad")
+        print('after load, stash type: ', self.stash_type)
         self.main_widget_y = self._cfg_load_or_default(root, "main_widget_y", "0")
 
         self._set_values_from_cfg()
