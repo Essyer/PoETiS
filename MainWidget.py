@@ -1,4 +1,7 @@
+#!/usr/bin/env python3
+
 import sys
+import os
 import re
 import time
 from PyQt5.QtCore import *
@@ -10,14 +13,14 @@ from src.FiltersWidget import FiltersWidget
 from src.SettingsWidget import SettingsWidget
 from src.Requester import Requester
 from src.PainterWidget import PainterWidget
-from src.ModsContainer import ModsContainer, DEFAULT_FILTER_PATH
+from src.ModsContainer import ModsContainer, DEFAULT_FILTER_PATH, PROJECT_ROOT
 from src.utils import load_styles, initialize_logging, log_method_name
 
 
 class MainWidget(QMainWindow):
     def __init__(self, screen_geometry: QRect):
         super(MainWidget, self).__init__(None)
-        self.image_path = "img/"
+        self.image_path = PROJECT_ROOT + "/img/"
         # initialize_logging()
         log_method_name()
 
@@ -192,4 +195,5 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MainWidget(app.desktop().screenGeometry())
     window.show()
+    os.chdir(PROJECT_ROOT)
     app.exec_()

@@ -2,13 +2,13 @@ import logging
 import sys
 import xml.etree.ElementTree as ElementTree
 from PyQt5.QtWidgets import *
-from src.ModsContainer import DEFAULT_FILTER_PATH
+from src.ModsContainer import DEFAULT_FILTER_PATH, PROJECT_ROOT
 
 LOGGING_APP_NAME = "log"
 logger = logging.getLogger(LOGGING_APP_NAME)
 last_logged_method_name = ""
 last_logged_error = ""
-styles_file = "styles/styles.css"
+styles_file = PROJECT_ROOT + "/styles/styles.css"
 default_league_name = "Harvest"
 
 

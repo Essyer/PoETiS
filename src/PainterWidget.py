@@ -13,6 +13,7 @@ from PyQt5.QtWidgets import *
 from src.DragButton import DragButton
 from src.ResizeButton import ResizeButton
 from src.Item import Item
+from src.ModsContainer import PROJECT_ROOT
 
 
 stash_cells_root = {
@@ -52,7 +53,7 @@ class PainterWidget(QWidget):
 
     def __init__(self, screen_geometry: QRect):
         super(PainterWidget, self).__init__()
-        self.image_path = "img/"
+        self.image_path = PROJECT_ROOT + "/img/"
         self.stash_type = "Quad"
         self.colors = []
         self.stash_cells = stash_cells_root[self.stash_type]
