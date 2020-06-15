@@ -1,3 +1,4 @@
+import platform
 from time import sleep
 from src.utils import log_method_name, load_styles, print_windows_warning
 
@@ -35,7 +36,7 @@ class FocusCheck(QObject):
         self.last_window = None
 
     def run(self) -> None:
-        if "GetWindowText" not in dir():
+        if platform.system().lower() != 'windows':
             # skip focus check and allow draw anytime
             self.frames_draw_allowed = True
             return

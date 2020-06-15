@@ -9,18 +9,24 @@ class DragWidget(QWidget):
         super(DragWidget, self).__init__(*args)
         self.__mousePressPos = None
         self.__mouseMovePos = None
+        self.mouser_pressed = False
 
     def mousePressEvent(self, event: QMouseEvent) -> None:
         if event.button() == Qt.LeftButton:
             self.__mousePressPos = event.globalPos()
             self.__mouseMovePos = event.globalPos()
+            self.mouser_pressed = True
+
+    # Need to track. Without it when combobox inside of child is clicked, child widget changes its position a bit
+    def mouseReleaseEvent(self, event: QMouseEvent) -> None:
+        self.mouser_pressed = False
 
     def mouseMoveEvent(self, event: QMouseEvent) -> None:
         if event.buttons() == Qt.LeftButton:
             # adjust offset from clicked point to origin of widget
             curr_pos = self.mapToGlobal(self.pos())
             global_pos = event.globalPos()
-            if self.__mouseMovePos:
+            if self.__mouseMovePos and self.mouser_pressed:
                 diff = global_pos - self.__mouseMovePos
                 new_pos = self.mapFromGlobal(curr_pos + diff)
                 if new_pos.y() < 0:

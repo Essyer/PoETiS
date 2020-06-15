@@ -49,6 +49,7 @@ class SettingsWidget(DragWidget):
         self.combo_mod_file = QComboBox()
         self._update_mod_file_combo()
         self.combo_mod_file.activated.connect(self.save_cfg)
+        self.combo_mod_file.installEventFilter(self)
         layout_main.addWidget(self.combo_mod_file)
 
         label_base_league_name = QLabel("League base name")
@@ -123,7 +124,12 @@ class SettingsWidget(DragWidget):
 
         self.setLayout(layout_main)
 
-    def _create_slider(self):
+    def eventFilter(self, target, event) -> bool:
+        if target == self.combo_mod_file and event.type() == QEvent.MouseButtonPress:
+            self._update_mod_file_combo()
+        return False
+
+    def _create_slider(self) -> None:
         self.slider = Slider()
 
     def close(self) -> None:
@@ -141,7 +147,9 @@ class SettingsWidget(DragWidget):
         self.combo_league.setCurrentText(self.league)
 
     def _update_mod_file_combo(self) -> None:
-        # TODO refresh button to trigger this
+        text_bak = None
+        if self.combo_mod_file.currentText():
+            text_bak = self.combo_mod_file.currentText()
         self.combo_mod_file.clear()
         filters = os.listdir(FILTER_DIR)
         # there is probably a better way to exclude gitignore...
@@ -149,17 +157,11 @@ class SettingsWidget(DragWidget):
         for f in filters:
             if f not in ignore and os.path.isfile(FILTER_DIR + f):
                 self.combo_mod_file.addItem(f)
-
-        self.combo_mod_file.setCurrentText(os.path.basename(self.mod_file))
-
-    @staticmethod
-    def load_main_widget_y() -> int:
-        # no longer used
-        tree = ElementTree.parse(CONFIG_PATH)
-        root = tree.getroot()
-        y = int(root.find("main_widget_y").text)
-        self.main_widget_y = y
-        return y
+        if text_bak:
+            print(text_bak)
+            self.combo_mod_file.setCurrentText(os.path.basename(text_bak))
+        else:
+            self.combo_mod_file.setCurrentText(os.path.basename(self.mod_file))
 
     def _load_cfg(self) -> None:
         log_method_name()
@@ -178,7 +180,6 @@ class SettingsWidget(DragWidget):
         self.painter_widget.stash_type = self.stash_type
 
         self._set_values_from_cfg()
-
 
     def _set_values_from_cfg(self) -> None:
         tree = ElementTree.parse(CONFIG_PATH)
@@ -241,20 +242,20 @@ class SettingsWidget(DragWidget):
 
         self.configuration_changed.emit(self.get_settings_for_requester())  # Notify Requester
 
-
-    def _cfg_set_or_create(self, root, match, new_value) -> None:
+    @staticmethod
+    def _cfg_set_or_create(root: ElementTree, match: str, new_value: str) -> None:
         ele = root.find(match)
-        if ele == None:
+        if ele is None:
             ele = ElementTree.SubElement(root, match)
 
         ele.text = new_value
 
-    def _cfg_load_or_default(self, root, match, default="") -> str:
+    @staticmethod
+    def _cfg_load_or_default(root: ElementTree, match: str, default="") -> str:
         ele = root.find(match)
-        if ele == None:
+        if ele is None:
             return default
         return ele.text
-
 
     def get_settings_for_requester(self) -> dict:
         return {

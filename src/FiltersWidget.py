@@ -30,6 +30,7 @@ class FiltersWidget(DragWidget):
         super(FiltersWidget, self).__init__(None, Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
         log_method_name()
         load_styles(self)
+        self.xml_root = None
 
         # Setup layout
         self.treeView = QTreeView()
@@ -46,7 +47,6 @@ class FiltersWidget(DragWidget):
         self._reload_settings(settings_widget.get_settings_for_requester())
         settings_widget.configuration_changed.connect(self._reload_settings)
 
-
     def _init_tree(self) -> None:
         # full reinit every time we switch mod lists for now
         self.model = QStandardItemModel()
@@ -57,7 +57,6 @@ class FiltersWidget(DragWidget):
         # Set delegate to grab mod value before it is changed, need it to modify xml and dictionary values
         self.treeView.setItemDelegate(ItemDelegate())
         self.model.itemChanged.connect(self.process_item_changed)
-
 
     def _reload_settings(self, d: dict) -> None:
         self._init_tree()
