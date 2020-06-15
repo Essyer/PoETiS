@@ -5,8 +5,8 @@ from PyQt5.QtCore import *
 from src.PainterWidget import PainterWidget
 from src.DragWidget import DragWidget
 from src.Slider import Slider
-from src.utils import log_method_name, prepare_cfg, load_styles
-from src.ModsContainer import CONFIG_PATH
+from src.utils import log_method_name, prepare_cfg, load_styles, default_league_name, xml_indent
+from src.ModsContainer import CONFIG_PATH, FILTER_DIR, DEFAULT_FILTER_PATH
 
 slider_colors = ["brown", "green", "blue", "yellow", "white"]
 
@@ -24,7 +24,6 @@ class SettingsWidget(DragWidget):
         self._create_slider()  # Need to create if before loading configuration file to set tiles colors
         self._load_cfg()
         self._setup_ui()
-        self.main_widget_y = 0
 
         self.painter_widget.geometry_changed.connect(self.painter_geometry_changed)
 
@@ -44,6 +43,13 @@ class SettingsWidget(DragWidget):
         self.edit_stash = QLineEdit(self.stash_name)
         self.edit_stash.textChanged.connect(self.save_cfg)
         layout_main.addWidget(self.edit_stash)
+
+        label_mod_config = QLabel("Mod Filter")
+        layout_main.addWidget(label_mod_config)
+        self.combo_mod_file = QComboBox()
+        self._update_mod_file_combo()
+        self.combo_mod_file.activated.connect(self.save_cfg)
+        layout_main.addWidget(self.combo_mod_file)
 
         label_base_league_name = QLabel("League base name")
         layout_main.addWidget(label_base_league_name)
@@ -82,14 +88,16 @@ class SettingsWidget(DragWidget):
         label_session = QLabel("Stash type")
         layout_main.addWidget(label_session)
         layout_radio = QHBoxLayout()
+
         self.radio_stash_normal = QRadioButton("Normal")
-        self.radio_stash_normal.toggled.connect(self.save_cfg)
         radio_stash_quad = QRadioButton("Quad")
-        radio_stash_quad.toggled.connect(self.save_cfg)
         if self.stash_type == "Normal":
             self.radio_stash_normal.setChecked(True)
         else:
             radio_stash_quad.setChecked(True)
+        self.radio_stash_normal.toggled.connect(self.save_cfg)
+        radio_stash_quad.toggled.connect(self.save_cfg)
+
         layout_radio.addWidget(self.radio_stash_normal)
         layout_radio.addWidget(radio_stash_quad)
         layout_main.addLayout(layout_radio)
@@ -132,7 +140,21 @@ class SettingsWidget(DragWidget):
             index += 1
         self.combo_league.setCurrentText(self.league)
 
-    def load_main_widget_y(self) -> int:
+    def _update_mod_file_combo(self) -> None:
+        # TODO refresh button to trigger this
+        self.combo_mod_file.clear()
+        filters = os.listdir(FILTER_DIR)
+        # there is probably a better way to exclude gitignore...
+        ignore = ["mods_empty.xml", ".gitignore"]
+        for f in filters:
+            if f not in ignore and os.path.isfile(FILTER_DIR + f):
+                self.combo_mod_file.addItem(f)
+
+        self.combo_mod_file.setCurrentText(os.path.basename(self.mod_file))
+
+    @staticmethod
+    def load_main_widget_y() -> int:
+        # no longer used
         tree = ElementTree.parse(CONFIG_PATH)
         root = tree.getroot()
         y = int(root.find("main_widget_y").text)
@@ -145,37 +167,43 @@ class SettingsWidget(DragWidget):
             prepare_cfg(CONFIG_PATH)
         tree = ElementTree.parse(CONFIG_PATH)
         root = tree.getroot()
-        self.account_name = root.find("account_name").text
-        self.stash_name = root.find("stash_name").text
-        self.league = root.find("league").text
-        self.league_base_name = root.find("league_base_name").text
-        self.session_id = root.find("session_id").text
-        if root.find("stash_type").text == "Normal":
-            self.stash_type = "Normal"
-        else:
-            self.stash_type = "Quad"
+        self.account_name = self._cfg_load_or_default(root, "account_name")
+        self.stash_name = self._cfg_load_or_default(root, "stash_name")
+        # mod_file should probably be validated upon loading (for existence)
+        self.mod_file = self._cfg_load_or_default(root, "mod_file", DEFAULT_FILTER_PATH)
+        self.league = self._cfg_load_or_default(root, "league")
+        self.league_base_name = self._cfg_load_or_default(root, "league_base_name", default_league_name)
+        self.session_id = self._cfg_load_or_default(root, "session_id")
+        self.stash_type = self._cfg_load_or_default(root, "stash_type", "Quad")
+        self.painter_widget.stash_type = self.stash_type
 
         self._set_values_from_cfg()
+
 
     def _set_values_from_cfg(self) -> None:
         tree = ElementTree.parse(CONFIG_PATH)
         root = tree.getroot()
 
-        slider_color1 = root.find("slider_color1").text
-        slider_color2 = root.find("slider_color2").text
-        slider_color3 = root.find("slider_color3").text
-        slider_color4 = root.find("slider_color4").text
-        slider_color5 = root.find("slider_color5").text
+        slider_color1 = self._cfg_load_or_default(root, "slider_color1", "brown")
+        slider_color2 = self._cfg_load_or_default(root, "slider_color2", "blue")
+        slider_color3 = self._cfg_load_or_default(root, "slider_color3", "green")
+        slider_color4 = self._cfg_load_or_default(root, "slider_color4", "yellow")
+        slider_color5 = self._cfg_load_or_default(root, "slider_color5", "white")
         colors = [slider_color1, slider_color2, slider_color3, slider_color4, slider_color5]
 
         self.painter_widget.colors = colors
         self.slider.set_colors(colors)
-        self.slider_value = int(root.find("slider_value").text)
+        self.slider_value = int(self._cfg_load_or_default(root, "slider_value", "3"))
+        # maybe just read this from settings widget at run time?
+        self.painter_widget.number_of_mods_to_draw = self.slider_value
 
-        self.main_widget_y = int(root.find("main_widget_y").text)
+        self.main_widget_y = int(self._cfg_load_or_default(root, "main_widget_y", "0"))
 
-        painter_geometry = QRect(int(root.find("painter_x").text), int(root.find("painter_y").text),
-                                 int(root.find("painter_w").text), int(root.find("painter_h").text))
+        painter_x = int(self._cfg_load_or_default(root, "painter_x", "250"))
+        painter_y = int(self._cfg_load_or_default(root, "painter_y", "250"))
+        painter_w = int(self._cfg_load_or_default(root, "painter_w", "500"))
+        painter_h = int(self._cfg_load_or_default(root, "painter_h", "500"))
+        painter_geometry = QRect(painter_x, painter_y, painter_w, painter_h)
         self.painter_widget.setGeometry(painter_geometry)
         self.painter_widget.setFixedWidth(painter_geometry.width())
         self.painter_widget.setFixedHeight(painter_geometry.height())
@@ -185,22 +213,24 @@ class SettingsWidget(DragWidget):
         tree = ElementTree.parse(CONFIG_PATH)
         root = tree.getroot()
 
-        root.find("account_name").text = self.edit_account_name.text()
-        root.find("stash_name").text = self.edit_stash.text()
-        root.find("league_base_name").text = self.edit_base_league_name.text()
-        root.find("league").text = self.combo_league.currentText()
-        root.find("session_id").text = self.edit_session.text()
+        self._cfg_set_or_create(root, "account_name", self.edit_account_name.text())
+        self._cfg_set_or_create(root, "stash_name", self.edit_stash.text())
+        self._cfg_set_or_create(root, "mod_file", FILTER_DIR + self.combo_mod_file.currentText())
+        self._cfg_set_or_create(root, "league_base_name", self.edit_base_league_name.text())
+        self._cfg_set_or_create(root, "league", self.combo_league.currentText())
+        self._cfg_set_or_create(root, "session_id", self.edit_session.text())
         stash_type = "Normal" if self.radio_stash_normal.isChecked() else "Quad"
-        root.find("stash_type").text = stash_type
-        root.find("main_widget_y").text = str(self.main_widget_y)
+        self._cfg_set_or_create(root, "stash_type", stash_type)
+        self._cfg_set_or_create(root, "main_widget_y", str(self.main_widget_y))
         if hasattr(self, "slider"):
-            root.find("slider_value").text = str(self.slider.value)
+            self._cfg_set_or_create(root, "slider_value", str(self.slider.value))
         if self.painter_geometry:
-            root.find("painter_x").text = str(self.painter_geometry.x())
-            root.find("painter_y").text = str(self.painter_geometry.y())
-            root.find("painter_w").text = str(self.painter_geometry.width())
-            root.find("painter_h").text = str(self.painter_geometry.height())
+            self._cfg_set_or_create(root, "painter_x", str(self.painter_geometry.x()))
+            self._cfg_set_or_create(root, "painter_y", str(self.painter_geometry.y()))
+            self._cfg_set_or_create(root, "painter_w", str(self.painter_geometry.width()))
+            self._cfg_set_or_create(root, "painter_h", str(self.painter_geometry.height()))
 
+        xml_indent(root)
         tree.write(CONFIG_PATH)
 
         # Painter already notifies us about size/position changes through signal,
@@ -211,12 +241,28 @@ class SettingsWidget(DragWidget):
 
         self.configuration_changed.emit(self.get_settings_for_requester())  # Notify Requester
 
+
+    def _cfg_set_or_create(self, root, match, new_value) -> None:
+        ele = root.find(match)
+        if ele == None:
+            ele = ElementTree.SubElement(root, match)
+
+        ele.text = new_value
+
+    def _cfg_load_or_default(self, root, match, default="") -> str:
+        ele = root.find(match)
+        if ele == None:
+            return default
+        return ele.text
+
+
     def get_settings_for_requester(self) -> dict:
         return {
             "account_name": self.edit_account_name.text(),
             "stash_name": self.edit_stash.text(),
             "league": self.combo_league.currentText(),
-            "session_id": self.edit_session.text()
+            "session_id": self.edit_session.text(),
+            "mod_file": FILTER_DIR + self.combo_mod_file.currentText()
         }
 
     def hide_account_session(self, force_hide=False):

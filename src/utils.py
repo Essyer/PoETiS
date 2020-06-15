@@ -2,12 +2,13 @@ import logging
 import sys
 import xml.etree.ElementTree as ElementTree
 from PyQt5.QtWidgets import *
+from src.ModsContainer import DEFAULT_FILTER_PATH, PROJECT_ROOT
 
 LOGGING_APP_NAME = "log"
 logger = logging.getLogger(LOGGING_APP_NAME)
 last_logged_method_name = ""
 last_logged_error = ""
-styles_file = "styles/styles.css"
+styles_file = PROJECT_ROOT + "/styles/styles.css"
 default_league_name = "Harvest"
 
 
@@ -17,29 +18,8 @@ def load_styles(object_instance: QWidget) -> None:
 
 
 def prepare_cfg(path: str) -> None:
+    # all this does now is create the file with the root element
     root = ElementTree.Element("root")
-    ElementTree.SubElement(root, "account_name")
-    ElementTree.SubElement(root, "stash_name")
-    ElementTree.SubElement(root, "stash_type")
-    ElementTree.SubElement(root, "league")
-    ElementTree.SubElement(root, "league_base_name").text = default_league_name
-    ElementTree.SubElement(root, "session_id")
-    ElementTree.SubElement(root, "data_file").text = "data.xml"
-
-    ElementTree.SubElement(root, "slider_value").text = "1"
-    ElementTree.SubElement(root, "slider_color1").text = "brown"
-    ElementTree.SubElement(root, "slider_color2").text = "blue"
-    ElementTree.SubElement(root, "slider_color3").text = "green"
-    ElementTree.SubElement(root, "slider_color4").text = "yellow"
-    ElementTree.SubElement(root, "slider_color5").text = "white"
-
-    ElementTree.SubElement(root, "main_widget_y").text = "200"
-    ElementTree.SubElement(root, "painter_x").text = "250"
-    ElementTree.SubElement(root, "painter_y").text = "250"
-    ElementTree.SubElement(root, "painter_w").text = "500"
-    ElementTree.SubElement(root, "painter_h").text = "500"
-
-    xml_indent(root)
     tree = ElementTree.ElementTree(root)
     tree.write(path)
 
@@ -102,3 +82,7 @@ def xml_indent(elem: ElementTree.Element, level=0) -> None:
     else:
         if level and (not elem.tail or not elem.tail.strip()):
             elem.tail = i
+
+
+def print_windows_warning() -> None:
+    print("[WARNING] Skipping Windows-only API calls.  Please install windows dependencies if you want this functionality.")

@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ElementTree
 from src.DragWidget import DragWidget
 from src.utils import load_styles, xml_indent, log_method_name
 from src.ModsContainer import ModsContainer, DEFAULT_FILTER_PATH
+from src.SettingsWidget import SettingsWidget
 
 WINDOW_WIDTH = 600
 WINDOW_HEIGHT = 400
@@ -25,7 +26,7 @@ class FiltersWidget(DragWidget):
     # Not going to use more than one instance so it is safe, need to somehow store mod text before it is modified
     mod_text_before_change = ""
 
-    def __init__(self):
+    def __init__(self, settings_widget: SettingsWidget):
         super(FiltersWidget, self).__init__(None, Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
         log_method_name()
         load_styles(self)
@@ -39,7 +40,15 @@ class FiltersWidget(DragWidget):
         layout.addWidget(btn_hide)
         self.setLayout(layout)
         self.setMinimumSize(WINDOW_WIDTH, WINDOW_HEIGHT)
+        self._init_tree()
 
+        # this isn't requester, but same data works
+        self._reload_settings(settings_widget.get_settings_for_requester())
+        settings_widget.configuration_changed.connect(self._reload_settings)
+
+
+    def _init_tree(self) -> None:
+        # full reinit every time we switch mod lists for now
         self.model = QStandardItemModel()
         self.treeView.setModel(self.model)
         self.treeView.setSelectionMode(QAbstractItemView.SingleSelection)
@@ -49,9 +58,13 @@ class FiltersWidget(DragWidget):
         self.treeView.setItemDelegate(ItemDelegate())
         self.model.itemChanged.connect(self.process_item_changed)
 
-        self.xml_path = DEFAULT_FILTER_PATH
-        self.xml_root = None
 
+    def _reload_settings(self, d: dict) -> None:
+        self._init_tree()
+        self.xml_path = d["mod_file"]
+        # this is double work right now - consider singleton instance for modcontainer
+        ModsContainer.load_mods_config(d["mod_file"])
+        self.xml_root = None
         self.load_mods(self.xml_path)
 
     def load_mods(self, xml_path: str) -> None:

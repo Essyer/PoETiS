@@ -1,4 +1,7 @@
+#!/usr/bin/env python3
+
 import sys
+import os
 import re
 import time
 from PyQt5.QtCore import *
@@ -10,14 +13,14 @@ from src.FiltersWidget import FiltersWidget
 from src.SettingsWidget import SettingsWidget
 from src.Requester import Requester
 from src.PainterWidget import PainterWidget
-from src.ModsContainer import ModsContainer, DEFAULT_FILTER_PATH
+from src.ModsContainer import ModsContainer, DEFAULT_FILTER_PATH, PROJECT_ROOT
 from src.utils import load_styles, initialize_logging, log_method_name
 
 
 class MainWidget(QMainWindow):
     def __init__(self, screen_geometry: QRect):
         super(MainWidget, self).__init__(None)
-        self.image_path = "img/"
+        self.image_path = PROJECT_ROOT + "/img/"
         # initialize_logging()
         log_method_name()
 
@@ -31,15 +34,15 @@ class MainWidget(QMainWindow):
         load_styles(self.error_widget)
         self.error_widget.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
 
-        # Load mod configuration
-        ModsContainer.load_mods_config(DEFAULT_FILTER_PATH)
-
         # Initialize other classes, order is important
-        self.filters_widget = FiltersWidget()
         self.painter_widget = PainterWidget(screen_geometry)
         self.settings_widget = SettingsWidget(self.painter_widget)
+        self.filters_widget = FiltersWidget(self.settings_widget)
         self.requester = Requester(self.settings_widget, self.painter_widget)
         self.last_requested_time = 0
+
+        # Load mod configuration
+        ModsContainer.load_mods_config(self.settings_widget.mod_file)
 
         # Setup Requester thread
         self.objThread = QThread()
@@ -49,7 +52,14 @@ class MainWidget(QMainWindow):
         self.objThread.started.connect(self.requester.run)
         self.objThread.finished.connect(self._set_run_button_icon_run)
 
-        self.move(0, self.settings_widget.load_main_widget_y())
+        # Setup main widget UI
+        self.screen_geometry = screen_geometry
+        self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
+        self.setAttribute(Qt.WA_NoSystemBackground, True)
+        self.setAttribute(Qt.WA_TranslucentBackground, True)
+
+        self.move(0, self.settings_widget.main_widget_y)
+
         layout = QVBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setAlignment(Qt.AlignTop)
@@ -185,4 +195,5 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = MainWidget(app.desktop().screenGeometry())
     window.show()
+    os.chdir(PROJECT_ROOT)
     app.exec_()

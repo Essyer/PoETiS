@@ -1,13 +1,20 @@
 from time import sleep
-import pywintypes  # Need to import even though not using, win32gui crashes on exe init without it
-from win32gui import GetWindowText, GetForegroundWindow
+from src.utils import log_method_name, load_styles, print_windows_warning
+
+try:
+    import pywintypes  # Need to import even though not using, win32gui crashes on exe init without it
+    from win32gui import GetWindowText, GetForegroundWindow
+except ModuleNotFoundError:
+    print_windows_warning()
+
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from src.DragButton import DragButton
 from src.ResizeButton import ResizeButton
 from src.Item import Item
-from src.utils import log_method_name, load_styles
+from src.ModsContainer import PROJECT_ROOT
+
 
 stash_cells_root = {
     "Quad": 24,
@@ -28,6 +35,10 @@ class FocusCheck(QObject):
         self.last_window = None
 
     def run(self) -> None:
+        if "GetWindowText" not in dir():
+            # skip focus check and allow draw anytime
+            self.frames_draw_allowed = True
+            return
         while True:
             window = GetWindowText(GetForegroundWindow())
             self.frames_draw_allowed = window.lower() in windows_to_draw_frames
@@ -42,7 +53,7 @@ class PainterWidget(QWidget):
 
     def __init__(self, screen_geometry: QRect):
         super(PainterWidget, self).__init__()
-        self.image_path = "img/"
+        self.image_path = PROJECT_ROOT + "/img/"
         self.stash_type = "Quad"
         self.colors = []
         self.stash_cells = stash_cells_root[self.stash_type]
