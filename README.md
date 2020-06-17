@@ -44,11 +44,10 @@ You can modify colors in settings.xml after you exit tool, just make sure it mee
 Guide how to get session ID - [here](https://github.com/Stickymaddness/Procurement/wiki/SessionID). Remember it will change over time, so if you get error message about invalid session ID or no connection, you may need to provide new session ID.
 7. Terminates tool. All settings data is saved at the moment you edit it.
 
-Example of frames, dashed frame means that item doesn't have open affixes:
+Example of frames. Each color represents number of mods that meet requirements specified in your filter. Brown - one good mod, blue - two mods etc. Dashed frame means that item doesn't have open affixes:
 
-![](https://i.ibb.co/WDZVMGm/borders-dash.png)
+![](https://i.ibb.co/1XTGN45/borders-dash.png)
 
-Each color represents number of mods that meet requirements specified in your filter. Brown - one good mod, blue - two mods etc.
 
 ![](https://i.ibb.co/0qhjLHh/colors.png)
 
