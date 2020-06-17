@@ -18,8 +18,8 @@ from src.ModsContainer import PROJECT_ROOT
 
 
 stash_cells_root = {
-    "Quad": 24,
-    "Normal": 12
+    "quad": 24,
+    "normal": 12
 }
 
 windows_to_draw_frames = ["python", "poetis", "path of exile"]
@@ -55,7 +55,7 @@ class PainterWidget(QWidget):
     def __init__(self, screen_geometry: QRect):
         super(PainterWidget, self).__init__()
         self.image_path = PROJECT_ROOT + "/img/"
-        self.stash_type = "Quad"
+        self.stash_type = "quad"
         self.colors = []
         self.stash_cells = stash_cells_root[self.stash_type]
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)

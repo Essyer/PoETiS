@@ -1,9 +1,13 @@
 import os.path
+import platform
 import re
 import xml.etree.ElementTree as ElementTree
 
+if platform.system().lower() == 'windows':
+    PROJECT_ROOT = "."  # os.path redirects to TEMP
+else:
+    PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__ + "/.."))
 
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__ + "/.."))
 FILTER_DIR = PROJECT_ROOT + "/filters/"
 DEFAULT_FILTER_PATH = FILTER_DIR + "mods.xml"
 CONFIG_PATH = PROJECT_ROOT + "/config.xml"

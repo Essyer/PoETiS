@@ -1,7 +1,8 @@
 import os
 import xml.etree.ElementTree as ElementTree
-from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 from src.PainterWidget import PainterWidget
 from src.DragWidget import DragWidget
 from src.Slider import Slider
@@ -9,10 +10,16 @@ from src.utils import log_method_name, prepare_cfg, load_styles, default_league_
 from src.ModsContainer import CONFIG_PATH, FILTER_DIR, DEFAULT_FILTER_PATH
 
 slider_colors = ["brown", "green", "blue", "yellow", "white"]
+stash_default_text = "Add your stash here..."
 
 
 class SettingsWidget(DragWidget):
     configuration_changed = pyqtSignal(dict)
+    stash_item_change_already_called = False  # No idea what's going on... If I don't check it like that when you modify
+    # text of last (default) row, program ends up in infinite loop between _process_stash_item_changed and
+    # _add_stash_item_to_table. It is probably because in the latter insertRow() triggers signal of changed item.
+    # I don't have better solution right now and league starts in 2 days.
+    active_stash = ["", 0, "normal"]
 
     def __init__(self, painter_widget: PainterWidget):
         self.painter_geometry = None
@@ -38,11 +45,10 @@ class SettingsWidget(DragWidget):
         load_styles(self)
         layout_main = QVBoxLayout()
 
-        label_stash = QLabel("Stash name")
-        layout_main.addWidget(label_stash)
-        self.edit_stash = QLineEdit(self.stash_name)
-        self.edit_stash.textChanged.connect(self.save_cfg)
-        layout_main.addWidget(self.edit_stash)
+        button_stashes = QPushButton("Add/remove stashes")
+        layout_main.addWidget(button_stashes)
+        self._prepare_stashes_window()
+        button_stashes.clicked.connect(self.window_stashes.show)
 
         label_mod_config = QLabel("Mod Filter")
         layout_main.addWidget(label_mod_config)
@@ -86,23 +92,6 @@ class SettingsWidget(DragWidget):
             self.hide_account_session(True)
         self.button_show_account_session.clicked.connect(self.hide_account_session)
 
-        label_session = QLabel("Stash type")
-        layout_main.addWidget(label_session)
-        layout_radio = QHBoxLayout()
-
-        self.radio_stash_normal = QRadioButton("Normal")
-        radio_stash_quad = QRadioButton("Quad")
-        if self.stash_type == "Normal":
-            self.radio_stash_normal.setChecked(True)
-        else:
-            radio_stash_quad.setChecked(True)
-        self.radio_stash_normal.toggled.connect(self.save_cfg)
-        radio_stash_quad.toggled.connect(self.save_cfg)
-
-        layout_radio.addWidget(self.radio_stash_normal)
-        layout_radio.addWidget(radio_stash_quad)
-        layout_main.addLayout(layout_radio)
-
         btn_adjust_net = QPushButton("Adjust net position and size")
         btn_adjust_net.clicked.connect(self.painter_widget.show_hide_config)
         layout_main.addWidget(btn_adjust_net)
@@ -123,6 +112,86 @@ class SettingsWidget(DragWidget):
         layout_main.addWidget(self.btn_hide)
 
         self.setLayout(layout_main)
+
+    def _prepare_stashes_window(self):
+        self.window_stashes = DragWidget()
+        self.window_stashes.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
+        load_styles(self.window_stashes)
+        self.window_stashes.setFixedWidth(400)  # maybe some day I will make it to resize to columns width...
+
+        self.widget_stashes = QTableWidget(0, 2)
+        self.widget_stashes.itemChanged.connect(self._process_stash_item_changed)
+        self.widget_stashes.setHorizontalHeaderLabels(["Name", "Normal/Quad"])
+        self.widget_stashes.verticalHeader().hide()
+        header = self.widget_stashes.horizontalHeader()
+        header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        self.widget_stashes.adjustSize()
+        self.stashes_ui = []
+        for stash in self.stashes:
+            if stash["name"]:
+                self._add_stash_item_to_table(stash["name"], stash["type"])
+        self._add_stash_item_to_table(stash_default_text, "normal")
+
+        load_styles(self.widget_stashes)
+        layout = QVBoxLayout()
+        layout.addWidget(self.widget_stashes)
+        close_button = QPushButton("Close")
+        close_button.clicked.connect(self.window_stashes.hide)
+        layout.addWidget(close_button)
+        self.window_stashes.setLayout(layout)
+
+    # I miss C++ lambdas
+    def _add_stash_item_to_table(self, name: str, stash_type: str) -> None:
+        row = self.widget_stashes.rowCount()
+        self.widget_stashes.insertRow(row)
+        table_item = QTableWidgetItem(name)
+        self.widget_stashes.setItem(row, 0, table_item)
+        group_box = QGroupBox()
+        box_layout = QHBoxLayout()
+        radio1 = QRadioButton()
+        radio2 = QRadioButton()
+        if stash_type == "normal":
+            radio1.setChecked(True)
+        else:
+            radio2.setChecked(True)
+        radio1.clicked.connect(self._process_stash_item_changed)
+        radio2.clicked.connect(self._process_stash_item_changed)
+        box_layout.addWidget(radio1)
+        box_layout.addStretch(1)
+        box_layout.addWidget(radio2)
+        group_box.setLayout(box_layout)
+
+        self.widget_stashes.setCellWidget(row, 1, group_box)
+
+        self.stashes_ui.append([table_item, radio1, radio2])
+
+    def _process_stash_item_changed(self):
+        if hasattr(self, "edit_account_name"):  # verify if _setup_ui finished
+            self.stashes = []
+            stashes_to_remove = []
+            for index, item in enumerate(self.stashes_ui):
+                name = item[0].text()
+                stash_type = "normal" if item[1].isChecked() else "quad"
+                if name == "":
+                    stashes_to_remove.append(index)
+                if name != stash_default_text and name != "":
+                    self.stashes.append({"name": name, "type": stash_type})
+
+            for index in stashes_to_remove:
+                self.stashes_ui.remove(self.stashes_ui[index])
+                self.widget_stashes.removeRow(index)
+
+            if len(self.stashes_ui) == 2:
+                self.active_stash = [self.stashes_ui[0][0].text(), 0,
+                                     "normal" if self.stashes_ui[0][1].isChecked() else "quad"]
+            if self.stashes_ui:
+                stash_text = self.stashes_ui[-1][0].text()
+                if stash_text != stash_default_text and not self.stash_item_change_already_called:
+                    self.stash_item_change_already_called = True
+                    self._add_stash_item_to_table(stash_default_text, "normal")
+            self.stash_item_change_already_called = False
+            self.save_cfg()
 
     def eventFilter(self, target, event) -> bool:
         if target == self.combo_mod_file and event.type() == QEvent.MouseButtonPress:
@@ -170,13 +239,18 @@ class SettingsWidget(DragWidget):
         tree = ElementTree.parse(CONFIG_PATH)
         root = tree.getroot()
         self.account_name = self._cfg_load_or_default(root, "account_name")
-        self.stash_name = self._cfg_load_or_default(root, "stash_name")
+        stashes_nodes = self._cfg_load_stashes(root)
+        self.stashes = []
+        for stash in stashes_nodes:
+            self.stashes.append(stash)
+        if self.stashes:
+            self.active_stash = [self.stashes[0]["name"], 0, self.stashes[0]["type"]]
         # mod_file should probably be validated upon loading (for existence)
         self.mod_file = self._cfg_load_or_default(root, "mod_file", DEFAULT_FILTER_PATH)
         self.league = self._cfg_load_or_default(root, "league")
         self.league_base_name = self._cfg_load_or_default(root, "league_base_name", default_league_name)
         self.session_id = self._cfg_load_or_default(root, "session_id")
-        self.stash_type = self._cfg_load_or_default(root, "stash_type", "Quad")
+        self.stash_type = self._cfg_load_or_default(root, "stash_type", "quad")
         self.painter_widget.stash_type = self.stash_type
 
         self._set_values_from_cfg()
@@ -194,7 +268,7 @@ class SettingsWidget(DragWidget):
 
         self.painter_widget.colors = colors
         self.slider.set_colors(colors)
-        self.slider_value = int(self._cfg_load_or_default(root, "slider_value", "3"))
+        self.slider_value = int(self._cfg_load_or_default(root, "slider_value", "1"))
         # maybe just read this from settings widget at run time?
         self.painter_widget.number_of_mods_to_draw = self.slider_value
 
@@ -215,13 +289,11 @@ class SettingsWidget(DragWidget):
         root = tree.getroot()
 
         self._cfg_set_or_create(root, "account_name", self.edit_account_name.text())
-        self._cfg_set_or_create(root, "stash_name", self.edit_stash.text())
+        self._cfg_save_stashes(root)
         self._cfg_set_or_create(root, "mod_file", FILTER_DIR + self.combo_mod_file.currentText())
         self._cfg_set_or_create(root, "league_base_name", self.edit_base_league_name.text())
         self._cfg_set_or_create(root, "league", self.combo_league.currentText())
         self._cfg_set_or_create(root, "session_id", self.edit_session.text())
-        stash_type = "Normal" if self.radio_stash_normal.isChecked() else "Quad"
-        self._cfg_set_or_create(root, "stash_type", stash_type)
         self._cfg_set_or_create(root, "main_widget_y", str(self.main_widget_y))
         if hasattr(self, "slider"):
             self._cfg_set_or_create(root, "slider_value", str(self.slider.value))
@@ -236,9 +308,12 @@ class SettingsWidget(DragWidget):
 
         # Painter already notifies us about size/position changes through signal,
         # I don't know how to do bidirectional signaling so I'm setting values by reference
-        self.painter_widget.stash_type = stash_type
+        self.painter_widget.stash_type = self.stashes[0]["type"] if self.stashes else "normal"
         if hasattr(self, "slider"):
             self.painter_widget.number_of_mods_to_draw = self.slider.value
+        self.painter_widget.update()
+        if self.stashes and not self.active_stash[0]:
+            self.active_stash = [self.stashes[0]["name"], 0, self.stashes[0]["type"]]
 
         self.configuration_changed.emit(self.get_settings_for_requester())  # Notify Requester
 
@@ -257,10 +332,30 @@ class SettingsWidget(DragWidget):
             return default
         return ele.text
 
+    @staticmethod
+    def _cfg_load_stashes(root: ElementTree) -> list:
+        stashes = root.find('stashes')
+        if stashes is None:
+            return [{'name': "", 'type': "normal"}]
+        return [{'name': x.text, 'type': x.attrib['type']} for x in list(stashes)]
+
+    def _cfg_save_stashes(self, root: ElementTree) -> None:
+        stashes = root.find('stashes')
+        if stashes is None:
+            stashes = ElementTree.SubElement(root, "stashes")
+
+        for child in list(stashes):
+            stashes.remove(child)
+        for stash in self.stashes:
+            if stash["name"]:
+                node = ElementTree.SubElement(stashes, "stash")
+                node.text = stash["name"]
+                node.set("type", stash["type"])
+
     def get_settings_for_requester(self) -> dict:
         return {
             "account_name": self.edit_account_name.text(),
-            "stash_name": self.edit_stash.text(),
+            "stash_name": self.active_stash[0],
             "league": self.combo_league.currentText(),
             "session_id": self.edit_session.text(),
             "mod_file": FILTER_DIR + self.combo_mod_file.currentText()
@@ -279,3 +374,20 @@ class SettingsWidget(DragWidget):
             self.edit_session.show()
             self.label_session.show()
             self.adjustSize()
+
+    def set_next_active_stash(self):
+        index = self.active_stash[1]+1
+        if index < len(self.stashes):
+            self.active_stash = [self.stashes[index]["name"], index, self.stashes[index]["type"]]
+        else:
+            self.active_stash = [self.stashes[0]["name"], 0, self.stashes[0]["type"]]
+        self.painter_widget.stash_type = self.active_stash[2]
+
+    def set_prev_active_stash(self):
+        index = self.active_stash[1] - 1
+        if index >= 0:
+            self.active_stash = [self.stashes[index]["name"], index, self.stashes[index]["type"]]
+        else:
+            index = len(self.stashes) - 1
+            self.active_stash = [self.stashes[index]["name"], index, self.stashes[index]["type"]]
+        self.painter_widget.stash_type = self.active_stash[2]

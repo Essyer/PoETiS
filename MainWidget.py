@@ -29,6 +29,7 @@ class MainWidget(QMainWindow):
         self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.Tool)
         self.setAttribute(Qt.WA_NoSystemBackground, True)
         self.setAttribute(Qt.WA_TranslucentBackground, True)
+        self.buttons_size = QSize(26, 26)
 
         self.error_widget = DragWidget()
         load_styles(self.error_widget)
@@ -50,7 +51,7 @@ class MainWidget(QMainWindow):
         self.requester.finished.connect(self.objThread.quit)
         self.requester.failed.connect(self._requester_failed)
         self.objThread.started.connect(self.requester.run)
-        self.objThread.finished.connect(self._set_run_button_icon_run)
+        self.objThread.finished.connect(self._requester_finished)
 
         # Setup main widget UI
         self.screen_geometry = screen_geometry
@@ -105,29 +106,67 @@ class MainWidget(QMainWindow):
             self.exit_button
         ]
         for button in self.buttons:
-            button.setFixedWidth(25)
-            button.setFixedHeight(25)
+            button.setFixedWidth(self.buttons_size.width())
+            button.setFixedHeight(self.buttons_size.height())
             button.setWindowFlags(Qt.Dialog)
             load_styles(button)
             layout.addWidget(button, 0, Qt.AlignTop)
+            if button is self.drag_button:
+                self._prepare_stash_switch(layout)
 
         widget = QWidget(flags=Qt.Widget)
         widget.setLayout(layout)
         self.setCentralWidget(widget)
 
+    def _prepare_stash_switch(self, layout):
+        stash_switch_layout = QHBoxLayout()
+        self.stash_switch_button_left = QPushButton()
+        self.stash_switch_button_right = QPushButton()
+        self.stash_switch_button_left.clicked.connect(self.set_prev_stash)
+        self.stash_switch_button_right.clicked.connect(self.set_next_stash)
+        self.stash_switch_button_left.setFixedWidth(int(self.buttons_size.width()/2))
+        self.stash_switch_button_left.setFixedHeight(self.buttons_size.height())
+        self.stash_switch_button_right.setFixedWidth(int(self.buttons_size.width()/2))
+        self.stash_switch_button_right.setFixedHeight(self.buttons_size.height())
+        load_styles(self.stash_switch_button_left)
+        load_styles(self.stash_switch_button_right)
+        icon = QIcon()
+        icon.addPixmap(QPixmap(self.image_path + 'next.png'))
+        self.stash_switch_button_right.setIcon(icon)
+        icon.addPixmap(QPixmap(self.image_path + 'next.png').transformed(QTransform().rotate(180)))
+        self.stash_switch_button_left.setIcon(icon)
+        self.stash_switch_button_right.setIconSize(QSize(self.buttons_size.width(), int(self.buttons_size.height()/3)))
+        self.stash_switch_button_left.setIconSize(QSize(self.buttons_size.width(), int(self.buttons_size.height()/3)))
+
+        stash_switch_layout.addWidget(self.stash_switch_button_left)
+        stash_switch_layout.addWidget(self.stash_switch_button_right)
+        self.stash_name = QLabel("")
+        self.stash_name.setFixedHeight(12)
+        self.stash_name.hide()
+        load_styles(self.stash_name)
+        stash_switch_layout.addWidget(self.stash_name)
+        layout.addLayout(stash_switch_layout)
+
     def show_hide_buttons(self) -> None:
         log_method_name()
+        self.stash_name.hide()
         for button in self.buttons:
             if button != self.drag_button:
                 if button.isVisible():
                     button.hide()
                 else:
                     button.show()
+        if self.stash_switch_button_left.isVisible():
+            self.stash_switch_button_left.hide()
+            self.stash_switch_button_right.hide()
+        else:
+            self.stash_switch_button_left.show()
+            self.stash_switch_button_right.show()
 
-    def show_hide_widget(self, widget: QWidget) -> None:
+    def show_hide_widget(self, widget: QWidget, force_show=False) -> None:
         log_method_name()
         icon = QIcon()
-        if widget.isVisible():
+        if widget.isVisible() and not force_show:
             if isinstance(widget, PainterWidget):
                 if widget.config_change_mode:
                     widget.hide_modification_mode()
@@ -148,7 +187,8 @@ class MainWidget(QMainWindow):
     def _run_requester(self) -> None:
         # Do not allow to send requests too often
         now = time.time()
-        if now - self.last_requested_time < 10:
+        self.stash_name.hide()
+        if now - self.last_requested_time < 1:
             return
         self.last_requested_time = now
         icon = QIcon()
@@ -179,6 +219,11 @@ class MainWidget(QMainWindow):
         self._show_error_window(e.__str__())
         self.last_requested_time = 0
 
+    def _requester_finished(self):
+        self._set_run_button_icon_run()
+        self.painter_widget.update()
+        self.show_hide_widget(self.painter_widget, True)
+
     # Set icon back after Requester is done
     def _set_run_button_icon_run(self) -> None:
         icon = QIcon()
@@ -189,6 +234,16 @@ class MainWidget(QMainWindow):
     def update_pos_size(self) -> None:
         self.settings_widget.main_widget_y = self.y()
         self.settings_widget.save_cfg()
+
+    def set_next_stash(self):
+        self.settings_widget.set_next_active_stash()
+        self.stash_name.setText(self.settings_widget.active_stash[0])
+        self.stash_name.show()
+
+    def set_prev_stash(self):
+        self.settings_widget.set_prev_active_stash()
+        self.stash_name.setText(self.settings_widget.active_stash[0])
+        self.stash_name.show()
 
 
 if __name__ == '__main__':

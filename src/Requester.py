@@ -17,6 +17,7 @@ class Requester(QObject):
         self.items = []
         self.stashes = {}
         self.session = None
+        self.settings_widget = settings_widget
         self.mods_filter = ModsContainer.mods
         # Instance of SettingsWidget is used to load settings on program initialization and to connect signal.
         # Then new values are sent from SettingsWidget to our _reload_settings()
@@ -28,6 +29,7 @@ class Requester(QObject):
 
     def run(self) -> None:
         self.clear()
+        self._reload_settings(self.settings_widget.get_settings_for_requester())
         self.mods_filter = ModsContainer.mods  # Refresh values, they could be modified
         try:
             self.request_data()
@@ -96,7 +98,7 @@ class Requester(QObject):
         self.session.headers = {'Cookie': 'POESESSID=' + self.session_id}
         self.get_stash_names()
         if self.stash_name not in self.stashes:
-            raise ValueError('Stash not found')
+            raise ValueError('Stash ' + self.stash_name + ' not found')
         stash_index = str(self.stashes[self.stash_name])
         request_string = 'https://www.pathofexile.com/character-window/get-stash-items?league=' + self.league + \
                          '&tabIndex=' + stash_index + '&tabs=0&accountName=' + self.account_name
