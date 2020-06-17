@@ -23,20 +23,26 @@ Jewels are not supported yet. I'm waiting for GGG to release API changes describ
 You can download a prepared executable or run from sources (just install all dependencies from requirements.txt).
 After you run it for the first time, a new file "config.xml" will be created in the location of the executable and you will see a widget bar on the left edge of your screen.
 
-![](https://i.ibb.co/qmrw6YP/main-widget.png)
+1. Check buttons description below if something is not clear.
+2. Go to settings, set account name, session ID, add at least one stash name and adjust net position and size to fit your inventory
+3. Click "run" button, if you want to show/hide frames click pencil
+4. Switch between stashes with <> buttons, each time you will need to send new request. Tooltip with name of stash will disappear once you hit "run" button or hide all buttons.
+
+![](https://i.ibb.co/wZnkPZ0/widget-multi.png)
 ![](https://i.ibb.co/tZw1kBF/widget-hidden1.png)
 
 Buttons:
 1. Allows to drag widget by the left edge, when clicked hides and shows rest of the buttons.
-2. Sends request for items data, maximum once per 10 seconds. You need to have valid data in settings, described below.
-3. After button 2. icon gets back from "hourglass" to "play", you can toggle on/off frames.
-4. Mods list. Initial list is an example, if you don't like it, turn off the tool (last button) and replace content of filters/mods.xml with filters/mods_empty.xml or delete all mods one by one from mods list window.
+2. Switch between multiple stash tabs. Current stash name is displayed after switch, text disappears once you hit "run" button or hide all buttons.
+3. Sends request for items data, maximum once per second (processing takes longer than that). You need to have valid data in settings, described below.
+4. After button 2. icon gets back from "hourglass" to "play", you can toggle on/off frames.
+5. Mods list. Initial list is an example, if you don't like it, turn off the tool (last button) and replace content of filters/mods.xml with filters/mods_empty.xml or delete all mods one by one from mods list window.
 You can delete mods by removing cell content and add new ones modifying default mod message at the end of each section. Each mod needs to have at least one numeric value.
-5. Settings. With first run you will need to provide data to all fields, set stash type and adjust net accordingly.
+6. Settings. With first run you will need to provide data to all fields, set stash type and adjust net accordingly.
 Slider determines how many mods in item should have value greater or equal to your filter to be detected and have color frame.
 You can modify colors in settings.xml after you exit tool, just make sure it meets QColor constructor [requirements](https://doc.qt.io/qt-5/qcolor.html).
 Guide how to get session ID - [here](https://github.com/Stickymaddness/Procurement/wiki/SessionID). Remember it will change over time, so if you get error message about invalid session ID or no connection, you may need to provide new session ID.
-6. Terminates tool. All settings data is saved at the moment you edit it.
+7. Terminates tool. All settings data is saved at the moment you edit it.
 
 Example of frames, dashed frame means that item doesn't have open affixes:
 
