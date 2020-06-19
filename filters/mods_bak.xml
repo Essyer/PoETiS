@@ -143,17 +143,6 @@
     <mod>30% lightning resistance</mod>
     <mod>21% chaos resistance</mod>
   </armour>
-  <jewel>
-    <base>
-      <mod>5% increased maximum life</mod>
-    </base>
-    <abyss>
-      <mod>36 to maximum life</mod>
-    </abyss>
-    <cluster>
-      <mod>1 added passive skill is fettle</mod>
-    </cluster>
-  </jewel>
   <weapon>
     <bow>
       <mod>adds 0 to 61 physical damage</mod>

@@ -68,7 +68,7 @@ class Item:
     def calculate_basic_explicits(self, filters: dict) -> None:
         for explicit in self.explicits:
             explicit = explicit.replace("'", "").replace("[", "").replace("]", "").replace("+", "").strip()
-            mod = ModsContainer.get_mod_key(explicit)
+            mod = ModsContainer.get_mod_key(explicit).lower()
 
             expected_value = self.determine_expected_value(filters, mod)
             if expected_value == 0:

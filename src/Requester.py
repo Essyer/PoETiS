@@ -138,15 +138,12 @@ class Requester(QObject):
             item.implicits = str(item_data['implicitMods']).split(',')
         item.explicits = str(item_data['explicitMods']).lower().split(',')
 
-    #  GGG API returns only item base, we need to find out what category of item it is, e.g. cat1 = weapon, cat2 = wand
-    #  Hopefully we will get this functionality soon so I can remove this method and item_bases:
-    #  https://www.pathofexile.com/forum/view-thread/2784742/page/1#p22948552
     @staticmethod
     def determine_categories(item_data: dict, item: Item) -> None:
         for category1 in item_bases:
             for category2 in item_bases[category1]:
                 for base in item_bases[category1][category2]:
-                    if str(item_data['typeLine']).lower() == base.lower():
+                    if base.lower() in str(item_data['typeLine']).lower():
                         item.category1 = category1.lower()
                         item.category2 = category2.lower()
                         item.base = base

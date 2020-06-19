@@ -102,6 +102,11 @@ class ModsContainer:
 # List of all item types from https://pathofexile.gamepedia.com/Public_stash_tab_API
 # and item bases from https://pathofexile.gamepedia.com/Equipment
 item_bases = {
+    'jewel': {
+        'base': ['Cobalt Jewel', 'Crimson Jewel', 'Viridian Jewel'],
+        'abyss': ['Ghastly Eye Jewel', 'Hypnotic Eye Jewel', 'Murderous Eye Jewel', 'Searching Eye Jewel'],
+        'cluster': ['Small Cluster Jewel', 'Medium Cluster Jewel', 'Large Cluster Jewel']
+    },
     'accessory': {
         'amulet': ['Coral Amulet', 'Paula Amulet', 'Amber Amulet', 'Jade Amulet', 'Lapis Amulet', 'Gold Amulet',
                    'Agate Amulet', 'Citrine Amulet', 'Turquoise Amulet', 'Onyx Amulet', 'Marble Amulet',
