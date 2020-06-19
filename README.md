@@ -25,6 +25,7 @@ After you run it for the first time, a new file "config.xml" will be created in 
 2. Go to settings, set account name, session ID, add at least one stash name and adjust net position and size to fit your inventory
 3. Click "run" button, if you want to show/hide frames click pencil
 4. Switch between stashes with <> buttons, each time you will need to send new request. Tooltip with name of stash will disappear once you hit "run" button or hide all buttons.
+5. You may want to modify filters, described below. For example jewels have too many mods, I added one mod per jewel category, but you probably will want much more.
 
 ![](https://i.ibb.co/wZnkPZ0/widget-multi.png)
 ![](https://i.ibb.co/tZw1kBF/widget-hidden1.png)
