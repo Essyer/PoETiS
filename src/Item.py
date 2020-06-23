@@ -50,6 +50,7 @@ class Item:
         self.base = None  # item base name
         self.name = None
         self.score = 0
+        self.properties = []
         self.explicits = []
         self.implicits = []
         self.totals = defaultdict(float)
@@ -63,7 +64,26 @@ class Item:
         if self.base.lower() not in filters.keys() and self.category1 not in filters.keys()\
                 and self.category2 not in filters.keys():
             return
+        self.calculate_properties(filters)
         self.calculate_basic_explicits(filters)
+
+    def calculate_properties(self, filters: dict) -> None:
+
+        for item_property in self.properties:
+
+            property_name = item_property["name"].lower()
+            property_value = item_property["values"][0][0].lower()
+
+            mod = ModsContainer.get_mod_key(property_value + " " + property_name).lower()
+            expected_value = self.determine_expected_value(filters, mod)
+
+            if expected_value == 0:
+                continue
+
+            mod_value = ModsContainer.get_mod_value(property_value)
+
+            if 0 < expected_value <= float(mod_value):
+                self.mods_matched[mod] = float(mod_value)
 
     def calculate_basic_explicits(self, filters: dict) -> None:
         for explicit in self.explicits:

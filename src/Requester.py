@@ -134,6 +134,8 @@ class Requester(QObject):
         item.height = item_data['h']
         item.width = item_data['w']
         item.ilvl = item_data['ilvl']
+        if 'properties' in item_data:
+            item.properties = [item_property for item_property in item_data['properties']]
         if 'implicitMods' in item_data:
             item.implicits = str(item_data['implicitMods']).split(',')
         item.explicits = str(item_data['explicitMods']).lower().split(',')
