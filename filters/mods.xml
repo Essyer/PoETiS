@@ -138,10 +138,10 @@
     <mod>33 to strength</mod>
     <mod>33 to dexterity</mod>
     <mod>33 to intelligence</mod>
-    <mod>30% cold resistance</mod>
-    <mod>30% fire resistance</mod>
-    <mod>30% lightning resistance</mod>
-    <mod>21% chaos resistance</mod>
+    <mod>30% to cold resistance</mod>
+    <mod>30% to fire resistance</mod>
+    <mod>30% to lightning resistance</mod>
+    <mod>21% to chaos resistance</mod>
   </armour>
   <jewel>
     <base>
