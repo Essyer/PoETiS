@@ -121,8 +121,8 @@ class PainterWidget(QWidget):
         pen.setWidth(pen_width)
         pen.setColor(QColor("Red"))
         self.qp.setPen(pen)
-        cell_width = int(self.width() / self.stash_cells)
-        cell_height = int((self.height() - self.drag_button.height()) / self.stash_cells)
+        cell_width = self.width() / self.stash_cells
+        cell_height = (self.height() - self.drag_button.height()) / self.stash_cells
         for i in range(self.stash_cells):
             for j in range(self.stash_cells):
                 self.qp.drawRect(i * cell_width, j * cell_height, cell_width, cell_height)
@@ -149,8 +149,8 @@ class PainterWidget(QWidget):
     def draw_net(self, item: Item) -> None:
         if len(item.mods_matched) < self.number_of_mods_to_draw:
             return
-        cell_width = int((self.width()) / self.stash_cells)
-        cell_height = int((self.height() - self.drag_button.height()) / self.stash_cells)
+        cell_width = (self.width()) / self.stash_cells
+        cell_height = (self.height() - self.drag_button.height()) / self.stash_cells
         self.qp.drawRect(item.x * cell_width + pen_width, item.y * cell_height + pen_width, item.width * cell_width -
                          pen_width, item.height * cell_height - pen_width)
 
