@@ -3,10 +3,6 @@ Path of Exile Tiers in Stash tool allows you to scan your stash for items with s
 
 ## Limitations
 
-As of 13.06.2020 PoE Vulkan stays on top of everything, so if you want to use Vulkan and any 3rd party tool you need to run game in windowed mode (not windowed fullscreen).
-Bug was already reported [here](https://www.pathofexile.com/forum/view-thread/2867255).
-There is [workaround](https://www.reddit.com/r/pathofexile/comments/gseuoy/vulkan_test_technical_megathread/fs6tie9/?utm_source=reddit&utm_medium=usertext&utm_name=pathofexile&utm_content=t1_fsufmjb), although I still hope they will fix it.
-
 One stash at a time, doesn't have to be premium, just normal or quad stash with items. You can switch between stashes if you added more than one in settings.
 
 Only identified rare and magic items, you can have other items in stash, but they won't be processed.
@@ -55,8 +51,8 @@ Example of frames. Each color represents number of mods that meet requirements s
 1. Install the dependencies: `pip install -r requirements.linux.txt`
 2. Run the main script: `/path/to/MainWidget.py` or `python MainWidget.py`
 
-## Failed to execute script error
-If you get this error, download debug version. Unzip it, open command line in this folder and run executable in cmd, just type "P", hit tab button to auto fill name and hit enter. You should see error message.
+## Windows defender / antivirus
+To create one executable file I'm using pyinstaller. Because of that your antivirus software may find it suspicious, see official pyinstaller [response](https://github.com/pyinstaller/pyinstaller/issues/4633). If you want to run the tool from sources just install python 3.8.2 and all packages from requirements.txt. If you have any troubles with that, let me know on [reddit](https://www.reddit.com/r/pathofexile/comments/h86xw2/poe_tiers_in_stash_tool/).
 
 ## Attributions
 Buttons used in project were made by:
