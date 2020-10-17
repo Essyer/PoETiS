@@ -141,7 +141,10 @@ class PainterWidget(QWidget):
                 if len(item.explicits) == 6:
                     pen.setStyle(Qt.DotLine)  # Change pen style if there are no open affixes
                 if self.colors:
-                    pen.setColor(QColor(self.colors[len(item.mods_matched)-1]))
+                    if len(item.mods_matched) > len(self.colors):
+                        pen.setColor(QColor(self.colors[-1]))
+                    else:
+                        pen.setColor(QColor(self.colors[len(item.mods_matched)-1]))
                 self.qp.setPen(pen)
                 self.draw_net(item)
                 self.qp.end()
