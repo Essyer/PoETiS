@@ -81,7 +81,12 @@ class Requester(QObject):
         request_string = 'https://www.pathofexile.com/character-window/get-stash-items?league=' + self.league + \
                          '&tabIndex=0&accountName=' + self.account_name + '&tabs=1'
 
-        response_json = self.session.get(request_string).json()
+        response_json = self.session.get(request_string)
+        if response_json.status_code < 200 or response_json.status_code > 299:
+            raise ValueError("Stash request failed with code ", response_json.status_code)
+        else:
+            response_json = response_json.json()
+
         if 'error' in response_json:
             raise ValueError('No connection or invalid settings')
         tabs = response_json['tabs']
@@ -95,7 +100,8 @@ class Requester(QObject):
     def request_data(self) -> None:
         self._validate_data_exists()
         self.session = requests.Session()
-        self.session.headers = {'Cookie': 'POESESSID=' + self.session_id}
+        self.session.headers = {'Cookie': 'POESESSID=' + self.session_id,
+                                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36' }
         self.get_stash_names()
         if self.stash_name not in self.stashes:
             raise ValueError('Stash ' + self.stash_name + ' not found')
