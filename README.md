@@ -1,5 +1,6 @@
 # PoETiS
 Path of Exile Tiers in Stash tool allows you to scan your stash for items with specified modifier values.
+
 Works in Ultimatum league, just change league name to "Ultimatum" in settings.
 
 ## Limitations
