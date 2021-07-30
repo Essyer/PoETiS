@@ -5,6 +5,8 @@ from src.Item import Item
 from src.SettingsWidget import SettingsWidget
 from src.PainterWidget import PainterWidget
 
+VERSION = "1.8"
+
 
 # Handles requesting GGG API for stash and items data
 class Requester(QObject):
@@ -101,7 +103,7 @@ class Requester(QObject):
         self._validate_data_exists()
         self.session = requests.Session()
         self.session.headers = {'Cookie': 'POESESSID=' + self.session_id,
-                                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.76 Safari/537.36' }
+                                'User-Agent': 'github.com/Essyer/PoETiS v' + VERSION + ' poetis.tool@gmail.com'}
         self.get_stash_names()
         if self.stash_name not in self.stashes:
             raise ValueError('Stash ' + self.stash_name + ' not found')
