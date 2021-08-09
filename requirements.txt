@@ -11,7 +11,7 @@ pypiwin32==223
 PyQt5==5.14.1
 PyQt5-sip==12.7.1
 PyQt5-stubs==5.14.2.1
-pywin32==228
+pywin32==301
 pywin32-ctypes==0.2.0
 requests==2.26.0
 shiboken2==5.15.0
