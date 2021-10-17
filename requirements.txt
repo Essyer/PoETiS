@@ -5,13 +5,13 @@ future==0.18.2
 idna==2.9
 packaging==20.4
 pefile==2019.4.18
-PyInstaller==4.4
+PyInstaller==4.5.1
 pyparsing==2.4.7
 pypiwin32==223
 PyQt5==5.14.1
 PyQt5-sip==12.7.1
 PyQt5-stubs==5.14.2.1
-pywin32==228
+pywin32==302
 pywin32-ctypes==0.2.0
 requests==2.26.0
 shiboken2==5.15.0

@@ -5,7 +5,7 @@ future==0.18.2
 idna==2.9
 packaging==20.4
 pefile==2019.4.18
-PyInstaller==4.4
+PyInstaller==4.5.1
 pyparsing==2.4.7
 PyQt5==5.14.1
 PyQt5-sip==12.7.1
