@@ -54,7 +54,7 @@ Example of frames. Each color represents number of mods that meet requirements s
 2. Run the main script: `/path/to/MainWidget.py` or `python MainWidget.py`
 
 ## Windows defender / antivirus
-To create one executable file I'm using pyinstaller. Because of that your antivirus software may find it suspicious, see official pyinstaller [response](https://github.com/pyinstaller/pyinstaller/issues/6062). If you want to run the tool from sources just install python 3.8.2 and all packages from requirements.txt. If you have any troubles with that, let me know on [reddit](https://www.reddit.com/r/pathofexile/comments/h86xw2/poe_tiers_in_stash_tool/).
+To create one executable file I'm using pyinstaller. Because of that your antivirus software may find it suspicious, see official pyinstaller [response](https://github.com/pyinstaller/pyinstaller/issues/6062). If you want to run the tool from sources just install python 3.8.2 and all packages from requirements.txt. If you have any troubles with that, let me know on [reddit](https://www.reddit.com/r/pathofexile/comments/h86xw2/poe_tiers_in_stash_tool/) or on discord Skaile#9466, I'm available on official PoE discord.
 
 ## Attributions
 Buttons used in project were made by:
