@@ -1,5 +1,5 @@
 <root>
-  <accessory>
+  <accessories>
     <amulet>
 
     </amulet>
@@ -9,7 +9,7 @@
     <ring>
 
     </ring>
-  </accessory>
+  </accessories>
   <armour>
     <boots>
 
@@ -30,7 +30,7 @@
 
     </quiver>
   </armour>
-  <jewel>
+  <jewels>
     <base>
 
     </base>
@@ -40,8 +40,8 @@
     <cluster>
 
     </cluster>
-  </jewel>
-  <weapon>
+  </jewels>
+  <weapons>
     <bow>
 
     </bow>
@@ -78,5 +78,5 @@
     <twosword>
 
     </twosword>
-  </weapon>
+  </weapons>
 </root>

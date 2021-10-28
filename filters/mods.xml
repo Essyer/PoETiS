@@ -1,5 +1,5 @@
 <root>
-  <accessory>
+  <accessories>
     <amulet>
       <mod>adds 0 to 22 physical damage to attacks</mod>
       <mod>adds 0 to 36 cold damage to attacks</mod>
@@ -56,7 +56,7 @@
     <mod>15% to chaos resistance</mod>
     <mod>40% increased mana regeneration rate</mod>
     <mod>31% increased elemental damage with attack skills</mod>
-  </accessory>
+  </accessories>
   <armour>
     <boots>
       <mod>36 to armour</mod>
@@ -143,7 +143,7 @@
     <mod>30% to lightning resistance</mod>
     <mod>21% to chaos resistance</mod>
   </armour>
-  <jewel>
+  <jewels>
     <base>
       <mod>5% increased maximum life</mod>
     </base>
@@ -153,8 +153,8 @@
     <cluster>
       <mod>1 added passive skill is fettle</mod>
     </cluster>
-  </jewel>
-  <weapon>
+  </jewels>
+  <weapons>
     <bow>
       <mod>adds 0 to 61 physical damage</mod>
       <mod>1 to level of socketed gems</mod>
@@ -286,5 +286,5 @@
     <mod>13% increased bleeding duration</mod>
     <mod>60% increased critical strike chance for spells</mod>
     <mod>adds 0 to 145 chaos damage</mod>
-  </weapon>
+  </weapons>
 </root>
