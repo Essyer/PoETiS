@@ -50,7 +50,7 @@ class FocusCheck(QObject):
             self.last_window = window
 
 
-# Track mouse position and send signal to PainterWidget if mouse is clicked while in requester_chaos mode
+# Track mouse position and send signal to PainterWidget if mouse is clicked while in chaos_recipe mode
 class MouseMonitor(QObject):
     def __init__(self, painter_widget):
         super(MouseMonitor, self).__init__()
@@ -64,7 +64,7 @@ class MouseMonitor(QObject):
 
             if a != self.state_left:  # Button state changed
                 self.state_left = a
-                if a < 0 and self.painter_widget.mode == "requester_chaos":
+                if a < 0 and self.painter_widget.mode == "chaos_recipe":
                     self.painter_widget.process_mouse_click(ox, oy)
             sleep(0.001)
 
@@ -137,7 +137,7 @@ class PainterWidget(QWidget):
         self.current_chaos_set = {}
         self.chaos_item = None
 
-        self.mode = "requester_chaos"
+        self.mode = "chaos_recipe"
 
     def paintEvent(self, r: QPaintEvent) -> None:
         self.stash_cells = stash_cells_root[self.stash_type]
@@ -164,9 +164,9 @@ class PainterWidget(QWidget):
 
     def change_mode(self, mode) -> None:
         self.mode = mode
-        if self.mode == 'requester_rare' and len(self.items) > 0:
+        if self.mode == 'rare_scanner' and len(self.items) > 0:
             self.paint_items()
-        elif self.mode == 'requester_chaos' and len(self.chaos_sets) > 0:
+        elif self.mode == 'chaos_recipe' and len(self.chaos_sets) > 0:
             self.paint_chaos()
 
     def paint_rares(self) -> None:
@@ -206,7 +206,7 @@ class PainterWidget(QWidget):
                     self.update()
 
     def paint_items(self) -> None:
-        if self.mode == "requester_rare":
+        if self.mode == "rare_scanner":
             self.paint_rares()
         else:
             self.paint_chaos()
@@ -222,7 +222,7 @@ class PainterWidget(QWidget):
         item_h = item.height * cell_height - pen_width
         self.qp.drawRect(item_x, item_y, item_w, item_h)
 
-        # Used in requester_chaos to check if clicked on item
+        # Used in chaos_recipe to check if clicked on item
         item.geometry = QRect(item_x + self.geometry().x(), item_y + self.geometry().y(), item_w, item_h)
 
     def show_hide_config(self) -> None:

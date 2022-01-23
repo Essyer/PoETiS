@@ -77,7 +77,10 @@ class MainWidget(QMainWindow):
         font = QFont()
         font.setBold(True)
         self.mode_switch_button.setFont(font)
-        self.mode_switch_button.setText("C")
+        if self.settings_widget.mode == "chaos_recipe":
+            self.mode_switch_button.setText("C")
+        else:
+            self.mode_switch_button.setText("R")
         self.mode_switch_button.clicked.connect(self._switch_mode)
 
         self.run_button = QPushButton()
@@ -186,8 +189,8 @@ class MainWidget(QMainWindow):
             widget.hide()
         else:
             if isinstance(widget, PainterWidget):
-                if (self.requester.mode == "requester_rare" and not widget.items) or \
-                        (self.requester.mode == "requester_chaos" and not widget.chaos_sets):
+                if (self.requester.mode == "rare_scanner" and not widget.items) or \
+                        (self.requester.mode == "chaos_recipe" and not widget.chaos_sets):
                     return
                 else:
                     icon.addPixmap(QPixmap(self.image_path + 'draw2.png'))
@@ -258,15 +261,19 @@ class MainWidget(QMainWindow):
     def _switch_mode(self):
         mode = self.requester.mode
 
-        if mode == "requester_chaos":
+        if mode == "chaos_recipe":
             self.mode_switch_button.setText("R")
-            self.requester.mode = "requester_rare"
-            self.painter_widget.change_mode("requester_rare")
+            self.requester.mode = "rare_scanner"
+            self.painter_widget.change_mode("rare_scanner")
+            self.settings_widget.mode = "rare_scanner"
+            self.settings_widget.save_cfg()
 
         else:
             self.mode_switch_button.setText("C")
-            self.requester.mode = "requester_chaos"
-            self.painter_widget.change_mode("requester_chaos")
+            self.requester.mode = "chaos_recipe"
+            self.painter_widget.change_mode("chaos_recipe")
+            self.settings_widget.mode = "chaos_recipe"
+            self.settings_widget.save_cfg()
 
 
 if __name__ == '__main__':

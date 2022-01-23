@@ -23,6 +23,7 @@ class Requester(QObject):
         self.session = None
         self.settings_widget = settings_widget
         self.mods_filter = ModsContainer.mods
+        self.mode = "chaos_recipe"
         # Instance of SettingsWidget is used to load settings on program initialization and to connect signal.
         # Then new values are sent from SettingsWidget to our _reload_settings()
         self._reload_settings(settings_widget.get_settings_for_requester())
@@ -31,7 +32,6 @@ class Requester(QObject):
         # We need to send new item data to the painter after we finish working on it
         self.painter_widget = painter_widget
 
-        self.mode = "requester_chaos"  # "rare" for rares scanning, "chaos" for chaos recipe TODO: add in config file
         self.chaos_sets = []
         self.allow_identified = False  # TODO: add in options
         self.fill_greedy = True  # TODO: add in options
@@ -43,7 +43,7 @@ class Requester(QObject):
         try:
             self.request_data()
             self.process_items_data()
-            if self.mode == "requester_rare":
+            if self.mode == "rare_scanner":
                 self.calculate_items_mods()
             else:
                 self.create_chaos_sets()
@@ -75,6 +75,9 @@ class Requester(QObject):
         self.stash_name = d["stash_name"]
         self.league = d["league"]
         ModsContainer.load_mods_config(d["mod_file"])
+        self.mode = d["mode"]
+        self.allow_identified = d["allow_identified"]
+        self.fill_greedy = d["fill_greedy"]
 
     def debug_print_matches(self, num_of_matches=1) -> None:
         print("Item base - Mods - Item name")
@@ -130,9 +133,9 @@ class Requester(QObject):
     def process_items_data(self) -> None:
         for item_data in self._items_data:
             item = Item()
-            if self.mode == "requester_rare":
+            if self.mode == "rare_scanner":
                 if 'explicitMods' in item_data and \
-                        ((item_data['frameType'] == 1 and self.mode == "requester_rare")  # magic item
+                        ((item_data['frameType'] == 1 and self.mode == "rare_scanner")  # magic item
                          or item_data['frameType'] == 2):  # rare item
                     #  copy item information and mods
                     self.copy_info(item_data, item)

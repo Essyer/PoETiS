@@ -27,6 +27,9 @@ class SettingsWidget(DragWidget):
         log_method_name()
         self.painter_widget = painter_widget
         self.painter_widget.colors = slider_colors
+        self.mode = "chaos_recipe"  # default mode
+        self.allow_identified = False
+        self.fill_greedy = True
 
         self._create_slider()  # Need to create if before loading configuration file to set tiles colors
         self._load_cfg()
@@ -106,6 +109,27 @@ class SettingsWidget(DragWidget):
         layout_main.addLayout(layout_slider)
 
         self.slider.on_value_changed_call(self.save_cfg)
+
+        self.radio_allow_identified = QRadioButton()
+        self.radio_fill_greedy = QRadioButton()
+        self.radio_allow_identified.setAutoExclusive(False)
+        self.radio_fill_greedy.setAutoExclusive(False)
+        self.radio_allow_identified.setChecked(self.allow_identified)
+        self.radio_fill_greedy.setChecked(self.fill_greedy)
+        self.radio_allow_identified.clicked.connect(self.switch_allow_identified)
+        self.radio_fill_greedy.clicked.connect(self.switch_fill_greedy)
+        layout_radio = QHBoxLayout()
+        layout_radio.setAlignment(Qt.AlignLeft)
+        label_allow_identified = QLabel("Allow identified items in chaos recipe")
+        layout_radio.addWidget(self.radio_allow_identified)
+        layout_radio.addWidget(label_allow_identified)
+        layout_main.addLayout(layout_radio)
+        layout_radio = QHBoxLayout()
+        layout_radio.setAlignment(Qt.AlignLeft)
+        label_fill_greedy = QLabel("Fill chaos recipe with more than one ilvl < 75 item")
+        layout_radio.addWidget(self.radio_fill_greedy)
+        layout_radio.addWidget(label_fill_greedy)
+        layout_main.addLayout(layout_radio)
 
         self.btn_hide = QPushButton("Close")
         self.btn_hide.clicked.connect(self.close)
@@ -252,6 +276,9 @@ class SettingsWidget(DragWidget):
         self.session_id = self._cfg_load_or_default(root, "session_id")
         self.stash_type = self._cfg_load_or_default(root, "stash_type", "quad")
         self.painter_widget.stash_type = self.stash_type
+        self.mode = self._cfg_load_or_default(root, "mode", "chaos_recipe")
+        self.allow_identified = self._cfg_load_or_default(root, "allow_identified", "False") == "True"
+        self.fill_greedy = self._cfg_load_or_default(root, "fill_greedy", "True") == "True"
 
         self._set_values_from_cfg()
 
@@ -302,6 +329,10 @@ class SettingsWidget(DragWidget):
             self._cfg_set_or_create(root, "painter_y", str(self.painter_geometry.y()))
             self._cfg_set_or_create(root, "painter_w", str(self.painter_geometry.width()))
             self._cfg_set_or_create(root, "painter_h", str(self.painter_geometry.height()))
+
+        self._cfg_set_or_create(root, "mode", self.mode)
+        self._cfg_set_or_create(root, "allow_identified", str(self.allow_identified))
+        self._cfg_set_or_create(root, "fill_greedy", str(self.fill_greedy))
 
         xml_indent(root)
         tree.write(CONFIG_PATH)
@@ -358,7 +389,10 @@ class SettingsWidget(DragWidget):
             "stash_name": self.active_stash[0],
             "league": self.combo_league.currentText(),
             "session_id": self.edit_session.text(),
-            "mod_file": FILTER_DIR + self.combo_mod_file.currentText()
+            "mod_file": FILTER_DIR + self.combo_mod_file.currentText(),
+            "mode": self.mode,
+            "allow_identified": self.allow_identified,
+            "fill_greedy": self.fill_greedy
         }
 
     def hide_account_session(self, force_hide=False):
@@ -391,3 +425,11 @@ class SettingsWidget(DragWidget):
             index = len(self.stashes) - 1
             self.active_stash = [self.stashes[index]["name"], index, self.stashes[index]["type"]]
         self.painter_widget.stash_type = self.active_stash[2]
+
+    def switch_allow_identified(self):
+        self.allow_identified = self.radio_allow_identified.isChecked()
+        self.save_cfg()
+
+    def switch_fill_greedy(self):
+        self.fill_greedy = self.radio_fill_greedy.isChecked()
+        self.save_cfg()
