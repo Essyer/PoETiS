@@ -55,6 +55,7 @@ class Item:
         self.totals = defaultdict(float)
         self.mods_matched = defaultdict(float)
         self.unsupported_mods = []
+        self.geometry = None
 
     def calculate_mods(self, filters: dict) -> None:
         if not self.base:

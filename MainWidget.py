@@ -72,6 +72,14 @@ class MainWidget(QMainWindow):
         icon.addPixmap(QPixmap(self.image_path + 'move.png'))
         self.drag_button.setIcon(icon)
 
+        self.mode_switch_button = QPushButton()
+        self.mode_switch_button.clicked.connect(lambda: self.show_hide_widget(self.painter_widget))
+        font = QFont()
+        font.setBold(True)
+        self.mode_switch_button.setFont(font)
+        self.mode_switch_button.setText("C")
+        self.mode_switch_button.clicked.connect(self._switch_mode)
+
         self.run_button = QPushButton()
         icon.addPixmap(QPixmap(self.image_path + 'run.png'))
         self.run_button.setIcon(icon)
@@ -99,6 +107,7 @@ class MainWidget(QMainWindow):
 
         self.buttons = [
             self.drag_button,
+            self.mode_switch_button,
             self.run_button,
             self.painter_button,
             self.filters_button,
@@ -177,7 +186,8 @@ class MainWidget(QMainWindow):
             widget.hide()
         else:
             if isinstance(widget, PainterWidget):
-                if not widget.items:
+                if (self.requester.mode == "requester_rare" and not widget.items) or \
+                        (self.requester.mode == "requester_chaos" and not widget.chaos_sets):
                     return
                 else:
                     icon.addPixmap(QPixmap(self.image_path + 'draw2.png'))
@@ -244,6 +254,19 @@ class MainWidget(QMainWindow):
         self.settings_widget.set_prev_active_stash()
         self.stash_name.setText(self.settings_widget.active_stash[0])
         self.stash_name.show()
+
+    def _switch_mode(self):
+        mode = self.requester.mode
+
+        if mode == "requester_chaos":
+            self.mode_switch_button.setText("R")
+            self.requester.mode = "requester_rare"
+            self.painter_widget.change_mode("requester_rare")
+
+        else:
+            self.mode_switch_button.setText("C")
+            self.requester.mode = "requester_chaos"
+            self.painter_widget.change_mode("requester_chaos")
 
 
 if __name__ == '__main__':

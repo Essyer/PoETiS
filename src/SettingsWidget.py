@@ -96,7 +96,7 @@ class SettingsWidget(DragWidget):
         btn_adjust_net.clicked.connect(self.painter_widget.show_hide_config)
         layout_main.addWidget(btn_adjust_net)
 
-        label_session = QLabel("Item tiers to detect")
+        label_session = QLabel("Minimum number of item mods to draw a frame")
         layout_main.addWidget(label_session)
         layout_slider = QHBoxLayout()
         self.slider.set_range(1, 5)

@@ -62,4 +62,5 @@ class Slider(QWidget):
                         children.setStyleSheet("background-color: gray")
                     else:
                         children.setStyleSheet("background-color: " + self.slider_colors[index])
+                        children.setText(str(index+1))
                     index += 1

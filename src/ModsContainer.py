@@ -99,6 +99,11 @@ class ModsContainer:
         ModsContainer.mods = filter_dict
 
 
+# For chaos recipe
+one_handed = ['shield', 'claw', 'dagger', 'sceptre', 'wand', 'oneaxe', 'onemace', 'onesword']
+two_handed = ['bow', 'staff', 'twoaxe', 'twomace', 'twosword']
+items_categories = ['weapon', 'weapon', 'helmet', 'chest', 'gloves', 'boots', 'belt', 'amulet', 'ring', 'ring']
+
 # List of all item categories from https://pathofexile.fandom.com/wiki/Public_stash_tab_API under "category" section
 # and item bases from https://pathofexile.fandom.com/wiki/Equipment
 # Tool will compare to API result only item names like 'Silk Slippers', 'armour' and 'boots' in this dict are only
@@ -199,7 +204,7 @@ item_bases = {
                    'Fishscale Gauntlets', 'Ironscale Gauntlets', 'Bronzescale Gauntlets', 'Steelscale Gauntlets',
                    'Serpentscale Gauntlets', 'Wyrmscale Gauntlets', 'Hydrascale Gauntlets', 'Dragonscale Gauntlets',
 
-                   'Chain Gloves', 'Ringmail Gloves', 'Mesh Gloves', 'Rivetet Gloves', 'Zealot Gloves',
+                   'Chain Gloves', 'Ringmail Gloves', 'Mesh Gloves', 'Riveted Gloves', 'Zealot Gloves',
                    'Soldier Gloves', 'Legion Gloves', 'Crusader Gloves', 'Apothecary\'s Gloves',
 
                    'Wrapped Mitts', 'Strapped Mitts', 'Clasped Mitts', 'Trapper Mitts', 'Ambush Mitts', 'Carnal Mitts',

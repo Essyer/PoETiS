@@ -1,11 +1,13 @@
 import requests
+import copy
+from collections import OrderedDict
 from PyQt5.QtCore import *
-from src.ModsContainer import item_bases, ModsContainer
+from src.ModsContainer import item_bases, ModsContainer, items_categories, one_handed, two_handed
 from src.Item import Item
 from src.SettingsWidget import SettingsWidget
 from src.PainterWidget import PainterWidget
 
-VERSION = "1.8"
+VERSION = "2.0"
 
 
 # Handles requesting GGG API for stash and items data
@@ -29,6 +31,11 @@ class Requester(QObject):
         # We need to send new item data to the painter after we finish working on it
         self.painter_widget = painter_widget
 
+        self.mode = "requester_chaos"  # "rare" for rares scanning, "chaos" for chaos recipe TODO: add in config file
+        self.chaos_sets = []
+        self.allow_identified = False  # TODO: add in options
+        self.fill_greedy = True  # TODO: add in options
+
     def run(self) -> None:
         self.clear()
         self._reload_settings(self.settings_widget.get_settings_for_requester())
@@ -36,8 +43,11 @@ class Requester(QObject):
         try:
             self.request_data()
             self.process_items_data()
-            self.calculate_items_mods()
-            self.painter_widget.items = self.items
+            if self.mode == "requester_rare":
+                self.calculate_items_mods()
+            else:
+                self.create_chaos_sets()
+                self.painter_widget.chaos_sets = self.chaos_sets
             # self.debug_print_matches()
         except Exception as e:
             self.failed.emit(e)
@@ -120,15 +130,26 @@ class Requester(QObject):
     def process_items_data(self) -> None:
         for item_data in self._items_data:
             item = Item()
-            if 'explicitMods' in item_data and \
-                    (item_data['frameType'] == 1  # magic item
-                     or item_data['frameType'] == 2):  # rare item
-                #  copy item information and mods
-                self.copy_info(item_data, item)
-                # determine item base and decide if we need it on our list of items
-                self.determine_categories(item_data, item)
-                if item.base:
-                    self.items.append(item)
+            if self.mode == "requester_rare":
+                if 'explicitMods' in item_data and \
+                        ((item_data['frameType'] == 1 and self.mode == "requester_rare")  # magic item
+                         or item_data['frameType'] == 2):  # rare item
+                    #  copy item information and mods
+                    self.copy_info(item_data, item)
+                    # determine item base and decide if we need it on our list of items
+                    self.determine_categories(item_data, item)
+                    if item.base:
+                        self.items.append(item)
+                    elif 'map' not in item_data['baseType'].lower():
+                        print('Found item with not filled base, baseType: {}'.format(item_data['baseType']))
+            else:
+                if item_data['frameType'] == 2:  # rare item
+                    if not item_data['identified'] or self.allow_identified:
+                        #  copy item information
+                        self.copy_info(item_data, item)
+                        # determine item base and decide if we need it on our list of items
+                        self.determine_categories(item_data, item)
+                        self.items.append(item)
 
     def calculate_items_mods(self) -> None:
         for item in self.items:
@@ -144,7 +165,8 @@ class Requester(QObject):
         item.ilvl = item_data['ilvl']
         if 'implicitMods' in item_data:
             item.implicits = str(item_data['implicitMods']).split(',')
-        item.explicits = str(item_data['explicitMods']).lower().split(',')
+        if 'explicitMods' in item_data:
+            item.explicits = str(item_data['explicitMods']).lower().split(',')
 
     @staticmethod
     def determine_categories(item_data: dict, item: Item) -> None:
@@ -157,3 +179,123 @@ class Requester(QObject):
                         item.base = base
                         item.name = item_data['name']
                         return
+
+    # two-handed weapon (including bow) OR 1h + shield OR 2 one-handed OR 2 shields
+    # helmet, chest, gloves, boots, belt, amulet, 2x ring
+
+    def split_items_to_dicts(self) -> [dict, dict]:
+        items_chaos = {}
+        items_regal = {}
+        for item in self.items:
+            if item.ilvl < 60:
+                self.items.remove(item)
+                continue
+            elif 60 <= item.ilvl <= 74:
+                items = items_chaos
+            else:
+                items = items_regal
+
+            if item.category2 in one_handed or item.category2 in two_handed:
+                items.setdefault('weapon', []).append(item)
+            elif item.category2 == 'helmet':
+                items.setdefault('helmet', []).append(item)
+            elif item.category2 == 'chest':
+                items.setdefault('chest', []).append(item)
+            elif item.category2 == 'gloves':
+                items.setdefault('gloves', []).append(item)
+            elif item.category2 == 'boots':
+                items.setdefault('boots', []).append(item)
+            elif item.category2 == 'belt':
+                items.setdefault('belt', []).append(item)
+            elif item.category2 == 'amulet':
+                items.setdefault('amulet', []).append(item)
+            elif item.category2 == 'ring':
+                items.setdefault('ring', []).append(item)
+
+        items_regal = OrderedDict(sorted(items_regal.items(), key=lambda x: len(x[1])))
+        items_chaos = OrderedDict(sorted(items_chaos.items(), key=lambda x: len(x[1])))
+        return items_regal, items_chaos
+
+    # Creates sets of items for chaos recipe. At least one item has to be 60 < ilvl < 75, others can be ilvl >= 75
+    def create_chaos_sets(self) -> None:
+        items_regal, items_chaos = self.split_items_to_dicts()
+        set_tmp = {'weapon': [], 'ring': [], 'helmet': [], 'chest': [], 'gloves': [], 'boots': [],
+                   'belt': [], 'amulet': []}
+
+        while len(items_chaos.values()) > 0:
+            # Fill set with regal items
+            regal_tmp = list(items_regal.items())
+            for key, values in regal_tmp:
+                if not set_tmp[key] and len(items_regal[key]) > 0:
+                    set_tmp[key].append(values[0])
+                    items_regal[key].remove(values[0])
+                    if key == 'ring':
+                        if len(items_regal[key]) > 0:
+                            set_tmp[key].append(values[0])
+                            items_regal[key].remove(values[0])
+                    if key == 'weapon' and set_tmp[key][0].category2 in one_handed and items_regal[key]:
+                        weapon_tmp_one = next(x for x in iter(items_regal[key]) if x.category2 in one_handed)
+                        if weapon_tmp_one:
+                            set_tmp[key].append(weapon_tmp_one)
+                            items_regal[key].remove(weapon_tmp_one)
+
+            chaos_added = 0
+            for key in set_tmp:
+                if not set_tmp[key]:
+                    if len(items_chaos[key]) > 0:
+                        item_tmp = items_chaos[key][-1]
+                        set_tmp[key].append(item_tmp)
+                        items_chaos[key].pop(-1)
+                        chaos_added += 1
+                        if item_tmp.category2 == "ring":
+                            if len(items_chaos[key]) > 0:
+                                item_tmp = items_chaos[key][-1]
+                                set_tmp[key].append(item_tmp)
+                                items_chaos[key].pop(-1)
+                                chaos_added += 1
+                            else:
+                                return
+                        elif item_tmp.category2 in one_handed and items_chaos[key]:
+                            weapon_tmp_one = next(x for x in iter(items_chaos[key]) if x.category2 in one_handed)
+                            if weapon_tmp_one:
+                                set_tmp[key].append(weapon_tmp_one)
+                                items_chaos[key].remove(weapon_tmp_one)
+                                chaos_added += 1
+                            else:
+                                return
+                    else:
+                        return
+                elif key == 'ring' and len(set_tmp[key]) < 2:
+                    if len(items_chaos[key]) > 0:
+                        set_tmp[key].append(items_chaos[key][-1])
+                        items_chaos[key].pop(-1)
+                        chaos_added += 1
+                    else:
+                        return
+                elif key == 'weapon' and len(set_tmp[key]) < 2 and set_tmp[key][0].category2 in one_handed:
+                    if len(items_chaos[key]) > 0:
+                        weapon_tmp_one = next(x for x in iter(items_chaos[key]) if x.category2 in one_handed)
+                        if weapon_tmp_one:
+                            set_tmp[key].append(weapon_tmp_one)
+                            items_chaos[key].remove(weapon_tmp_one)
+                            chaos_added += 1
+                        else:
+                            return
+                    else:
+                        return
+
+            if chaos_added == 0:
+                most_common_chaos = list(items_chaos.keys())[-1]
+                if items_chaos[most_common_chaos]:
+                    items_regal[most_common_chaos].append(set_tmp[most_common_chaos][0])
+                    set_tmp[most_common_chaos][0] = items_chaos[most_common_chaos][-1]
+                    items_chaos[most_common_chaos].pop(-1)
+                    chaos_added += 1
+                else:
+                    return
+
+            if chaos_added > 1 and not self.fill_greedy:
+                return
+            self.chaos_sets.append(copy.deepcopy(set_tmp))
+            set_tmp = {'weapon': [], 'ring': [], 'helmet': [], 'chest': [], 'gloves': [], 'boots': [],
+                       'belt': [], 'amulet': []}

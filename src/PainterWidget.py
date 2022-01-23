@@ -1,4 +1,5 @@
 import platform
+import win32api
 from time import sleep
 from src.utils import log_method_name, load_styles, print_windows_warning
 
@@ -14,7 +15,7 @@ from PyQt5.QtWidgets import *
 from src.DragButton import DragButton
 from src.ResizeButton import ResizeButton
 from src.Item import Item
-from src.ModsContainer import PROJECT_ROOT
+from src.ModsContainer import PROJECT_ROOT, one_handed, two_handed
 
 
 stash_cells_root = {
@@ -49,6 +50,25 @@ class FocusCheck(QObject):
             self.last_window = window
 
 
+# Track mouse position and send signal to PainterWidget if mouse is clicked while in requester_chaos mode
+class MouseMonitor(QObject):
+    def __init__(self, painter_widget):
+        super(MouseMonitor, self).__init__()
+        self.painter_widget = painter_widget
+        self.state_left = win32api.GetKeyState(0x01)  # Left button down = 0 or 1. Button up = -127 or -128
+
+    def run(self) -> None:
+        while True:
+            a = win32api.GetKeyState(0x01)
+            ox, oy = win32api.GetCursorPos()
+
+            if a != self.state_left:  # Button state changed
+                self.state_left = a
+                if a < 0 and self.painter_widget.mode == "requester_chaos":
+                    self.painter_widget.process_mouse_click(ox, oy)
+            sleep(0.001)
+
+
 class PainterWidget(QWidget):
     geometry_changed = pyqtSignal(QRect)
 
@@ -76,6 +96,13 @@ class PainterWidget(QWidget):
         self.focus_check.moveToThread(self.focus_check_thread)
         self.focus_check_thread.started.connect(self.focus_check.run)
         self.focus_check_thread.start()
+
+        # Setup mouse monitor thread
+        self.mouse_monitor = MouseMonitor(self)
+        self.mouse_monitor_thread = QThread()
+        self.mouse_monitor.moveToThread(self.mouse_monitor_thread)
+        self.mouse_monitor_thread.started.connect(self.mouse_monitor.run)
+        self.mouse_monitor_thread.start()
 
         self.config_change_mode = False  # True when modifying net size and position
         self.drag_button = DragButton(self, False)
@@ -106,6 +133,11 @@ class PainterWidget(QWidget):
 
         self.number_of_mods_to_draw = 1
         self.items = []
+        self.chaos_sets = []
+        self.current_chaos_set = {}
+        self.chaos_item = None
+
+        self.mode = "requester_chaos"
 
     def paintEvent(self, r: QPaintEvent) -> None:
         self.stash_cells = stash_cells_root[self.stash_type]
@@ -130,7 +162,14 @@ class PainterWidget(QWidget):
         self.qp.end()
         self.update()  # Need to refresh in case when net over items was visible
 
-    def paint_items(self) -> None:
+    def change_mode(self, mode) -> None:
+        self.mode = mode
+        if self.mode == 'requester_rare' and len(self.items) > 0:
+            self.paint_items()
+        elif self.mode == 'requester_chaos' and len(self.chaos_sets) > 0:
+            self.paint_chaos()
+
+    def paint_rares(self) -> None:
         for item in self.items:
             if len(item.mods_matched) > 0:
                 self.qp.begin(self)
@@ -149,13 +188,42 @@ class PainterWidget(QWidget):
                 self.draw_net(item)
                 self.qp.end()
 
-    def draw_net(self, item: Item) -> None:
-        if len(item.mods_matched) < self.number_of_mods_to_draw:
+    def paint_chaos(self) -> None:
+        if self.chaos_sets:
+            self.current_chaos_set = self.chaos_sets[-1]
+            for item_array in self.current_chaos_set.values():
+                for item in item_array:
+                    self.qp.begin(self)
+                    self.qp.setRenderHint(QPainter.Antialiasing)
+                    pen = QPen(Qt.red)
+                    pen.setWidth(pen_width)
+                    if item.ilvl < 75:
+                        pen.setColor(QColor("Yellow"))
+                    self.qp.setPen(pen)
+                    self.draw_net(item, True)
+                    self.qp.end()
+                    self.chaos_item = item
+                    self.update()
+
+    def paint_items(self) -> None:
+        if self.mode == "requester_rare":
+            self.paint_rares()
+        else:
+            self.paint_chaos()
+
+    def draw_net(self, item: Item, chaos_draw=False) -> None:
+        if not chaos_draw and len(item.mods_matched) < self.number_of_mods_to_draw:
             return
         cell_width = (self.width()) / self.stash_cells
         cell_height = (self.height() - self.drag_button.height()) / self.stash_cells
-        self.qp.drawRect(item.x * cell_width + pen_width, item.y * cell_height + pen_width, item.width * cell_width -
-                         pen_width, item.height * cell_height - pen_width)
+        item_x = item.x * cell_width + pen_width + self.geometry().x()
+        item_w = item.width * cell_width - pen_width
+        item_y = item.y * cell_width + + pen_width + self.geometry().y()
+        item_h = item.height * cell_height - pen_width
+        self.qp.drawRect(item_x, item_y, item_w, item_h)
+
+        # Used in requester_chaos to check if clicked on item
+        item.geometry = QRect(item_x + self.geometry().x(), item_y + self.geometry().y(), item_w, item_h)
 
     def show_hide_config(self) -> None:
         log_method_name()
@@ -180,3 +248,21 @@ class PainterWidget(QWidget):
 
     def update_pos_size(self) -> None:
         self.geometry_changed.emit(QRect(self.geometry()))
+
+    # If mouse clicked on current chaos_item, remove it
+    def process_mouse_click(self, ox, oy) -> None:
+        for chaos_item_list in self.current_chaos_set.values():
+            for chaos_item in chaos_item_list:
+                if chaos_item:
+                    if chaos_item.geometry.x() <= ox <= chaos_item.geometry.x() + chaos_item.geometry.width() \
+                            and chaos_item.geometry.y() <= oy <= chaos_item.geometry.y() \
+                            + chaos_item.geometry.height():
+                        category = chaos_item.category2
+                        if category in one_handed + two_handed:
+                            category = "weapon"
+                        self.current_chaos_set[category].remove(chaos_item)
+                        if not any(x for x in self.current_chaos_set.values()):
+                            self.chaos_sets.pop()
+                            if self.chaos_sets:
+                                self.current_chaos_set = self.chaos_sets[-1]
+                        self.paint_chaos()
