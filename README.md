@@ -1,17 +1,19 @@
 # PoETiS
-Path of Exile Tiers in Stash tool allows you to scan your stash for items with specified modifier values.
+Path of Exile Tiers in Stash tool allows you to scan your stash for items with specified modifier values - rare scanner mode ![](https://i.ibb.co/KzGMMPG/r.jpg)
 
-Works in Expedition league, just change league name to "Expedition" in settings.
+Since version 2.0 it includes basic chaos recipe functionality ![](https://i.ibb.co/jwBLZB9/c.jpg)
 
 ## Limitations
 
+For chaos recipe I suggest using offline filters. I found a trick to make online ones working, but after each game start you will need to go to game options and just click on filters list. Without that step the filter will not be reloaded on entering new map. Also, when you enter new map, do not alt-tab the game until the filter gets reloaded (1-2s after you enter the map). To reload the filter this tool needs to send chat command /itemfilter <filter_name> and this text will get pasted into your active window.
+
 One stash at a time, doesn't have to be premium, just normal or quad stash with items. You can switch between stashes if you added more than one in settings.
 
-Only identified rare and magic items, you can have other items in stash, but they won't be processed.
+In rare scanner mode only identified rare and magic items works, you can have other items in stash, but they won't be processed.
 
 Pseudo mods are not supported, I may add them in future.
 
-Depending on GGG servers load you may need to wait a bit after putting items into the stash.
+Depending on GGG servers load you may need to wait a bit after putting items into the stash. If you want to force refresh the API, change instance. For example teleport to Aspirant's plaza and back to your hideout.
 
 GGG API limits items returned to 100 of the same type, so if you dump over 100 rings in your stash, some of them won't be processed and you won't know about it.
 
@@ -23,8 +25,8 @@ You can download a prepared executable or run from sources (just install all dep
 After you run it for the first time, a new file "config.xml" will be created in the location of the executable and you will see a widget bar on the left edge of your screen.
 
 1. Check buttons description below if something is not clear.
-2. Go to settings, set account name, session ID, add at least one stash name and adjust net position and size to fit your inventory
-3. Click "run" button, if you want to show/hide frames click pencil
+2. Go to settings, set account name, session ID, add at least one stash name and adjust net position and size to fit your inventory. If you want to use chaos recipe mode make sure to add paths to PoE log file (e.g. C:\SteamLibrary\steamapps\common\Path of Exile\logs\Client.txt) and to your filter file (e.g. C:\Users\pawel\Documents\My Games\Path of Exile\NeverSink's filter - 3-STRICT.filter)
+3. If you already have some items in stash click "run" button, if you want to show/hide frames click pencil
 4. Switch between stashes with <> buttons, each time you will need to send new request. Tooltip with name of stash will disappear once you hit "run" button or hide all buttons.
 5. You may want to modify filters, described below. For example jewels have too many mods, I added one mod per jewel category, but you probably will want much more.
 
