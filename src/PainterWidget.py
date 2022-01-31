@@ -216,9 +216,9 @@ class PainterWidget(QWidget):
             return
         cell_width = (self.width()) / self.stash_cells
         cell_height = (self.height() - self.drag_button.height()) / self.stash_cells
-        item_x = item.x * cell_width + pen_width + self.geometry().x()
+        item_x = item.x * cell_width + pen_width
         item_w = item.width * cell_width - pen_width
-        item_y = item.y * cell_width + + pen_width + self.geometry().y()
+        item_y = item.y * cell_width + pen_width
         item_h = item.height * cell_height - pen_width
         self.qp.drawRect(item_x, item_y, item_w, item_h)
 

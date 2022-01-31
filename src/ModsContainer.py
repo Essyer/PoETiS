@@ -99,11 +99,6 @@ class ModsContainer:
         ModsContainer.mods = filter_dict
 
 
-# For chaos recipe
-one_handed = ['shield', 'claw', 'dagger', 'sceptre', 'wand', 'oneaxe', 'onemace', 'onesword']
-two_handed = ['bow', 'staff', 'twoaxe', 'twomace', 'twosword']
-items_categories = ['weapon', 'weapon', 'helmet', 'chest', 'gloves', 'boots', 'belt', 'amulet', 'ring', 'ring']
-
 # List of all item categories from https://pathofexile.fandom.com/wiki/Public_stash_tab_API under "category" section
 # and item bases from https://pathofexile.fandom.com/wiki/Equipment
 # Tool will compare to API result only item names like 'Silk Slippers', 'armour' and 'boots' in this dict are only
@@ -117,7 +112,7 @@ item_bases = {
         'cluster': ['Small Cluster Jewel', 'Medium Cluster Jewel', 'Large Cluster Jewel']
     },
     'accessories': {
-        'amulet': ['Coral Amulet', 'Paula Amulet', 'Amber Amulet', 'Jade Amulet', 'Lapis Amulet', 'Gold Amulet',
+        'amulet': ['Coral Amulet', 'Paua Amulet', 'Amber Amulet', 'Jade Amulet', 'Lapis Amulet', 'Gold Amulet',
                    'Agate Amulet', 'Citrine Amulet', 'Turquoise Amulet', 'Onyx Amulet', 'Simplex Amulet',
                    'Astrolabe Amulet', 'Marble Amulet', 'Seaglass Amulet', 'Blue Pearl Amulet',
 
@@ -164,7 +159,7 @@ item_bases = {
                   'Crusader Plate', 'Astral Plate', 'Gladiator Plate', 'Glorious Plate',
 
                   'Shabby Jerkin', 'Strapped Leather', 'Buckskin Tunic', 'Wild Leather', 'Full Leather', 'Sun Leather',
-                  'Thief\'s Garb', 'Eelskin Tunic', 'Frontier Leather', 'Glorious Leather', 'Coronal Leather'
+                  'Thief\'s Garb', 'Eelskin Tunic', 'Frontier Leather', 'Glorious Leather', 'Coronal Leather',
                   'Cutthroat\'s Garb', 'Sharkskin Tunic', 'Destiny Leather', 'Exquisite Leather', 'Zodiac Leather',
                   'Assassin\'s Garb',
 
@@ -211,7 +206,7 @@ item_bases = {
                    'Assassin\'s Mitts', 'Murder Mitts'],
 
         'helmet': ['Iron Hat', 'Cone Helmet', 'Barbute Helmet', 'Close Helmet', 'Gladiator Helmet', 'Reaver Helmet',
-                   'Siege Helmet', 'Samite Helmet', 'Ezomyte Burgonet', 'Royal Burgonet', 'Eternal Burgonet',
+                   'Siege Helmet', 'Samnite Helmet', 'Ezomyte Burgonet', 'Royal Burgonet', 'Eternal Burgonet',
 
                    'Leather Cap', 'Tricorne', 'Leather Hood', 'Wolf Pelt', 'Hunter Hood', 'Noble Tricorne',
                    'Ursine Pelt', 'Silken Hood', 'Sinner Tricorne', 'Lion Pelt',
@@ -349,4 +344,19 @@ item_bases = {
                      'Wraith Sword', 'Lithe Blade', 'Headman\'s Sword', 'Reaver Sword', 'Ezomyte Blade',
                      'Vaal Greatsword', 'Lion Sword', 'Infernal Sword', 'Banishing Blade', 'Exquisite Blade'],
     }
+}
+
+# For chaos recipe
+one_handed = ['shield', 'claw', 'dagger', 'sceptre', 'wand', 'oneaxe', 'onemace', 'onesword']
+two_handed = ['bow', 'staff', 'twoaxe', 'twomace', 'twosword']
+items_categories = ['weapon', 'weapon', 'helmet', 'chest', 'gloves', 'boots', 'belt', 'amulet', 'ring', 'ring']
+items_categories_filter = {
+    'chest': "Body Armours",
+    'helmet': "Helmets",
+    'gloves': "Gloves",
+    'boots': "Boots",
+    'weapon': 'weapon',  # needs special handling
+    'ring': "Rings",
+    'amulet': "Amulets",
+    'belt': "Belts"
 }

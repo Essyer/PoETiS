@@ -11,9 +11,10 @@ VERSION = "2.0"
 
 
 # Handles requesting GGG API for stash and items data
-class Requester(QObject):
+class Requester(QThread):
     finished = pyqtSignal()
     failed = pyqtSignal(Exception)
+    finished_counting_chaos = pyqtSignal(object)
 
     def __init__(self, settings_widget: SettingsWidget, painter_widget: PainterWidget):
         super(Requester, self).__init__()
@@ -33,26 +34,49 @@ class Requester(QObject):
         self.painter_widget = painter_widget
 
         self.chaos_sets = []
-        self.allow_identified = False  # TODO: add in options
-        self.fill_greedy = True  # TODO: add in options
+        self.allow_identified = False
+        self.fill_greedy = True
+        self.chaos_sets_goal = 0
 
     def run(self) -> None:
         self.clear()
         self._reload_settings(self.settings_widget.get_settings_for_requester())
         self.mods_filter = ModsContainer.mods  # Refresh values, they could be modified
         try:
+            self.chaos_sets = []
             self.request_data()
             self.process_items_data()
             if self.mode == "rare_scanner":
                 self.calculate_items_mods()
+                self.painter_widget.items = self.items
+                # self.debug_print_matches()
             else:
                 self.create_chaos_sets()
                 self.painter_widget.chaos_sets = self.chaos_sets
-            # self.debug_print_matches()
         except Exception as e:
             self.failed.emit(e)
         else:
             self.finished.emit()
+
+    def count_chaos_items(self):
+        if self.mode == "chaos_recipe":
+            self.clear()
+            self._reload_settings(self.settings_widget.get_settings_for_requester())
+            try:
+                chaos_counters = {"weapon": [0, 0], "helmet": [0, 0], "chest": [0, 0], "gloves": [0, 0],
+                                  "boots": [0, 0], "belt": [0, 0], "amulet": [0, 0], "ring": [0, 0]}
+                self.request_data()
+                self.process_items_data()
+                items_regal, items_chaos = self.split_items_to_dicts()
+                for category in chaos_counters:
+                    if category in items_chaos:
+                        chaos_counters[category][0] = len(items_chaos[category])
+                    if category in items_regal:
+                        chaos_counters[category][1] = len(items_regal[category])
+            except Exception as e:
+                self.failed.emit(e)
+            else:
+                self.finished_counting_chaos.emit(chaos_counters)
 
     def clear(self) -> None:
         self.stashes.clear()
@@ -242,23 +266,44 @@ class Requester(QObject):
                             set_tmp[key].append(weapon_tmp_one)
                             items_regal[key].remove(weapon_tmp_one)
 
+            # Fill in with chaos items
             chaos_added = 0
             for key in set_tmp:
-                if not set_tmp[key]:
-                    if len(items_chaos[key]) > 0:
-                        item_tmp = items_chaos[key][-1]
-                        set_tmp[key].append(item_tmp)
-                        items_chaos[key].pop(-1)
-                        chaos_added += 1
-                        if item_tmp.category2 == "ring":
-                            if len(items_chaos[key]) > 0:
-                                item_tmp = items_chaos[key][-1]
-                                set_tmp[key].append(item_tmp)
-                                items_chaos[key].pop(-1)
-                                chaos_added += 1
-                            else:
-                                return
-                        elif item_tmp.category2 in one_handed and items_chaos[key]:
+                if key in items_chaos:
+                    if not set_tmp[key]:
+                        if len(items_chaos[key]) > 0:
+                            item_tmp = items_chaos[key][-1]
+                            set_tmp[key].append(item_tmp)
+                            items_chaos[key].pop(-1)
+                            chaos_added += 1
+                            if item_tmp.category2 == "ring":
+                                if len(items_chaos[key]) > 0:
+                                    item_tmp = items_chaos[key][-1]
+                                    set_tmp[key].append(item_tmp)
+                                    items_chaos[key].pop(-1)
+                                    chaos_added += 1
+                                else:
+                                    return
+                            elif item_tmp.category2 in one_handed and items_chaos[key]:
+                                weapon_tmp_one = next(x for x in iter(items_chaos[key]) if x.category2 in one_handed)
+                                if weapon_tmp_one:
+                                    set_tmp[key].append(weapon_tmp_one)
+                                    items_chaos[key].remove(weapon_tmp_one)
+                                    chaos_added += 1
+                                else:
+                                    return
+                        else:
+                            return
+                    elif key == 'ring' and len(set_tmp[key]) < 2:
+                        if len(items_chaos[key]) > 0:
+                            set_tmp[key].append(items_chaos[key][-1])
+                            items_chaos[key].pop(-1)
+                            chaos_added += 1
+                        else:
+                            return
+                    elif key == 'weapon' and len(set_tmp[key]) < 2 \
+                            and set_tmp[key][0].category2 in one_handed:
+                        if len(items_chaos[key]) > 0:
                             weapon_tmp_one = next(x for x in iter(items_chaos[key]) if x.category2 in one_handed)
                             if weapon_tmp_one:
                                 set_tmp[key].append(weapon_tmp_one)
@@ -266,27 +311,10 @@ class Requester(QObject):
                                 chaos_added += 1
                             else:
                                 return
-                    else:
-                        return
-                elif key == 'ring' and len(set_tmp[key]) < 2:
-                    if len(items_chaos[key]) > 0:
-                        set_tmp[key].append(items_chaos[key][-1])
-                        items_chaos[key].pop(-1)
-                        chaos_added += 1
-                    else:
-                        return
-                elif key == 'weapon' and len(set_tmp[key]) < 2 and set_tmp[key][0].category2 in one_handed:
-                    if len(items_chaos[key]) > 0:
-                        weapon_tmp_one = next(x for x in iter(items_chaos[key]) if x.category2 in one_handed)
-                        if weapon_tmp_one:
-                            set_tmp[key].append(weapon_tmp_one)
-                            items_chaos[key].remove(weapon_tmp_one)
-                            chaos_added += 1
                         else:
                             return
-                    else:
-                        return
 
+            # If all items are from regal recipe replace one of them with chaos recipe item
             if chaos_added == 0:
                 most_common_chaos = list(items_chaos.keys())[-1]
                 if items_chaos[most_common_chaos]:
@@ -299,6 +327,11 @@ class Requester(QObject):
 
             if chaos_added > 1 and not self.fill_greedy:
                 return
+
+            # Do not add set if there is any item missing
+            if any(value == [] for value in set_tmp.values()):
+                return
+
             self.chaos_sets.append(copy.deepcopy(set_tmp))
             set_tmp = {'weapon': [], 'ring': [], 'helmet': [], 'chest': [], 'gloves': [], 'boots': [],
                        'belt': [], 'amulet': []}

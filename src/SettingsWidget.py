@@ -1,4 +1,5 @@
 import os
+import re
 import xml.etree.ElementTree as ElementTree
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -30,6 +31,10 @@ class SettingsWidget(DragWidget):
         self.mode = "chaos_recipe"  # default mode
         self.allow_identified = False
         self.fill_greedy = True
+        self.poe_log_path = ""
+        self.poe_filter_path = ""
+        self.poe_filter_name = ""
+        self.maximum_chaos_sets = 16
 
         self._create_slider()  # Need to create if before loading configuration file to set tiles colors
         self._load_cfg()
@@ -120,16 +125,39 @@ class SettingsWidget(DragWidget):
         self.radio_fill_greedy.clicked.connect(self.switch_fill_greedy)
         layout_radio = QHBoxLayout()
         layout_radio.setAlignment(Qt.AlignLeft)
-        label_allow_identified = QLabel("Allow identified items in chaos recipe")
         layout_radio.addWidget(self.radio_allow_identified)
-        layout_radio.addWidget(label_allow_identified)
+        layout_radio.addWidget(QLabel("Allow identified items in chaos recipe"))
         layout_main.addLayout(layout_radio)
         layout_radio = QHBoxLayout()
         layout_radio.setAlignment(Qt.AlignLeft)
-        label_fill_greedy = QLabel("Fill chaos recipe with more than one ilvl < 75 item")
         layout_radio.addWidget(self.radio_fill_greedy)
-        layout_radio.addWidget(label_fill_greedy)
+        layout_radio.addWidget(QLabel("Fill chaos recipe with more than one ilvl < 75 item"))
         layout_main.addLayout(layout_radio)
+
+        layout_main.addWidget(QLabel("PoE log file location"))
+        self.poe_log_path_button = QPushButton()
+        self.poe_log_path_button.clicked.connect(self.select_poe_log_file)
+        if self.poe_log_path:
+            self.poe_log_path_button.setText(self.path_for_button(self.poe_log_path))
+        else:
+            self.poe_log_path_button.setText("Set PoE log file location")
+        self.poe_log_path_button.setToolTip("PoE log file location")
+        layout_main.addWidget(self.poe_log_path_button)
+
+        layout_main.addWidget(QLabel("PoE filter file location"))
+        self.poe_filter_path_button = QPushButton()
+        self.poe_filter_path_button.clicked.connect(self.select_poe_filter_file)
+        if self.poe_filter_path:
+            self.poe_filter_path_button.setText(self.path_for_button(self.poe_filter_path))
+        else:
+            self.poe_filter_path_button.setText("Set PoE filter file location")
+        self.poe_filter_path_button.setToolTip("PoE filter file location")
+        layout_main.addWidget(self.poe_filter_path_button)
+
+        layout_main.addWidget(QLabel("Max number of chaos recipe sets in stash"))
+        self.maximum_chaos_sets_text = QLineEdit(str(self.maximum_chaos_sets))
+        self.maximum_chaos_sets_text.textChanged.connect(self.save_cfg)
+        layout_main.addWidget(self.maximum_chaos_sets_text)
 
         self.btn_hide = QPushButton("Close")
         self.btn_hide.clicked.connect(self.close)
@@ -228,6 +256,8 @@ class SettingsWidget(DragWidget):
     def close(self) -> None:
         self.hide()
         self.painter_widget.hide_modification_mode()
+        if self.poe_log_path_button:
+            self.poe_log_path_button.setText(self.path_for_button(self.poe_log_path))
 
     def _update_leagues_combo(self) -> None:
         self.combo_league.clear()
@@ -279,6 +309,10 @@ class SettingsWidget(DragWidget):
         self.mode = self._cfg_load_or_default(root, "mode", "chaos_recipe")
         self.allow_identified = self._cfg_load_or_default(root, "allow_identified", "False") == "True"
         self.fill_greedy = self._cfg_load_or_default(root, "fill_greedy", "True") == "True"
+        self.poe_log_path = self._cfg_load_or_default(root, "log_path", "Set PoE log file location")
+        self.poe_filter_path = self._cfg_load_or_default(root, "filter_path", "Set PoE filter file location")
+        self.poe_filter_name = self._cfg_load_or_default(root, "filter_name", "")
+        self.maximum_chaos_sets = int(self._cfg_load_or_default(root, "max_chaos_sets", "16"))
 
         self._set_values_from_cfg()
 
@@ -309,6 +343,7 @@ class SettingsWidget(DragWidget):
         self.painter_widget.setGeometry(painter_geometry)
         self.painter_widget.setFixedWidth(painter_geometry.width())
         self.painter_widget.setFixedHeight(painter_geometry.height())
+        self.painter_widget.mode = self.mode
 
     def save_cfg(self) -> None:
         log_method_name()
@@ -333,6 +368,13 @@ class SettingsWidget(DragWidget):
         self._cfg_set_or_create(root, "mode", self.mode)
         self._cfg_set_or_create(root, "allow_identified", str(self.allow_identified))
         self._cfg_set_or_create(root, "fill_greedy", str(self.fill_greedy))
+        self._cfg_set_or_create(root, "log_path", self.poe_log_path)
+        self._cfg_set_or_create(root, "filter_path", self.poe_filter_path)
+        if self.poe_filter_name:
+            self.poe_filter_name = self.poe_filter_name.rstrip()
+        self._cfg_set_or_create(root, "filter_name", self.poe_filter_name)
+        self._cfg_set_or_create(root, "max_chaos_sets", self.maximum_chaos_sets_text.text())
+        self.maximum_chaos_sets = int(self.maximum_chaos_sets_text.text())
 
         xml_indent(root)
         tree.write(CONFIG_PATH)
@@ -433,3 +475,64 @@ class SettingsWidget(DragWidget):
     def switch_fill_greedy(self):
         self.fill_greedy = self.radio_fill_greedy.isChecked()
         self.save_cfg()
+
+    def select_poe_log_file(self):
+        current_path = ""
+        if self.poe_log_path:
+            current_path = os.path.dirname(self.poe_log_path)
+        log_path = QFileDialog.getOpenFileName(self, "Select PoE log file", current_path)[0]
+
+        if log_path:
+            if "client.txt" not in log_path.lower():
+                self.poe_log_path_button.setText("Invalid log file!")
+            else:
+                self.poe_log_path_button.setText(self.path_for_button(log_path))
+                self.poe_log_path = log_path
+                self.save_cfg()
+
+    def select_poe_filter_file(self):
+        current_path = ""
+        if self.poe_filter_path:
+            current_path = os.path.dirname(self.poe_filter_path)
+        filter_path = QFileDialog.getOpenFileName(self, "Select PoE filter file", current_path)[0]
+        if not filter_path and not self.poe_filter_path:
+            self.poe_filter_path_button.setText("Set PoE filter file location")
+        else:
+            filter_path = filter_path or self.poe_filter_path
+            correct_filter = False
+            try:
+                with open(filter_path, 'r') as f:
+                    lines_left = 50  # Check next lines for filter name
+                    for line in f:
+                        if "#poetis start" in line.lower():
+                            lines_left = -1  # Skip lines modified by us
+                        if "#poetis end" in line.lower():
+                            lines_left = 50  # Check next lines for filter name
+                        if lines_left > 0:
+                            lines_left -= 1
+                            if "type:" in line.lower():
+                                print(os.path.splitext(os.path.basename(filter_path))[0])
+                                self.poe_filter_name = os.path.splitext(os.path.basename(filter_path))[0]
+                                correct_filter = True
+                                break
+                            elif "name:" in line.lower():
+                                self.poe_filter_name = line[6:]
+                                correct_filter = True
+                                break
+                if correct_filter:
+                    self.poe_filter_path_button.setText(self.path_for_button(filter_path))
+                    self.poe_filter_path = filter_path
+                    self.save_cfg()
+                else:
+                    self.poe_filter_path_button.setText("Invalid filter file!")
+            except OSError as e:
+                self.poe_filter_path = ""
+                self.save_cfg()
+                self.poe_filter_path_button.setText("Filter file not found!")
+
+    @staticmethod
+    def path_for_button(path) -> str:
+        out = ""
+        if len(path) > 50:
+            out = "..."
+        return out + path[-50:]

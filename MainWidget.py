@@ -14,6 +14,7 @@ from src.SettingsWidget import SettingsWidget
 from src.Requester import Requester
 from src.PainterWidget import PainterWidget
 from src.ModsContainer import ModsContainer, DEFAULT_FILTER_PATH, PROJECT_ROOT
+from src.FilterManager import LogListener, FilterManager
 from src.utils import load_styles, initialize_logging, log_method_name
 
 
@@ -41,17 +42,27 @@ class MainWidget(QMainWindow):
         self.filters_widget = FiltersWidget(self.settings_widget)
         self.requester = Requester(self.settings_widget, self.painter_widget)
         self.last_requested_time = 0
+        self.logListener = LogListener(self.settings_widget)
+        self.filter_manager = FilterManager(self.settings_widget)
 
         # Load mod configuration
         ModsContainer.load_mods_config(self.settings_widget.mod_file)
 
         # Setup Requester thread
-        self.objThread = QThread()
-        self.requester.moveToThread(self.objThread)
-        self.requester.finished.connect(self.objThread.quit)
+        self.objThread_requester = QThread()
+        self.requester.moveToThread(self.objThread_requester)
+        self.requester.finished.connect(self.objThread_requester.quit)
         self.requester.failed.connect(self._requester_failed)
-        self.objThread.started.connect(self.requester.run)
-        self.objThread.finished.connect(self._requester_finished)
+        self.objThread_requester.started.connect(self.requester.run)
+        self.objThread_requester.finished.connect(self._requester_finished)
+        # self.requester.start()
+
+        # Setup log listener and filter manager
+        self.objThread_logListener = QThread()
+        self.logListener.moveToThread(self.objThread_logListener)
+        self.logListener.entered_map.connect(self._request_count_chaos_items)
+        self.requester.finished_counting_chaos.connect(self._request_process_chaos_counters)
+        self.logListener.start()
 
         # Setup main widget UI
         self.screen_geometry = screen_geometry
@@ -122,7 +133,10 @@ class MainWidget(QMainWindow):
             button.setFixedHeight(self.buttons_size.height())
             button.setWindowFlags(Qt.Dialog)
             load_styles(button)
-            layout.addWidget(button, 0, Qt.AlignTop)
+            if button is self.mode_switch_button:
+                layout.addWidget(button, 0, Qt.AlignTop)
+            else:
+                layout.addWidget(button, 0, Qt.AlignTop)
             if button is self.drag_button:
                 self._prepare_stash_switch(layout)
 
@@ -207,7 +221,7 @@ class MainWidget(QMainWindow):
         icon = QIcon()
         icon.addPixmap(QPixmap(self.image_path + 'timer.png'))
         self.run_button.setIcon(icon)
-        self.objThread.start()
+        self.objThread_requester.start()
 
     def _show_error_window(self, error_message: str) -> None:
 
@@ -227,13 +241,14 @@ class MainWidget(QMainWindow):
         self.error_widget.show()
 
     def _requester_failed(self, e: Exception) -> None:
-        self.objThread.quit()
+        self.objThread_requester.quit()
         self._set_run_button_icon_run()
         self._show_error_window(e.__str__())
         self.last_requested_time = 0
 
     def _requester_finished(self):
         self._set_run_button_icon_run()
+        self.painter_widget.paint_items()
         self.painter_widget.update()
         self.show_hide_widget(self.painter_widget, True)
 
@@ -274,6 +289,12 @@ class MainWidget(QMainWindow):
             self.painter_widget.change_mode("chaos_recipe")
             self.settings_widget.mode = "chaos_recipe"
             self.settings_widget.save_cfg()
+
+    def _request_count_chaos_items(self):
+        self.requester.count_chaos_items()
+
+    def _request_process_chaos_counters(self, counters):
+        self.filter_manager.reload_filter(counters)
 
 
 if __name__ == '__main__':
