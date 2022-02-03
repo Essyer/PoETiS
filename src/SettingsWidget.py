@@ -31,6 +31,7 @@ class SettingsWidget(DragWidget):
         self.mode = "chaos_recipe"  # default mode
         self.allow_identified = False
         self.fill_greedy = True
+        self.auto_reload_filter = False
         self.poe_log_path = ""
         self.poe_filter_path = ""
         self.poe_filter_name = ""
@@ -116,22 +117,33 @@ class SettingsWidget(DragWidget):
         self.slider.on_value_changed_call(self.save_cfg)
 
         self.radio_allow_identified = QRadioButton()
-        self.radio_fill_greedy = QRadioButton()
         self.radio_allow_identified.setAutoExclusive(False)
-        self.radio_fill_greedy.setAutoExclusive(False)
         self.radio_allow_identified.setChecked(self.allow_identified)
-        self.radio_fill_greedy.setChecked(self.fill_greedy)
         self.radio_allow_identified.clicked.connect(self.switch_allow_identified)
-        self.radio_fill_greedy.clicked.connect(self.switch_fill_greedy)
         layout_radio = QHBoxLayout()
         layout_radio.setAlignment(Qt.AlignLeft)
         layout_radio.addWidget(self.radio_allow_identified)
         layout_radio.addWidget(QLabel("Allow identified items in chaos recipe"))
         layout_main.addLayout(layout_radio)
+
+        self.radio_fill_greedy = QRadioButton()
+        self.radio_fill_greedy.setAutoExclusive(False)
+        self.radio_fill_greedy.setChecked(self.fill_greedy)
+        self.radio_fill_greedy.clicked.connect(self.switch_fill_greedy)
         layout_radio = QHBoxLayout()
         layout_radio.setAlignment(Qt.AlignLeft)
         layout_radio.addWidget(self.radio_fill_greedy)
         layout_radio.addWidget(QLabel("Fill chaos recipe with more than one ilvl < 75 item"))
+        layout_main.addLayout(layout_radio)
+
+        self.radio_auto_reload = QRadioButton()
+        self.radio_auto_reload.setAutoExclusive(False)
+        self.radio_auto_reload.setChecked(self.auto_reload_filter)
+        self.radio_auto_reload.clicked.connect(self.switch_auto_reload)
+        layout_radio = QHBoxLayout()
+        layout_radio.setAlignment(Qt.AlignLeft)
+        layout_radio.addWidget(self.radio_auto_reload)
+        layout_radio.addWidget(QLabel("Reload filter automatically after entering a map"))
         layout_main.addLayout(layout_radio)
 
         layout_main.addWidget(QLabel("PoE log file location"))
@@ -309,6 +321,7 @@ class SettingsWidget(DragWidget):
         self.mode = self._cfg_load_or_default(root, "mode", "chaos_recipe")
         self.allow_identified = self._cfg_load_or_default(root, "allow_identified", "False") == "True"
         self.fill_greedy = self._cfg_load_or_default(root, "fill_greedy", "True") == "True"
+        self.auto_reload_filter = self._cfg_load_or_default(root, "auto_reload", "True") == "True"
         self.poe_log_path = self._cfg_load_or_default(root, "log_path", "Set PoE log file location")
         self.poe_filter_path = self._cfg_load_or_default(root, "filter_path", "Set PoE filter file location")
         self.poe_filter_name = self._cfg_load_or_default(root, "filter_name", "")
@@ -368,6 +381,7 @@ class SettingsWidget(DragWidget):
         self._cfg_set_or_create(root, "mode", self.mode)
         self._cfg_set_or_create(root, "allow_identified", str(self.allow_identified))
         self._cfg_set_or_create(root, "fill_greedy", str(self.fill_greedy))
+        self._cfg_set_or_create(root, "auto_reload", str(self.auto_reload_filter))
         self._cfg_set_or_create(root, "log_path", self.poe_log_path)
         self._cfg_set_or_create(root, "filter_path", self.poe_filter_path)
         if self.poe_filter_name:
@@ -474,6 +488,10 @@ class SettingsWidget(DragWidget):
 
     def switch_fill_greedy(self):
         self.fill_greedy = self.radio_fill_greedy.isChecked()
+        self.save_cfg()
+
+    def switch_auto_reload(self):
+        self.auto_reload_filter = self.radio_auto_reload.isChecked()
         self.save_cfg()
 
     def select_poe_log_file(self):

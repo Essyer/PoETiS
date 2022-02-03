@@ -261,7 +261,8 @@ item_bases = {
 
         'quiver': ['Two-Point Arrow Quiver', 'Serrated Arrow Quiver', 'Sharktooth Arrow Quiver', 'Blunt Arrow Quiver',
                    'Fire Arrow Quiver', 'Broadhead Arrow Quiver', 'Penetrating Arrow Quiver', 'Ornate Quiver',
-                   'Spike-Point Arrow Quiver', 'Artillery Quiver'],
+                   'Spike-Point Arrow Quiver', 'Artillery Quiver', 'Feathered Arrow Quiver', 'Blazing Arrow Quiver',
+                   'Vile Arrow Quiver', 'Heavy Arrow Quiver', 'Primal Arrow Quiver'],
     },
     'weapons': {
         'bow': ['Crude Bow', 'Short Bow', 'Long Bow', 'Composite Bow', 'Recurve Bow', 'Bone Bow', 'Royal Bow',

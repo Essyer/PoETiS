@@ -7,7 +7,7 @@ from src.ModsContainer import items_categories_filter
 
 
 class LogListener(QThread):
-    entered_map = pyqtSignal()
+    entered_map = pyqtSignal(bool)
 
     def __init__(self, settings_widget):
         super().__init__()
@@ -43,7 +43,7 @@ class LogListener(QThread):
                             map_generated = False
                             # sleep(1)
                             # print(line, end='')
-                            self.entered_map.emit()
+                            self.entered_map.emit(True)
             sleep(0.1)
 
 

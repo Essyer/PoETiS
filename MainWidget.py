@@ -93,6 +93,7 @@ class MainWidget(QMainWindow):
         else:
             self.mode_switch_button.setText("R")
         self.mode_switch_button.clicked.connect(self._switch_mode)
+        self.mode_switch_button.setToolTip("Chaos recipe / Rare scanner")
 
         self.run_button = QPushButton()
         icon.addPixmap(QPixmap(self.image_path + 'run.png'))
@@ -104,10 +105,17 @@ class MainWidget(QMainWindow):
         icon.addPixmap(QPixmap(self.image_path + 'draw1.png'))
         self.painter_button.setIcon(icon)
 
+        self.filter_reload_button = QPushButton()
+        icon.addPixmap(QPixmap(self.image_path + 'refresh.png'))
+        self.filter_reload_button.setIcon(icon)
+        self.filter_reload_button.clicked.connect(self._request_count_chaos_items)
+        self.filter_reload_button.setToolTip("Refresh chaos recipe filter")
+
         self.filters_button = QPushButton()
         self.filters_button.clicked.connect(lambda: self.show_hide_widget(self.filters_widget))
         icon.addPixmap(QPixmap(self.image_path + 'filter.png'))
         self.filters_button.setIcon(icon)
+        self.filters_button.setToolTip("Manage rare scanner filters")
 
         self.settings_button = QPushButton()
         self.settings_button.clicked.connect(lambda: self.show_hide_widget(self.settings_widget))
@@ -124,6 +132,7 @@ class MainWidget(QMainWindow):
             self.mode_switch_button,
             self.run_button,
             self.painter_button,
+            self.filter_reload_button,
             self.filters_button,
             self.settings_button,
             self.exit_button
@@ -290,8 +299,9 @@ class MainWidget(QMainWindow):
             self.settings_widget.mode = "chaos_recipe"
             self.settings_widget.save_cfg()
 
-    def _request_count_chaos_items(self):
-        self.requester.count_chaos_items()
+    def _request_count_chaos_items(self, auto_reload=False):
+        if self.settings_widget.mode == "chaos_recipe" and (not auto_reload or self.settings_widget.auto_reload_filter):
+            self.requester.count_chaos_items()
 
     def _request_process_chaos_counters(self, counters):
         self.filter_manager.reload_filter(counters)
