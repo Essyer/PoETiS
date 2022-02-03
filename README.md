@@ -65,4 +65,5 @@ Buttons used in project were made by:
  [Becris](https://www.flaticon.com/authors/becris)
  [Pixel perfect](https://www.flaticon.com/authors/pixel-perfect)
  [Smashicons](https://www.flaticon.com/authors/smashicons)
+ [dave-gandy](https://www.flaticon.com/authors/dave-gandy)
 from www.flaticon.com
