@@ -285,8 +285,8 @@ class Requester(QThread):
                                     set_tmp[key].append(item_tmp)
                                     items_chaos[key].pop(-1)
                                     chaos_added += 1
-                                else:
-                                    return
+                                # else:
+                                #     return
                             elif item_tmp.category2 in one_handed and items_chaos[key]:
                                 try:
                                     weapon_tmp_one = next(x for x in iter(items_chaos[key]) if x.category2 in one_handed)
