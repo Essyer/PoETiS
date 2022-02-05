@@ -127,7 +127,7 @@ item_bases = {
         'belt': ['Chain Belt', 'Rustic Sash', 'Stygian Vise', 'Heavy Belt', 'Leather Belt', 'Cloth Belt',
                  'Studded Belt', 'Micro-Distillery Belt', 'Mechalarm Belt', 'Vanguard Belt', 'Crystal Belt'],
 
-        'ring': ['Breach Ring', 'Coral Ring', 'Iron Ring', 'Paula Ring', 'Unset Ring', 'Sapphire Ring', 'Topaz Ring',
+        'ring': ['Breach Ring', 'Coral Ring', 'Iron Ring', 'Paua Ring', 'Unset Ring', 'Sapphire Ring', 'Topaz Ring',
                  'Ruby Ring', 'Diamond Ring', 'Gold Ring', 'Moonstone Ring', 'Two-Stone Ring', 'Cogwork Ring',
                  'Geodesic Ring', 'Amethyst Ring', 'Prismatic Ring', 'Iolite Ring', 'Cerulean Ring', 'Opal Ring',
                  'Steel Ring', 'Vermillion Ring']
