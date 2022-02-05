@@ -127,7 +127,7 @@ class FilterManager:
         if not self.settings_widget.allow_identified:
             result += "\tIdentified False\n"
         if cr == "chaos":
-            result += "\tItemLevel >= 60\n" + "\tItemLevel <= 74\n"
+            result += "\tItemLevel >= 60\n" + "\tItemLevel <= 75\n"
         else:
             result += "\tItemLevel > 75\n"
         if category == "Body Armours":
