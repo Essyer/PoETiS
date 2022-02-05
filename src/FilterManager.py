@@ -109,10 +109,13 @@ class FilterManager:
         max_chaos_sets = self.settings_widget.maximum_chaos_sets
         self.filter_string = "#poetis start\n"
         for category in chaos_counters:
-            if chaos_counters[category][0] + chaos_counters[category][1] < max_chaos_sets:
-                if chaos_counters[category][0] < max_chaos_sets - 1:
+            always_show = (category == 'amulet' and self.settings_widget.show_amulets) or \
+                          (category == 'ring' and self.settings_widget.show_rings) or \
+                          (category == 'belt' and self.settings_widget.show_belts)
+            if chaos_counters[category][0] + chaos_counters[category][1] < max_chaos_sets or always_show:
+                if chaos_counters[category][0] < max_chaos_sets - 1 or always_show:
                     self.filter_string += self.generate_category(category, "regal")
-                if chaos_counters[category][1] < max_chaos_sets:
+                if chaos_counters[category][1] < max_chaos_sets or always_show:
                     self.filter_string += self.generate_category(category, "chaos")
         self.filter_string += "#poetis end"  # No new line so it can work with online filters
 

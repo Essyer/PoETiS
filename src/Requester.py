@@ -170,7 +170,7 @@ class Requester(QThread):
                     elif 'map' not in item_data['baseType'].lower():
                         print('Found item with not filled base, baseType: {}'.format(item_data['baseType']))
             else:
-                if item_data['frameType'] == 2:  # rare item
+                if item_data['frameType'] == 2 and ('sockets' not in item_data or len(item_data['sockets']) < 6):  # rare item, not 6-sockets
                     if not item_data['identified'] or self.allow_identified:
                         #  copy item information
                         self.copy_info(item_data, item)
@@ -261,7 +261,10 @@ class Requester(QThread):
                             set_tmp[key].append(values[0])
                             items_regal[key].remove(values[0])
                     if key == 'weapon' and set_tmp[key][0].category2 in one_handed and items_regal[key]:
-                        weapon_tmp_one = next(x for x in iter(items_regal[key]) if x.category2 in one_handed)
+                        try:
+                            weapon_tmp_one = next(x for x in iter(items_regal[key]) if x.category2 in one_handed)
+                        except StopIteration as e:
+                            weapon_tmp_one = None
                         if weapon_tmp_one:
                             set_tmp[key].append(weapon_tmp_one)
                             items_regal[key].remove(weapon_tmp_one)
@@ -285,13 +288,14 @@ class Requester(QThread):
                                 else:
                                     return
                             elif item_tmp.category2 in one_handed and items_chaos[key]:
-                                weapon_tmp_one = next(x for x in iter(items_chaos[key]) if x.category2 in one_handed)
+                                try:
+                                    weapon_tmp_one = next(x for x in iter(items_chaos[key]) if x.category2 in one_handed)
+                                except StopIteration as e:
+                                    weapon_tmp_one = None
                                 if weapon_tmp_one:
                                     set_tmp[key].append(weapon_tmp_one)
                                     items_chaos[key].remove(weapon_tmp_one)
                                     chaos_added += 1
-                                else:
-                                    return
                         else:
                             return
                     elif key == 'ring' and len(set_tmp[key]) < 2:

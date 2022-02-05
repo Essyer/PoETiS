@@ -319,7 +319,7 @@ item_bases = {
         'onemace': ['Driftwood Club', 'Tribal Club', 'Spiked Club', 'Stone Hammer', 'War Hammer', 'Bladed Mace',
                     'Ceremonial Mace', 'Flare Mace', 'Dream Mace', 'Wyrm Mace', 'Petrified Club', 'Barbed Club',
                     'Rock Breaker', 'Battle Hammer', 'Flanged Mace', 'Crack Mace', 'Ornate Mace', 'Phantom Mace',
-                    'Dragon Mace', 'Ancestral Club', 'Tenderizer', 'Gavel', 'Legion Hammer', 'Pernarch', 'Auric Mace',
+                    'Dragon Mace', 'Ancestral Club', 'Tenderizer', 'Gavel', 'Legion Hammer', 'Pernach', 'Auric Mace',
                     'Nightmare Mace', 'Behemoth Mace', 'Boom Mace'],
 
         'twomace': ['Driftwood Maul', 'Tribal Maul', 'Mallet', 'Sledgehammer', 'Jagged Maul', 'Brass Maul',

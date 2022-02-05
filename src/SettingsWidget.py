@@ -31,6 +31,9 @@ class SettingsWidget(DragWidget):
         self.mode = "chaos_recipe"  # default mode
         self.allow_identified = False
         self.fill_greedy = True
+        self.show_amulets = True
+        self.show_rings = True
+        self.show_belts = True
         self.auto_reload_filter = False
         self.poe_log_path = ""
         self.poe_filter_path = ""
@@ -134,6 +137,36 @@ class SettingsWidget(DragWidget):
         layout_radio.setAlignment(Qt.AlignLeft)
         layout_radio.addWidget(self.radio_fill_greedy)
         layout_radio.addWidget(QLabel("Fill chaos recipe with more than one ilvl < 75 item"))
+        layout_main.addLayout(layout_radio)
+
+        self.radio_show_amulets = QRadioButton()
+        self.radio_show_amulets.setAutoExclusive(False)
+        self.radio_show_amulets.setChecked(self.show_amulets)
+        self.radio_show_amulets.clicked.connect(self.switch_show_amulets)
+        layout_radio = QHBoxLayout()
+        layout_radio.setAlignment(Qt.AlignLeft)
+        layout_radio.addWidget(self.radio_show_amulets)
+        layout_radio.addWidget(QLabel("Always show amulets"))
+        layout_main.addLayout(layout_radio)
+
+        self.radio_show_rings = QRadioButton()
+        self.radio_show_rings.setAutoExclusive(False)
+        self.radio_show_rings.setChecked(self.show_rings)
+        self.radio_show_rings.clicked.connect(self.switch_show_rings)
+        layout_radio = QHBoxLayout()
+        layout_radio.setAlignment(Qt.AlignLeft)
+        layout_radio.addWidget(self.radio_show_rings)
+        layout_radio.addWidget(QLabel("Always show rings"))
+        layout_main.addLayout(layout_radio)
+
+        self.radio_show_belts = QRadioButton()
+        self.radio_show_belts.setAutoExclusive(False)
+        self.radio_show_belts.setChecked(self.show_belts)
+        self.radio_show_belts.clicked.connect(self.switch_show_belts)
+        layout_radio = QHBoxLayout()
+        layout_radio.setAlignment(Qt.AlignLeft)
+        layout_radio.addWidget(self.radio_show_belts)
+        layout_radio.addWidget(QLabel("Always show belts"))
         layout_main.addLayout(layout_radio)
 
         self.radio_auto_reload = QRadioButton()
@@ -321,6 +354,9 @@ class SettingsWidget(DragWidget):
         self.mode = self._cfg_load_or_default(root, "mode", "chaos_recipe")
         self.allow_identified = self._cfg_load_or_default(root, "allow_identified", "False") == "True"
         self.fill_greedy = self._cfg_load_or_default(root, "fill_greedy", "True") == "True"
+        self.show_amulets = self._cfg_load_or_default(root, "show_amulets", "True") == "True"
+        self.show_rings = self._cfg_load_or_default(root, "show_rings", "True") == "True"
+        self.show_belts = self._cfg_load_or_default(root, "show_belts", "True") == "True"
         self.auto_reload_filter = self._cfg_load_or_default(root, "auto_reload", "True") == "True"
         self.poe_log_path = self._cfg_load_or_default(root, "log_path", "Set PoE log file location")
         self.poe_filter_path = self._cfg_load_or_default(root, "filter_path", "Set PoE filter file location")
@@ -381,6 +417,9 @@ class SettingsWidget(DragWidget):
         self._cfg_set_or_create(root, "mode", self.mode)
         self._cfg_set_or_create(root, "allow_identified", str(self.allow_identified))
         self._cfg_set_or_create(root, "fill_greedy", str(self.fill_greedy))
+        self._cfg_set_or_create(root, "show_amulets", str(self.show_amulets))
+        self._cfg_set_or_create(root, "show_rings", str(self.show_rings))
+        self._cfg_set_or_create(root, "show_belts", str(self.show_belts))
         self._cfg_set_or_create(root, "auto_reload", str(self.auto_reload_filter))
         self._cfg_set_or_create(root, "log_path", self.poe_log_path)
         self._cfg_set_or_create(root, "filter_path", self.poe_filter_path)
@@ -488,6 +527,18 @@ class SettingsWidget(DragWidget):
 
     def switch_fill_greedy(self):
         self.fill_greedy = self.radio_fill_greedy.isChecked()
+        self.save_cfg()
+
+    def switch_show_amulets(self):
+        self.show_amulets = self.radio_show_amulets.isChecked()
+        self.save_cfg()
+
+    def switch_show_rings(self):
+        self.show_rings = self.radio_show_rings.isChecked()
+        self.save_cfg()
+
+    def switch_show_belts(self):
+        self.show_belts = self.radio_show_belts.isChecked()
         self.save_cfg()
 
     def switch_auto_reload(self):
