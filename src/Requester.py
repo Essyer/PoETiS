@@ -333,7 +333,8 @@ class Requester(QThread):
                 return
 
             # Do not add set if there is any item missing
-            if any(value == [] for value in set_tmp.values()):
+            if any(value == [] for value in set_tmp.values()) or len(set_tmp['ring']) < 2 or \
+                    (set_tmp['weapon'][0].category2 in one_handed and len(set_tmp['weapon']) < 2):
                 return
 
             self.chaos_sets.append(copy.deepcopy(set_tmp))
