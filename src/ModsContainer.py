@@ -130,7 +130,8 @@ item_bases = {
         'ring': ['Breach Ring', 'Coral Ring', 'Iron Ring', 'Paua Ring', 'Unset Ring', 'Sapphire Ring', 'Topaz Ring',
                  'Ruby Ring', 'Diamond Ring', 'Gold Ring', 'Moonstone Ring', 'Two-Stone Ring', 'Cogwork Ring',
                  'Geodesic Ring', 'Amethyst Ring', 'Prismatic Ring', 'Iolite Ring', 'Cerulean Ring', 'Opal Ring',
-                 'Steel Ring', 'Vermillion Ring']
+                 'Steel Ring', 'Vermillion Ring', 'Dusk Ring', 'Penumbra Ring', 'Gloam Ring', 'Tenebrous Ring',
+                 'Shadowed Ring', 'Bone Ring']
     },
     'armour': {
         'boots': ['Iron Greaves', 'Steel Greaves', 'Basemetal Treads', 'Plated Greaves', 'Reinforced Greaves',
@@ -146,7 +147,7 @@ item_bases = {
                   'Sorcerer Boots', 'Dreamquest Slippers',
 
                   'Leatherscale Boots', 'Ironscale Boots', 'Bronzescale Boots', 'Steelscale Boots',
-                  'Serpentscale Boots', 'Wyrmscale Boots', 'Hydrascale Boots', 'Dragonscale Boots', 'Teo-Toned Boots',
+                  'Serpentscale Boots', 'Wyrmscale Boots', 'Hydrascale Boots', 'Dragonscale Boots', 'Two-Toned Boots',
 
                   'Chain Boots', 'Ringmail Boots', 'Mesh Boots', 'Riveted Boots', 'Zealot Boots', 'Soldier Boots',
                   'Legion Boots', 'Crusader Boots',
@@ -303,7 +304,8 @@ item_bases = {
         'wand': ['Driftwood Wand', 'Goat\'s Horn', 'Carved Wand', 'Quartz Wand', 'Spiraled Wand', 'Assembler Wand',
                  'Sage Wand', 'Pagan Wand', 'Faun\'s Horn', 'Engraved Wand', 'Crystal Wand', 'Serpent Wand',
                  'Congregator Wand', 'Omen Wand', 'Heathen Wand', 'Demon\'s Horn', 'Imbued Wand', 'Opal Wand',
-                 'Tornado Wand', 'Prophecy Wand', 'Accumulator Wand', 'Profane Wand', 'Convoking Wand'],
+                 'Tornado Wand', 'Prophecy Wand', 'Accumulator Wand', 'Profane Wand', 'Convoking Wand', 'Calling Wand',
+                 'Convening Wand'],
 
         'oneaxe': ['Rusted Hatchet', 'Jade Hatchet', 'Boarding Axe', 'Cleaver', 'Broad Axe', 'Arming Axe',
                    'Decorative Axe', 'Maltreatment Axe', 'Spectral Axe', 'Etched Hatchet', 'Jasper Axe',
