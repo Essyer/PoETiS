@@ -2,6 +2,9 @@
 Path of Exile Tiers in Stash tool allows you to scan your stash for items with specified modifier values - rare scanner mode ![](https://i.ibb.co/KzGMMPG/r.jpg)
 
 Since version 2.0 it includes basic chaos recipe functionality ![](https://i.ibb.co/jwBLZB9/c.jpg)
+## Update 07.11.2026
+PoE introduces item tiers visible without item identification - you will be able to use an item filter to show only the "good enough" tiers. Given that and the requirement of API key they added some time ago, this project is no longer maintained.
+
 
 ## Limitations
 
